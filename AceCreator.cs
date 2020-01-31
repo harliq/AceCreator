@@ -32,16 +32,18 @@ namespace AceCreator
         public HudTextBox TextboxCreateWCID { get; set; }
         public HudButton ButtonCreateWCID { get; set; }
         public HudButton ButtonCreateInvWCID { get; set; }
+        public HudButton ButtonCreateInstantWCID { get; set; }
+
+        public HudTextBox TextboxExportJsonWCID { get; set; }
+        public HudButton ButtonExportJSON { get; set; }
+        public HudTextBox TextboxExportSQLWCID { get; set; }
+        public HudButton ButtonExportSQL { get; set; }
 
 
         public HudTextBox TextBoxPathJSON { get; set; }
         public HudTextBox TextBoxPathSQL { get; set; }
         public HudButton ButtonSavePaths { get; set; }
         public HudButton ButtonTest { get; set; }
-
-        public HudTextBox TextboxExportJsonWCID { get; set; }
-        public HudButton ButtonExportJSON { get; set; }
-        
 
 
         private static VirindiViewService.ViewProperties properties;
@@ -114,10 +116,21 @@ namespace AceCreator
             ButtonCreateInvWCID = view != null ? (HudButton)view["ButtonCreateInvWCID"] : new HudButton();
             ButtonCreateInvWCID.Hit += new EventHandler(ButtonCreateInvWCID_Click);
 
+            ButtonCreateInstantWCID = view != null ? (HudButton)view["ButtonCreateInstantWCID"] : new HudButton();
+            ButtonCreateInstantWCID.Hit += new EventHandler(ButtonCreateInstantWCID_Click);
+
+            
+
             TextboxExportJsonWCID = (HudTextBox)view["TextboxExportJsonWCID"];
 
             ButtonExportJSON = view != null ? (HudButton)view["ButtonExportJSON"] : new HudButton();
             ButtonExportJSON.Hit += new EventHandler(ButtonExportJSON_Click);
+
+            TextboxExportSQLWCID = (HudTextBox)view["TextboxExportSQLWCID"];
+
+            ButtonExportSQL = view != null ? (HudButton)view["ButtonExportSQL"] : new HudButton();
+            ButtonExportSQL.Hit += new EventHandler(ButtonExportSQL_Click);
+            
 
 
             // Paths Tab
@@ -317,8 +330,6 @@ namespace AceCreator
 
         }
 
-
-
         // Buttons
         public void ButtonSavePaths_Click(object sender, EventArgs e)
         {
@@ -359,6 +370,16 @@ namespace AceCreator
             catch (Exception ex) { Util.LogError(ex); }
 
         }
+        public void ButtonCreateInstantWCID_Click(object sender, EventArgs e)
+        {
+            try
+            {
+
+                Util.SendChatCommand(@"/createinst " + TextboxCreateWCID.Text);
+            }
+            catch (Exception ex) { Util.LogError(ex); }
+
+        }
         public void ButtonExportJSON_Click(object sender, EventArgs e)
         {
             try
@@ -369,8 +390,19 @@ namespace AceCreator
             catch (Exception ex) { Util.LogError(ex); }
 
         }
+        public void ButtonExportSQL_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                
+                Util.SendChatCommand(@"/export-sql " + TextboxExportJsonWCID.Text);
+            }
+            catch (Exception ex) { Util.LogError(ex); }
 
-        
+        }
+
+        //Globals.Host.Actions.RequestId(Globals.Host.Actions.CurrentSelection);
+
 
     }
 
