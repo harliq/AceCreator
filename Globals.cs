@@ -21,5 +21,8 @@ namespace AceCreator
 		public static PluginHost Host { get; private set; }
 
 		public static CoreManager Core { get; private set; }
-	}
+
+        public static string PathJSON;
+        public static string PathSQL;
+    }
 }

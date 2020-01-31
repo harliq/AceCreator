@@ -38,7 +38,11 @@ namespace AceCreator
         public HudTextBox TextBoxPathSQL { get; set; }
         public HudButton ButtonSavePaths { get; set; }
         public HudButton ButtonTest { get; set; }
+
+        public HudTextBox TextboxExportJsonWCID { get; set; }
+        public HudButton ButtonExportJSON { get; set; }
         
+
 
         private static VirindiViewService.ViewProperties properties;
         private static VirindiViewService.ControlGroup controls;
@@ -85,7 +89,7 @@ namespace AceCreator
             VirindiViewService.XMLParsers.Decal3XMLParser parser = new VirindiViewService.XMLParsers.Decal3XMLParser();
             parser.ParseFromResource("AceCreator.mainView.xml", out properties, out controls);
             view = new VirindiViewService.HudView(properties, controls);
-
+            view.Title = "ACE Content Creator - Version " + typeof(AceCreator).Assembly.GetName().Version;
 
             // Content Tab
             ChoiceJSON = (HudCombo)view["ChoiceJSON"];
@@ -107,6 +111,11 @@ namespace AceCreator
 
             ButtonCreateInvWCID = view != null ? (HudButton)view["ButtonCreateInvWCID"] : new HudButton();
             ButtonCreateInvWCID.Hit += new EventHandler(ButtonCreateInvWCID_Click);
+
+            TextboxExportJsonWCID = (HudTextBox)view["TextboxExportJsonWCID"];
+
+            ButtonExportJSON = view != null ? (HudButton)view["ButtonExportJSON"] : new HudButton();
+            ButtonExportJSON.Hit += new EventHandler(ButtonExportJSON_Click);
 
 
             // Paths Tab
@@ -221,9 +230,10 @@ namespace AceCreator
         private void JsonChoiceList()
         {
             ChoiceJSON = (HudCombo)view["ChoiceJSON"];
+            Util.WriteToChat(Globals.PathJSON);
             // ICombo addfile = JSONFileList.Add(File.AppendAllText)
             ChoiceJSON.Clear();
-            string filespath = @"C:\Users\Harli\Source\Repos\AceCreator\bin\Debug\temp\json";
+            string filespath = Globals.PathJSON;
             DirectoryInfo d = new DirectoryInfo(filespath);
             FileInfo[] files = d.GetFiles("*.json");
 
@@ -237,10 +247,11 @@ namespace AceCreator
 
         private void SqlChoiceList()
         {
+            Util.WriteToChat(Globals.PathSQL);
             ChoiceSQL = (HudCombo)view["ChoiceSQL"];
             // ICombo addfile = JSONFileList.Add(File.AppendAllText)
             ChoiceSQL.Clear();
-            string filespath = @"C:\Users\Harli\Source\Repos\AceCreator\bin\Debug\temp\sql";
+            string filespath = Globals.PathSQL;
             DirectoryInfo d = new DirectoryInfo(filespath);
             FileInfo[] files = d.GetFiles("*.sql");
 
@@ -260,12 +271,14 @@ namespace AceCreator
             if (pathsettings.ContainsKey("jsonpath")) //  && pathsettings["jsonpath"] != "")
             {
                 TextBoxPathJSON.Text = pathsettings["jsonpath"];
+                Globals.PathJSON = pathsettings["jsonpath"];
                 Util.WriteToChat(pathsettings["jsonpath"]);
             }
 
             if (pathsettings.ContainsKey("sqlpath")) // && pathsettings["sqlpath"] != "")
             {
                 TextBoxPathSQL.Text = pathsettings["sqlpath"];
+                Globals.PathSQL = pathsettings["sqlpath"];
                 Util.WriteToChat(pathsettings["sqlpath"]);
             }
 
@@ -316,8 +329,19 @@ namespace AceCreator
             catch (Exception ex) { Util.LogError(ex); }
 
         }
+        public void ButtonExportJSON_Click(object sender, EventArgs e)
+        {
+            try
+            {
+
+                Util.SendChatCommand(@"/export-json " + TextboxExportJsonWCID.Text);
+            }
+            catch (Exception ex) { Util.LogError(ex); }
+
+        }
 
         
+
     }
 
 }
