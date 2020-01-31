@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<view icon="27271" title="ACE Content Creator" width="350" height="450">
+		<control progid="DecalControls.Notebook" name="nbMain">
+		<page label="Convert Files">
+			<control progid="DecalControls.FixedLayout" clipped="">
+				<control progid="DecalControls.StaticText" name="LabelJson" left="10" top="10" width="256" height="15" text="Select JSON File"/>
+				<control progid="DecalControls.Choice" name="ChoiceJSON" left="5" top="30" width="320" height="20"/>
+				<control progid="DecalControls.PushButton" name="CommandConvertJSON" left="10" top="60" width="80" height="25" text="Import JSON"/>
+				<control progid="DecalControls.StaticText" name="LabelSQL" left="10" top="100" width="256" height="15" text="Select SQL File"/>
+				<control progid="DecalControls.Choice" name="ChoiceSQL" left="5" top="120" width="320" height="20"/>
+				<control progid="DecalControls.PushButton" name="CommandConvertSQL" left="10" top="150" width="80" height="25" text="Import SQL"/>
+				<control progid="DecalControls.PushButton" name="CommandRefreshFilesList" left="130" top="300" width="100" height="30" text="Refresh Files List"/>
+        <control progid="DecalControls.StaticText" name="LabelWCID" left="10" top="216" width="30" height="15" text="WCID"/>
+        <control progid="DecalControls.Edit" name="TextboxCreateWCID" left="45" top="214" width="60" height="16" imageportalsrc="4726" text=""/>
+        <control progid="DecalControls.PushButton" name="ButtonCreateWCID" left="120" top="210" width="80" height="20" text="Create"/>
+        <control progid="DecalControls.PushButton" name="ButtonCreateInvWCID" left="210" top="210" width="80" height="20" text="Create Inv."/>
+			</control>
+
+		</page>
+		<page label="File Paths">
+      <control progid="DecalControls.FixedLayout" clipped="">
+      <control progid="DecalControls.StaticText" name="LabelSQL" left="10" top="20" width="200" height="15" text="JSON File PAth"/>
+			<control progid="DecalControls.Edit" name="TextboxPathJSON" left="10" top="40" width="300" height="16" imageportalsrc="4726" text=""/>
+      <control progid="DecalControls.StaticText" name="LabelSQL" left="10" top="80" width="200" height="15" text="SQL File PAth"/>
+      <control progid="DecalControls.Edit" name="TextboxPathSQL" left="10" top="100" width="300" height="16" imageportalsrc="4726" text=""/>
+      <control progid="DecalControls.PushButton" name="ButtonSavePaths" left="105" top="250" width="100" height="30" text="Save Paths"/>
+      <control progid="DecalControls.PushButton" name="ButtonTest" left="105" top="290" width="100" height="30" text="LoadINI"/>
+      </control>
+		</page>
+		</control>
+
+</view>

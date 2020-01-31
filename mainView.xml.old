@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<view icon="25124" title="ACE Content Creator" width="320" height="450">
+  <control progid="DecalControls.Notebook" name="nbMain">
+    
+    <page label="Buttons and Text">
+      <control progid="DecalControls.FixedLayout" clipped="">
+        <control progid="DecalControls.PushButton" name="UseSelectedItem" left="5" top="190" width="90" height="20" text="UseSelectedItem" />
+        
+        <control progid="DecalControls.PushButton" name="ToggleAttack" left="5" top="220" width="90" height="20" text="Toggle Attack" />
+        <control progid="DecalControls.PushButton" name="DoesNothing" left="105" top="190" width="90" height="20" text="Does Nothing" />
+      </control>
+    </page>
+
+    <page label="List Box">
+      <control progid="DecalControls.FixedLayout" clipped="">
+        <control progid="DecalControls.List" name="SampleList" left="0" top="0" width="320" height="380"></control>
+          <column progid="DecalControls.TextColumn" fixedwidth="30"/>
+          <column progid="DecalControls.TextColumn" fixedwidth="40"/>
+        <control progid="DecalControls.StaticText" name="SampleListText" left="5" top="385" width="160" height="18" text="StaticText" />
+        <control progid="DecalControls.CheckBox" name="SampleListCheckBox" left="170" top="385" width="150" height="20" text="Refill" checked="true" />
+      </control>
+    </page>
+	    <page label="Choice Box">
+      <control progid="DecalControls.FixedLayout" clipped="">
+        <control progid="DecalControls.Choice" name="JSONFileList" left="0" top="0" width="320" height="380"></control>
+        <control progid="DecalControls.StaticText" name="SampleListText" left="5" top="385" width="160" height="18" text="StaticText" />
+        <control progid="DecalControls.CheckBox" name="SampleListCheckBox" left="170" top="385" width="150" height="20" text="Refill" checked="true" />
+      </control>
+    </page>
+    
+  </control>
+</view>
