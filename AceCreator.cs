@@ -93,7 +93,9 @@ namespace AceCreator
 
             // Content Tab
             ChoiceJSON = (HudCombo)view["ChoiceJSON"];
+            ChoiceJSON.Change += new EventHandler(ChoiceJSON_Change);
             ChoiceSQL = (HudCombo)view["ChoiceSQL"];
+            ChoiceSQL.Change += new EventHandler(ChoiceSQL_Change);
 
             CommandConvertSQL = view != null ? (HudButton)view["CommandConvertSQL"] : new HudButton();
             CommandConvertSQL.Hit += new EventHandler(ButtonConvertSQL_Click);
@@ -290,6 +292,34 @@ namespace AceCreator
             //DiscordSender = new Discord(discordurl.Text);
             Util.SaveIni(TextBoxPathJSON.Text, TextBoxPathSQL.Text);
         }
+
+        // ComboBox Change
+        public void ChoiceJSON_Change(object sender, EventArgs e)
+        {
+            try
+            {
+                TextboxCreateWCID = (HudTextBox)view["TextboxCreateWCID"];
+                string tsplit = ((HudStaticText)ChoiceJSON[ChoiceJSON.Current]).Text;
+                TextboxCreateWCID.Text = tsplit.Split(' ')[0];
+            }
+            catch (Exception ex) { Util.LogError(ex); }
+
+        }
+        public void ChoiceSQL_Change(object sender, EventArgs e)
+        {
+            try
+            {
+                TextboxCreateWCID = (HudTextBox)view["TextboxCreateWCID"];
+                string tsplit = ((HudStaticText)ChoiceSQL[ChoiceSQL.Current]).Text;
+                TextboxCreateWCID.Text = tsplit.Split(' ')[0];
+            }
+            catch (Exception ex) { Util.LogError(ex); }
+
+        }
+
+
+
+        // Buttons
         public void ButtonSavePaths_Click(object sender, EventArgs e)
         {
             try
