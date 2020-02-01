@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using Decal.Adapter;
 using Decal.Adapter.Wrappers;
 using MyClasses.MetaViewWrappers;
@@ -22,8 +23,9 @@ namespace AceCreator
     // The view here is SamplePlugin.mainView.xml because our projects default namespace is SamplePlugin, and the file name is mainView.xml.
     // The other key here is that mainView.xml must be included as an embeded resource. If its not, your plugin will not show up in-game.
     [FriendlyName("AceCreator")]
-    public class AceCreator: PluginBase
+    public class AceCreator : PluginBase
     {
+        private ChatMessages cm = new ChatMessages();
         public HudCombo ChoiceJSON { get; set; }
         public HudCombo ChoiceSQL { get; set; }
         public HudButton CommandConvertSQL { get; set; }
@@ -38,6 +40,15 @@ namespace AceCreator
         public HudButton ButtonExportJSON { get; set; }
         public HudTextBox TextboxExportSQLWCID { get; set; }
         public HudButton ButtonExportSQL { get; set; }
+        public HudStaticText LabelGetInfo { get; set; }
+        public HudButton ButtonGetInfo { get; set; }
+
+
+
+
+
+        //public HudTextBox TextboxGetInfo { get; set; }
+
 
         public HudTextBox TextBoxPathJSON { get; set; }
         public HudTextBox TextBoxPathSQL { get; set; }
@@ -58,6 +69,8 @@ namespace AceCreator
             {
                 // This initializes our static Globals class with references to the key objects your plugin will use, Host and Core.
                 // The OOP way would be to pass Host and Core to your objects, but this is easier.
+
+                CoreManager.Current.ChatBoxMessage += new EventHandler<ChatTextInterceptEventArgs>(Current_ChatBoxMessage);
                 Globals.Init("AceCreator", Host, Core);
                 LoadWindow();
                 LoadPathSettings();
@@ -126,7 +139,15 @@ namespace AceCreator
 
             ButtonExportSQL = view != null ? (HudButton)view["ButtonExportSQL"] : new HudButton();
             ButtonExportSQL.Hit += new EventHandler(ButtonExportSQL_Click);
-            
+
+            //TextboxGetInfo = (HudTextBox)view["TextboxGetInfo"];
+
+            LabelGetInfo = (HudStaticText)view["LabelGetInfo"];
+
+            ButtonGetInfo = view != null ? (HudButton)view["ButtonGetInfo"] : new HudButton();
+            ButtonGetInfo.Hit += new EventHandler(ButtonGetInfo_Click);
+
+
 
 
             // Paths Tab
@@ -168,7 +189,7 @@ namespace AceCreator
                 // Unsubscribe to events here, but know that this event is not gauranteed to happen. I've never seen it not fire though.
                 // This is not the proper place to free up resources, but... its the easy way. It's not proper because of above statement.
 
-                Globals.Core.WorldFilter.ChangeObject -= new EventHandler<ChangeObjectEventArgs>(WorldFilter_ChangeObject2);
+                Globals.Core.WorldFilter.ChangeObject -= new EventHandler<ChangeObjectEventArgs>(WorldFilter_ChangeObject);
             }
             catch (Exception ex) { Util.LogError(ex); }
         }
@@ -177,20 +198,40 @@ namespace AceCreator
         // You can use the BaseEvent attribute, or you can latch on to the same event as shown in CharacterFilter_LoginComplete, above.
         // The BaseEvent method will only work in this class as it is derived from PluginBase. You will need to use the += and -= method in your other objects.
         [BaseEvent("ChangeObject", "WorldFilter")]
-        void WorldFilter_ChangeObject(object sender, ChangeObjectEventArgs e)
+        public void WorldFilter_ChangeObject(object sender, ChangeObjectEventArgs e)
         {
             try
             {
                 // This can get very spammy so I filted it to just print on ident received
-                // if (e.Change == WorldChangeType.IdentReceived)
+                if (e.Change == WorldChangeType.IdentReceived)
+                {
+                   
+                }
                 // Util.WriteToChat("WorldFilter_ChangeObject: " + e.Changed.Name + " " + e.Change);
             }
             catch (Exception ex) { Util.LogError(ex); }
         }
-        void WorldFilter_ChangeObject2(object sender, ChangeObjectEventArgs e)
-        {
-        }
 
+
+        private void Current_ChatBoxMessage(object sender, ChatTextInterceptEventArgs e)
+        {
+            try
+            {
+
+                if (ChatMessages.GetWeenieInfo(e.Text))
+                {
+
+                    LabelGetInfo = (HudStaticText)view["LabelGetInfo"];
+                    LabelGetInfo.Text = e.Text;
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Util.WriteToChat("ChatBoxMessage Error - " + ex);
+            }
+        }
         private void JsonChoiceList()
         {
             ChoiceJSON = (HudCombo)view["ChoiceJSON"];
@@ -204,7 +245,7 @@ namespace AceCreator
             foreach (var file in files)
             {
                 Util.WriteToChat(file.Name);
-                ChoiceJSON.AddItem(file.Name,file);
+                ChoiceJSON.AddItem(file.Name, file);
 
             }
         }
@@ -346,7 +387,7 @@ namespace AceCreator
         {
             try
             {
-                
+
                 Util.SendChatCommand(@"/create " + TextboxCreateWCID.Text);
             }
             catch (Exception ex) { Util.LogError(ex); }
@@ -389,8 +430,8 @@ namespace AceCreator
         {
             try
             {
-                
-                Util.SendChatCommand(@"/export-sql " + TextboxExportJsonWCID.Text);
+
+                Util.SendChatCommand(@"/export-sql " + TextboxExportSQLWCID.Text);
                 // Add look at chat so when exported it will refresh list
 
                 SqlChoiceList();
@@ -398,8 +439,36 @@ namespace AceCreator
             catch (Exception ex) { Util.LogError(ex); }
 
         }
+        public void ButtonGetInfo_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                
+                Globals.Host.Actions.RequestId(Globals.Host.Actions.CurrentSelection);
 
-        //Globals.Host.Actions.RequestId(Globals.Host.Actions.CurrentSelection);
+                CoreManager.Current.WorldFilter.ChangeObject += WorldFilter_ChangeObject;
+                
+                
+                Util.SendChatCommand("/getinfo");
+
+            }
+            catch (Exception ex) { Util.LogError(ex); }
+
+        }
+        //private void WaitForItemUpdate(object sender, ChangeObjectEventArgs e)
+        //{
+        //    try
+        //    {
+        //        if (e.Changed.Id == fakeItem.id && readyForNextTink)
+        //        {
+        //            //Util.WriteToChat("changed: " + e.Changed.Name);
+        //            targetItemUpdated = true;
+        //            CoreManager.Current.WorldFilter.ChangeObject -= WaitForItemUpdate;
+        //            NextTink();
+        //        }
+        //    }
+        //    catch (Exception ex) { Logger.LogException(ex); }
+        //}
+
     }
-
 }
