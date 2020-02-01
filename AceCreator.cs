@@ -39,12 +39,10 @@ namespace AceCreator
         public HudTextBox TextboxExportSQLWCID { get; set; }
         public HudButton ButtonExportSQL { get; set; }
 
-
         public HudTextBox TextBoxPathJSON { get; set; }
         public HudTextBox TextBoxPathSQL { get; set; }
         public HudButton ButtonSavePaths { get; set; }
         public HudButton ButtonTest { get; set; }
-
 
         private static VirindiViewService.ViewProperties properties;
         private static VirindiViewService.ControlGroup controls;
@@ -119,8 +117,6 @@ namespace AceCreator
             ButtonCreateInstantWCID = view != null ? (HudButton)view["ButtonCreateInstantWCID"] : new HudButton();
             ButtonCreateInstantWCID.Hit += new EventHandler(ButtonCreateInstantWCID_Click);
 
-            
-
             TextboxExportJsonWCID = (HudTextBox)view["TextboxExportJsonWCID"];
 
             ButtonExportJSON = view != null ? (HudButton)view["ButtonExportJSON"] : new HudButton();
@@ -177,7 +173,6 @@ namespace AceCreator
             catch (Exception ex) { Util.LogError(ex); }
         }
 
-
         // Note that there are several ways to latch on to decals events.
         // You can use the BaseEvent attribute, or you can latch on to the same event as shown in CharacterFilter_LoginComplete, above.
         // The BaseEvent method will only work in this class as it is derived from PluginBase. You will need to use the += and -= method in your other objects.
@@ -194,52 +189,6 @@ namespace AceCreator
         }
         void WorldFilter_ChangeObject2(object sender, ChangeObjectEventArgs e)
         {
-        }
-
-
-        public void ButtonConvertSQL_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                TextboxCreateWCID = (HudTextBox)view["TextboxCreateWCID"];
-                Util.SendChatCommand(@"/import-sql " + ((HudStaticText)ChoiceSQL[ChoiceSQL.Current]).Text);                
-                Util.WriteToChat("Imported SQL= " + ((HudStaticText)ChoiceSQL[ChoiceSQL.Current]).Text);
-
-                string tsplit = ((HudStaticText)ChoiceSQL[ChoiceSQL.Current]).Text;
-                TextboxCreateWCID.Text = tsplit.Split(' ')[0];
-            }
-            catch (Exception ex) { Util.LogError(ex); }
-
-        }
-
-        public void ButtonConvertJSON_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                TextboxCreateWCID = (HudTextBox)view["TextboxCreateWCID"];
-                Util.SendChatCommand(@"/import-json " + ((HudStaticText)ChoiceJSON[ChoiceJSON.Current]).Text);
-                Util.WriteToChat("Imported JSON= " + ((HudStaticText)ChoiceJSON[ChoiceJSON.Current]).Text);
-
-                string tsplit = ((HudStaticText)ChoiceJSON[ChoiceJSON.Current]).Text;
-                TextboxCreateWCID.Text = tsplit.Split(' ')[0];
-
-            }
-            catch (Exception ex) { Util.LogError(ex); }
-
-        }
-        public void ButtonRefreshFilesList_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                Util.WriteToChat("Reloading FileLists");
-
-                JsonChoiceList();
-                SqlChoiceList();
-
-                Util.WriteToChat("Text= " + ((HudStaticText)ChoiceSQL[ChoiceSQL.Current]).Text);
-            }
-            catch (Exception ex) { Util.LogError(ex); }
-
         }
 
         private void JsonChoiceList()
@@ -297,7 +246,6 @@ namespace AceCreator
                 Util.WriteToChat(pathsettings["sqlpath"]);
             }
 
-           
         }
         private void SavePathSettings(object sender, EventArgs e)
         {
@@ -331,6 +279,50 @@ namespace AceCreator
         }
 
         // Buttons
+        public void ButtonConvertSQL_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                TextboxCreateWCID = (HudTextBox)view["TextboxCreateWCID"];
+                Util.SendChatCommand(@"/import-sql " + ((HudStaticText)ChoiceSQL[ChoiceSQL.Current]).Text);
+                Util.WriteToChat("Imported SQL= " + ((HudStaticText)ChoiceSQL[ChoiceSQL.Current]).Text);
+
+                string tsplit = ((HudStaticText)ChoiceSQL[ChoiceSQL.Current]).Text;
+                TextboxCreateWCID.Text = tsplit.Split(' ')[0];
+            }
+            catch (Exception ex) { Util.LogError(ex); }
+
+        }
+
+        public void ButtonConvertJSON_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                TextboxCreateWCID = (HudTextBox)view["TextboxCreateWCID"];
+                Util.SendChatCommand(@"/import-json " + ((HudStaticText)ChoiceJSON[ChoiceJSON.Current]).Text);
+                Util.WriteToChat("Imported JSON= " + ((HudStaticText)ChoiceJSON[ChoiceJSON.Current]).Text);
+
+                string tsplit = ((HudStaticText)ChoiceJSON[ChoiceJSON.Current]).Text;
+                TextboxCreateWCID.Text = tsplit.Split(' ')[0];
+
+            }
+            catch (Exception ex) { Util.LogError(ex); }
+
+        }
+        public void ButtonRefreshFilesList_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Util.WriteToChat("Reloading FileLists");
+
+                JsonChoiceList();
+                SqlChoiceList();
+
+                Util.WriteToChat("Text= " + ((HudStaticText)ChoiceSQL[ChoiceSQL.Current]).Text);
+            }
+            catch (Exception ex) { Util.LogError(ex); }
+
+        }
         public void ButtonSavePaths_Click(object sender, EventArgs e)
         {
             try
@@ -386,6 +378,9 @@ namespace AceCreator
             {
 
                 Util.SendChatCommand(@"/export-json " + TextboxExportJsonWCID.Text);
+                // Add look at chat so when exported it will refresh list
+
+                JsonChoiceList();
             }
             catch (Exception ex) { Util.LogError(ex); }
 
@@ -396,14 +391,15 @@ namespace AceCreator
             {
                 
                 Util.SendChatCommand(@"/export-sql " + TextboxExportJsonWCID.Text);
+                // Add look at chat so when exported it will refresh list
+
+                SqlChoiceList();
             }
             catch (Exception ex) { Util.LogError(ex); }
 
         }
 
         //Globals.Host.Actions.RequestId(Globals.Host.Actions.CurrentSelection);
-
-
     }
 
 }
