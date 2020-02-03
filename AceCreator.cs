@@ -43,13 +43,6 @@ namespace AceCreator
         public HudStaticText LabelGetInfo { get; set; }
         public HudButton ButtonGetInfo { get; set; }
 
-
-
-
-
-        //public HudTextBox TextboxGetInfo { get; set; }
-
-
         public HudTextBox TextBoxPathJSON { get; set; }
         public HudTextBox TextBoxPathSQL { get; set; }
         public HudButton ButtonSavePaths { get; set; }
@@ -59,6 +52,10 @@ namespace AceCreator
         private static VirindiViewService.ControlGroup controls;
         private static VirindiViewService.HudView view;
         public static HudTabView TabView { get; private set; }
+
+        //  For seeing ID has completed
+        WorldObject WO;
+        private readonly AceItem aceItem = new AceItem();
 
         /// <summary>
         /// This is called when the plugin is started up. This happens only once.
@@ -140,15 +137,10 @@ namespace AceCreator
             ButtonExportSQL = view != null ? (HudButton)view["ButtonExportSQL"] : new HudButton();
             ButtonExportSQL.Hit += new EventHandler(ButtonExportSQL_Click);
 
-            //TextboxGetInfo = (HudTextBox)view["TextboxGetInfo"];
-
             LabelGetInfo = (HudStaticText)view["LabelGetInfo"];
 
             ButtonGetInfo = view != null ? (HudButton)view["ButtonGetInfo"] : new HudButton();
             ButtonGetInfo.Hit += new EventHandler(ButtonGetInfo_Click);
-
-
-
 
             // Paths Tab
             TextBoxPathJSON = (HudTextBox)view["TextboxPathJSON"];
@@ -203,10 +195,7 @@ namespace AceCreator
             try
             {
                 // This can get very spammy so I filted it to just print on ident received
-                if (e.Change == WorldChangeType.IdentReceived)
-                {
-                   
-                }
+
                 // Util.WriteToChat("WorldFilter_ChangeObject: " + e.Changed.Name + " " + e.Change);
             }
             catch (Exception ex) { Util.LogError(ex); }
@@ -235,8 +224,7 @@ namespace AceCreator
         private void JsonChoiceList()
         {
             ChoiceJSON = (HudCombo)view["ChoiceJSON"];
-            Util.WriteToChat(Globals.PathJSON);
-            // ICombo addfile = JSONFileList.Add(File.AppendAllText)
+            //Util.WriteToChat(Globals.PathJSON);
             ChoiceJSON.Clear();
             string filespath = Globals.PathJSON;
             DirectoryInfo d = new DirectoryInfo(filespath);
@@ -244,7 +232,7 @@ namespace AceCreator
 
             foreach (var file in files)
             {
-                Util.WriteToChat(file.Name);
+                //Util.WriteToChat(file.Name);
                 ChoiceJSON.AddItem(file.Name, file);
 
             }
@@ -252,7 +240,7 @@ namespace AceCreator
 
         private void SqlChoiceList()
         {
-            Util.WriteToChat(Globals.PathSQL);
+            //Util.WriteToChat(Globals.PathSQL);
             ChoiceSQL = (HudCombo)view["ChoiceSQL"];
             // ICombo addfile = JSONFileList.Add(File.AppendAllText)
             ChoiceSQL.Clear();
@@ -262,7 +250,7 @@ namespace AceCreator
 
             foreach (var file in files)
             {
-                Util.WriteToChat(file.Name);
+                //Util.WriteToChat(file.Name);
                 ChoiceSQL.AddItem(file.Name, file.Name);
 
             }
@@ -443,32 +431,28 @@ namespace AceCreator
         {
             try
             {
-                
+                WO = CoreManager.Current.WorldFilter[CoreManager.Current.Actions.CurrentSelection];
+                aceItem.name = WO.Name;
+                aceItem.id = WO.Id;
+
                 Globals.Host.Actions.RequestId(Globals.Host.Actions.CurrentSelection);
-
-                CoreManager.Current.WorldFilter.ChangeObject += WorldFilter_ChangeObject;
-                
-                
-                Util.SendChatCommand("/getinfo");
-
+                CoreManager.Current.WorldFilter.ChangeObject += WaitForItemUpdate;
             }
             catch (Exception ex) { Util.LogError(ex); }
 
         }
-        //private void WaitForItemUpdate(object sender, ChangeObjectEventArgs e)
-        //{
-        //    try
-        //    {
-        //        if (e.Changed.Id == fakeItem.id && readyForNextTink)
-        //        {
-        //            //Util.WriteToChat("changed: " + e.Changed.Name);
-        //            targetItemUpdated = true;
-        //            CoreManager.Current.WorldFilter.ChangeObject -= WaitForItemUpdate;
-        //            NextTink();
-        //        }
-        //    }
-        //    catch (Exception ex) { Logger.LogException(ex); }
-        //}
+        private void WaitForItemUpdate(object sender, ChangeObjectEventArgs e)
+        {
+            try
+            {
+                if (e.Changed.Id == aceItem.id)
+                {
+                    Util.SendChatCommand("/getinfo");
+                    CoreManager.Current.WorldFilter.ChangeObject -= WaitForItemUpdate;
+                }
+            }
+            catch (Exception ex) { Util.LogError(ex); }
+        }
 
     }
 }

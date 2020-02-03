@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AceCreator.cs" />
+    <Compile Include="AceItem.cs" />
     <Compile Include="ChatMessages.cs" />
     <Compile Include="Globals.cs" />
     <Compile Include="Lib\DecalProxy.cs" />
