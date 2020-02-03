@@ -265,14 +265,14 @@ namespace AceCreator
             {
                 TextBoxPathJSON.Text = pathsettings["jsonpath"];
                 Globals.PathJSON = pathsettings["jsonpath"];
-                Util.WriteToChat(pathsettings["jsonpath"]);
+                //Util.WriteToChat(pathsettings["jsonpath"]);
             }
 
             if (pathsettings.ContainsKey("sqlpath")) // && pathsettings["sqlpath"] != "")
             {
                 TextBoxPathSQL.Text = pathsettings["sqlpath"];
                 Globals.PathSQL = pathsettings["sqlpath"];
-                Util.WriteToChat(pathsettings["sqlpath"]);
+                //Util.WriteToChat(pathsettings["sqlpath"]);
             }
 
         }
@@ -347,7 +347,7 @@ namespace AceCreator
                 JsonChoiceList();
                 SqlChoiceList();
 
-                Util.WriteToChat("Text= " + ((HudStaticText)ChoiceSQL[ChoiceSQL.Current]).Text);
+                //Util.WriteToChat("Text= " + ((HudStaticText)ChoiceSQL[ChoiceSQL.Current]).Text);
             }
             catch (Exception ex) { Util.LogError(ex); }
 
