@@ -222,6 +222,7 @@ namespace AceCreator
                     LabelGetInfo.Text = e.Text;
                     TextboxExportJsonWCID.Text = wcid;
                     TextboxExportSQLWCID.Text = wcid;
+                    // Util.WriteToChat(e.Text);
                 }
 
             }

@@ -25,7 +25,7 @@ namespace AceCreator
                 if (regex.IsMatch(text))
                 {
 
-                    Util.WriteToChat("CapGroup1= " + RegExGroup(@"WeenieClassId: (.*)", text));
+                    // Util.WriteToChat("CapGroup1= " + RegExGroup(@"WeenieClassId: (.*)", text));
                     wcid = RegExGroup(@"WeenieClassId: (.*)", text);
                     return true;
                     
