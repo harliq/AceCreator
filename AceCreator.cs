@@ -40,6 +40,9 @@ namespace AceCreator
         public HudButton ButtonExportJSON { get; set; }
         public HudTextBox TextboxExportSQLWCID { get; set; }
         public HudButton ButtonExportSQL { get; set; }
+        public HudButton ButtonDeleteItem { get; set; }
+        
+
         public HudStaticText LabelGetInfo { get; set; }
         public HudButton ButtonGetInfo { get; set; }
 
@@ -137,8 +140,11 @@ namespace AceCreator
             ButtonExportSQL = view != null ? (HudButton)view["ButtonExportSQL"] : new HudButton();
             ButtonExportSQL.Hit += new EventHandler(ButtonExportSQL_Click);
 
-            LabelGetInfo = (HudStaticText)view["LabelGetInfo"];
+            ButtonDeleteItem = view != null ? (HudButton)view["ButtonDeleteItem"] : new HudButton();
+            ButtonDeleteItem.Hit += new EventHandler(ButtonDeleteItem_Click);
+            
 
+            LabelGetInfo = (HudStaticText)view["LabelGetInfo"];        
             ButtonGetInfo = view != null ? (HudButton)view["ButtonGetInfo"] : new HudButton();
             ButtonGetInfo.Hit += new EventHandler(ButtonGetInfo_Click);
 
@@ -207,12 +213,15 @@ namespace AceCreator
             try
             {
 
-                if (ChatMessages.GetWeenieInfo(e.Text))
+                if (ChatMessages.GetWeenieInfo(e.Text, out string wcid))
                 {
+                    TextboxExportJsonWCID = (HudTextBox)view["TextboxExportJsonWCID"];
+                    TextboxExportSQLWCID = (HudTextBox)view["TextboxExportSQLWCID"];
 
                     LabelGetInfo = (HudStaticText)view["LabelGetInfo"];
                     LabelGetInfo.Text = e.Text;
-
+                    TextboxExportJsonWCID.Text = wcid;
+                    TextboxExportSQLWCID.Text = wcid;
                 }
 
             }
@@ -436,19 +445,45 @@ namespace AceCreator
                 aceItem.id = WO.Id;
 
                 Globals.Host.Actions.RequestId(Globals.Host.Actions.CurrentSelection);
-                CoreManager.Current.WorldFilter.ChangeObject += WaitForItemUpdate;
+                CoreManager.Current.WorldFilter.ChangeObject += GetInfoWaitForItemUpdate;
             }
             catch (Exception ex) { Util.LogError(ex); }
 
         }
-        private void WaitForItemUpdate(object sender, ChangeObjectEventArgs e)
+        public void ButtonDeleteItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                WO = CoreManager.Current.WorldFilter[CoreManager.Current.Actions.CurrentSelection];
+                aceItem.name = WO.Name;
+                aceItem.id = WO.Id;
+
+                Globals.Host.Actions.RequestId(Globals.Host.Actions.CurrentSelection);
+                CoreManager.Current.WorldFilter.ChangeObject += DeleteItemWaitForItemUpdate;
+            }
+            catch (Exception ex) { Util.LogError(ex); }
+
+        }
+        private void GetInfoWaitForItemUpdate(object sender, ChangeObjectEventArgs e)
         {
             try
             {
                 if (e.Changed.Id == aceItem.id)
                 {
                     Util.SendChatCommand("/getinfo");
-                    CoreManager.Current.WorldFilter.ChangeObject -= WaitForItemUpdate;
+                    CoreManager.Current.WorldFilter.ChangeObject -= GetInfoWaitForItemUpdate;
+                }
+            }
+            catch (Exception ex) { Util.LogError(ex); }
+        }
+        private void DeleteItemWaitForItemUpdate(object sender, ChangeObjectEventArgs e)
+        {
+            try
+            {
+                if (e.Changed.Id == aceItem.id)
+                {
+                    Util.SendChatCommand("/delete");
+                    CoreManager.Current.WorldFilter.ChangeObject -= DeleteItemWaitForItemUpdate;
                 }
             }
             catch (Exception ex) { Util.LogError(ex); }
