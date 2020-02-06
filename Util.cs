@@ -104,24 +104,9 @@ namespace AceCreator
             {
                 WriteToChat(line);
                 string[] templineinfo = line.Split('=');
-                //if (templineinfo.Length > 2)
-                //    temp.Add(templineinfo[0], templineinfo[1] + ":" + templineinfo[2]);
-                //else
                     temp.Add(templineinfo[0], templineinfo[1]);
-                //if (templineinfo[0] == "jsonpath")
-                //{
-                //    Globals.PathJSON = templineinfo[1];
-                //}
-                //if (templineinfo[0] == "sqlpath")
-                //{
-                //    Globals.PathJSON = templineinfo[1];
-                //}
             }
-
             return temp;
         }
-
-
-
     }
 }

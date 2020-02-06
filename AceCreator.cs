@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Text.RegularExpressions;
@@ -29,7 +30,11 @@ namespace AceCreator
         public HudCombo ChoiceJSON { get; set; }
         public HudCombo ChoiceSQL { get; set; }
         public HudButton CommandConvertSQL { get; set; }
+        public HudButton ButtonOpenSQL { get; set; }
+
         public HudButton CommandConvertJSON { get; set; }
+        public HudButton ButtonOpenJSON { get; set; }
+
         public HudButton CommandRefreshFilesList { get; set; }
         public HudTextBox TextboxCreateWCID { get; set; }
         public HudButton ButtonCreateWCID { get; set; }
@@ -40,8 +45,9 @@ namespace AceCreator
         public HudButton ButtonExportJSON { get; set; }
         public HudTextBox TextboxExportSQLWCID { get; set; }
         public HudButton ButtonExportSQL { get; set; }
+        public HudButton ButtonYotesWCIDLookUp { get; set; }
+
         public HudButton ButtonDeleteItem { get; set; }
-        
 
         public HudStaticText LabelGetInfo { get; set; }
         public HudButton ButtonGetInfo { get; set; }
@@ -102,7 +108,12 @@ namespace AceCreator
             VirindiViewService.XMLParsers.Decal3XMLParser parser = new VirindiViewService.XMLParsers.Decal3XMLParser();
             parser.ParseFromResource("AceCreator.mainView.xml", out properties, out controls);
             view = new VirindiViewService.HudView(properties, controls);
-            view.Title = "ACE Content Creator - Version " + typeof(AceCreator).Assembly.GetName().Version;
+            // view.Title = "ACE Content Creator - Version " + typeof(AceCreator).Assembly.GetName().Version;
+            // Get the file version for the notepad.
+            string assemblyFolder = System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            FileVersionInfo myFileVersionInfo = FileVersionInfo.GetVersionInfo( assemblyFolder+ @"\AceCreator.dll");
+            //view.Title = "ACE Content Creator - Version " + typeof(AceCreator).Assembly.GetName().Version;
+            view.Title = "ACE Content Creator - Version " + myFileVersionInfo.FileVersion;
 
             // Content Tab
             ChoiceJSON = (HudCombo)view["ChoiceJSON"];
@@ -113,8 +124,14 @@ namespace AceCreator
             CommandConvertSQL = view != null ? (HudButton)view["CommandConvertSQL"] : new HudButton();
             CommandConvertSQL.Hit += new EventHandler(ButtonConvertSQL_Click);
 
+            ButtonOpenSQL = view != null ? (HudButton)view["ButtonOpenSQL"] : new HudButton();
+            ButtonOpenSQL.Hit += new EventHandler(ButtonOpenSQL_Click);
+
             CommandConvertJSON = view != null ? (HudButton)view["CommandConvertJSON"] : new HudButton();
             CommandConvertJSON.Hit += new EventHandler(ButtonConvertJSON_Click);
+
+            ButtonOpenJSON = view != null ? (HudButton)view["ButtonOpenJSON"] : new HudButton();
+            ButtonOpenJSON.Hit += new EventHandler(ButtonOpenJSON_Click);
 
             CommandRefreshFilesList = view != null ? (HudButton)view["CommandRefreshFilesList"] : new HudButton();
             CommandRefreshFilesList.Hit += new EventHandler(ButtonRefreshFilesList_Click);
@@ -142,7 +159,9 @@ namespace AceCreator
 
             ButtonDeleteItem = view != null ? (HudButton)view["ButtonDeleteItem"] : new HudButton();
             ButtonDeleteItem.Hit += new EventHandler(ButtonDeleteItem_Click);
-            
+
+            ButtonYotesWCIDLookUp = view != null ? (HudButton)view["ButtonYotesWCIDLookUp"] : new HudButton();
+            ButtonYotesWCIDLookUp.Hit += new EventHandler(ButtonYotesWCIDLookUp_Click);
 
             LabelGetInfo = (HudStaticText)view["LabelGetInfo"];        
             ButtonGetInfo = view != null ? (HudButton)view["ButtonGetInfo"] : new HudButton();
@@ -157,7 +176,6 @@ namespace AceCreator
 
             ButtonTest = view != null ? (HudButton)view["ButtonTest"] : new HudButton();
             ButtonTest.Hit += new EventHandler(ButtonTest_Click);
-
         }
 
         [BaseEvent("LoginComplete", "CharacterFilter")]
@@ -207,7 +225,6 @@ namespace AceCreator
             catch (Exception ex) { Util.LogError(ex); }
         }
 
-
         private void Current_ChatBoxMessage(object sender, ChatTextInterceptEventArgs e)
         {
             try
@@ -222,9 +239,21 @@ namespace AceCreator
                     LabelGetInfo.Text = e.Text;
                     TextboxExportJsonWCID.Text = wcid;
                     TextboxExportSQLWCID.Text = wcid;
+                    Globals.YotesWCID = wcid;
+                    if (Globals.ButtonCommand == "YotesLookup")
+                    {
+                        Util.WriteToChat("Opening Browser");
+                        Globals.ButtonCommand = "";
+                        System.Diagnostics.Process.Start("http://ac.yotesfan.com/weenies/items/" + wcid);
+                    }
                     // Util.WriteToChat(e.Text);
                 }
-
+                if (ChatMessages.FileExport(e.Text))
+                {
+                    JsonChoiceList();
+                    SqlChoiceList();
+                    Util.WriteToChat("ListRefresh");
+                }
             }
             catch (Exception ex)
             {
@@ -234,7 +263,7 @@ namespace AceCreator
         private void JsonChoiceList()
         {
             ChoiceJSON = (HudCombo)view["ChoiceJSON"];
-            //Util.WriteToChat(Globals.PathJSON);
+            // Util.WriteToChat(Globals.PathJSON);
             ChoiceJSON.Clear();
             string filespath = Globals.PathJSON;
             DirectoryInfo d = new DirectoryInfo(filespath);
@@ -242,15 +271,14 @@ namespace AceCreator
 
             foreach (var file in files)
             {
-                //Util.WriteToChat(file.Name);
+                // Util.WriteToChat(file.Name);
                 ChoiceJSON.AddItem(file.Name, file);
 
             }
         }
-
         private void SqlChoiceList()
         {
-            //Util.WriteToChat(Globals.PathSQL);
+            // Util.WriteToChat(Globals.PathSQL);
             ChoiceSQL = (HudCombo)view["ChoiceSQL"];
             // ICombo addfile = JSONFileList.Add(File.AppendAllText)
             ChoiceSQL.Clear();
@@ -260,7 +288,7 @@ namespace AceCreator
 
             foreach (var file in files)
             {
-                //Util.WriteToChat(file.Name);
+                // Util.WriteToChat(file.Name);
                 ChoiceSQL.AddItem(file.Name, file.Name);
 
             }
@@ -275,24 +303,20 @@ namespace AceCreator
             {
                 TextBoxPathJSON.Text = pathsettings["jsonpath"];
                 Globals.PathJSON = pathsettings["jsonpath"];
-                //Util.WriteToChat(pathsettings["jsonpath"]);
+                // Util.WriteToChat(pathsettings["jsonpath"]);
             }
 
             if (pathsettings.ContainsKey("sqlpath")) // && pathsettings["sqlpath"] != "")
             {
                 TextBoxPathSQL.Text = pathsettings["sqlpath"];
                 Globals.PathSQL = pathsettings["sqlpath"];
-                //Util.WriteToChat(pathsettings["sqlpath"]);
+                // Util.WriteToChat(pathsettings["sqlpath"]);
             }
-
         }
         private void SavePathSettings(object sender, EventArgs e)
         {
-            //EmailSender = new Email(email.Text, host.Text, int.Parse(port.Text), ss1.Checked, pass.Text);
-            //DiscordSender = new Discord(discordurl.Text);
             Util.SaveIni(TextBoxPathJSON.Text, TextBoxPathSQL.Text);
         }
-
         // ComboBox Change
         public void ChoiceJSON_Change(object sender, EventArgs e)
         {
@@ -303,7 +327,6 @@ namespace AceCreator
                 TextboxCreateWCID.Text = tsplit.Split(' ')[0];
             }
             catch (Exception ex) { Util.LogError(ex); }
-
         }
         public void ChoiceSQL_Change(object sender, EventArgs e)
         {
@@ -316,7 +339,6 @@ namespace AceCreator
             catch (Exception ex) { Util.LogError(ex); }
 
         }
-
         // Buttons
         public void ButtonConvertSQL_Click(object sender, EventArgs e)
         {
@@ -330,9 +352,7 @@ namespace AceCreator
                 TextboxCreateWCID.Text = tsplit.Split(' ')[0];
             }
             catch (Exception ex) { Util.LogError(ex); }
-
         }
-
         public void ButtonConvertJSON_Click(object sender, EventArgs e)
         {
             try
@@ -340,13 +360,10 @@ namespace AceCreator
                 TextboxCreateWCID = (HudTextBox)view["TextboxCreateWCID"];
                 Util.SendChatCommand(@"/import-json " + ((HudStaticText)ChoiceJSON[ChoiceJSON.Current]).Text);
                 Util.WriteToChat("Imported JSON= " + ((HudStaticText)ChoiceJSON[ChoiceJSON.Current]).Text);
-
                 string tsplit = ((HudStaticText)ChoiceJSON[ChoiceJSON.Current]).Text;
                 TextboxCreateWCID.Text = tsplit.Split(' ')[0];
-
             }
             catch (Exception ex) { Util.LogError(ex); }
-
         }
         public void ButtonRefreshFilesList_Click(object sender, EventArgs e)
         {
@@ -356,11 +373,9 @@ namespace AceCreator
 
                 JsonChoiceList();
                 SqlChoiceList();
-
-                //Util.WriteToChat("Text= " + ((HudStaticText)ChoiceSQL[ChoiceSQL.Current]).Text);
+                // Util.WriteToChat("Text= " + ((HudStaticText)ChoiceSQL[ChoiceSQL.Current]).Text);
             }
             catch (Exception ex) { Util.LogError(ex); }
-
         }
         public void ButtonSavePaths_Click(object sender, EventArgs e)
         {
@@ -370,7 +385,6 @@ namespace AceCreator
                 Util.SaveIni(TextBoxPathJSON.Text, TextBoxPathSQL.Text);
             }
             catch (Exception ex) { Util.LogError(ex); }
-
         }
         public void ButtonTest_Click(object sender, EventArgs e)
         {
@@ -379,13 +393,11 @@ namespace AceCreator
                 LoadPathSettings();
             }
             catch (Exception ex) { Util.LogError(ex); }
-
         }
         public void ButtonCreateWCID_Click(object sender, EventArgs e)
         {
             try
             {
-
                 Util.SendChatCommand(@"/create " + TextboxCreateWCID.Text);
             }
             catch (Exception ex) { Util.LogError(ex); }
@@ -415,10 +427,7 @@ namespace AceCreator
         {
             try
             {
-
                 Util.SendChatCommand(@"/export-json " + TextboxExportJsonWCID.Text);
-                // Add look at chat so when exported it will refresh list
-
                 JsonChoiceList();
             }
             catch (Exception ex) { Util.LogError(ex); }
@@ -430,8 +439,6 @@ namespace AceCreator
             {
 
                 Util.SendChatCommand(@"/export-sql " + TextboxExportSQLWCID.Text);
-                // Add look at chat so when exported it will refresh list
-
                 SqlChoiceList();
             }
             catch (Exception ex) { Util.LogError(ex); }
@@ -439,6 +446,7 @@ namespace AceCreator
         }
         public void ButtonGetInfo_Click(object sender, EventArgs e)
         {
+            Globals.ButtonCommand = "GetInfo";
             try
             {
                 WO = CoreManager.Current.WorldFilter[CoreManager.Current.Actions.CurrentSelection];
@@ -465,12 +473,51 @@ namespace AceCreator
             catch (Exception ex) { Util.LogError(ex); }
 
         }
+        public void ButtonYotesWCIDLookUp_Click(object sender, EventArgs e)
+        {
+            Globals.ButtonCommand = "YotesLookup";
+            try
+            {
+                WO = CoreManager.Current.WorldFilter[CoreManager.Current.Actions.CurrentSelection];
+                aceItem.name = WO.Name;
+                aceItem.id = WO.Id;
+
+                Globals.Host.Actions.RequestId(Globals.Host.Actions.CurrentSelection);
+                CoreManager.Current.WorldFilter.ChangeObject += GetInfoWaitForItemUpdate;
+                Util.WriteToChat(Globals.YotesWCID);
+
+            }
+            catch (Exception ex) { Util.LogError(ex); }
+
+        }
+        public void ButtonOpenJSON_Click(object sender, EventArgs e)
+        {
+            
+            try
+            {
+                System.Diagnostics.Process.Start(Globals.PathJSON + @"\" + ((HudStaticText)ChoiceJSON[ChoiceJSON.Current]).Text);
+            }
+            catch (Exception ex) { Util.LogError(ex); }
+
+        }
+        public void ButtonOpenSQL_Click(object sender, EventArgs e)
+        {
+
+            try
+            {
+                System.Diagnostics.Process.Start(Globals.PathSQL + @"\" + ((HudStaticText)ChoiceSQL[ChoiceSQL.Current]).Text);
+            }
+            catch (Exception ex) { Util.LogError(ex); }
+
+        }
+        // Methods
         private void GetInfoWaitForItemUpdate(object sender, ChangeObjectEventArgs e)
         {
             try
             {
                 if (e.Changed.Id == aceItem.id)
                 {
+
                     Util.SendChatCommand("/getinfo");
                     CoreManager.Current.WorldFilter.ChangeObject -= GetInfoWaitForItemUpdate;
                 }
@@ -489,6 +536,16 @@ namespace AceCreator
             }
             catch (Exception ex) { Util.LogError(ex); }
         }
-
+        private void LookupYotesWaitForItemUpdate(object sender, ChangeObjectEventArgs e)
+        {
+            try
+            {
+                if (e.Changed.Id == aceItem.id)
+                {
+                    CoreManager.Current.WorldFilter.ChangeObject -= LookupYotesWaitForItemUpdate;                 
+                }
+            }
+            catch (Exception ex) { Util.LogError(ex); }
+        }
     }
 }

@@ -9,5 +9,4 @@ namespace AceCreator
         public int id;
         public string name;
     }
-
  }
