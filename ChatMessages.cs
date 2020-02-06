@@ -8,15 +8,14 @@ namespace AceCreator
 {
     public class ChatMessages
     {
-
         public static Collection<Regex> WeenieGetInfo = new Collection<Regex>();
+        public static Collection<Regex> ExportFiles = new Collection<Regex>();
+
         public ChatMessages()
         {
             // Weenie WCID
             WeenieGetInfo.Add(new Regex("^WeenieClassId:.*"));
-
-            // Weenie Class Name
-            // WeenieGetInfo.Add(new Regex("^WeenieClassName: (?<wcname>.+)$"));
+            ExportFiles.Add(new Regex("^Exported.*"));
         }
         public static bool GetWeenieInfo(string text, out string wcid)
         {
@@ -26,9 +25,9 @@ namespace AceCreator
                 {
 
                     // Util.WriteToChat("CapGroup1= " + RegExGroup(@"WeenieClassId: (.*)", text));
+
                     wcid = RegExGroup(@"WeenieClassId: (.*)", text);
                     return true;
-                    
 
                 }
             }
@@ -38,14 +37,25 @@ namespace AceCreator
         public static string RegExGroup(string pattern, string text)
         {
 
-                Regex r = new Regex(pattern, RegexOptions.IgnoreCase);
+            Regex r = new Regex(pattern, RegexOptions.IgnoreCase);
 
-                // match the regex pattern against string
-                Match m = r.Match(text);
-                Group g = m.Groups[1];
-            string mystring = g.Value;    
+            // match the regex pattern against string
+            Match m = r.Match(text);
+            Group g = m.Groups[1];
+            string mystring = g.Value;
 
             return mystring;
+        }
+        public static bool FileExport(string text)
+        {
+            foreach (Regex regex in ExportFiles)
+            {
+                if (regex.IsMatch(text))
+                {
+                        return true;
+                }
+            }
+            return false;
         }
     }
 }
