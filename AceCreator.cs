@@ -28,14 +28,13 @@ namespace AceCreator
     {
         private ChatMessages cm = new ChatMessages();
         public HudCombo ChoiceJSON { get; set; }
+        public HudButton CommandConvertJSON { get; set; }
+        public HudButton ButtonOpenJSON { get; set; }
+
         public HudCombo ChoiceSQL { get; set; }
         public HudButton CommandConvertSQL { get; set; }
         public HudButton ButtonOpenSQL { get; set; }
 
-        public HudButton CommandConvertJSON { get; set; }
-        public HudButton ButtonOpenJSON { get; set; }
-
-        public HudButton CommandRefreshFilesList { get; set; }
         public HudTextBox TextboxCreateWCID { get; set; }
         public HudButton ButtonCreateWCID { get; set; }
         public HudButton ButtonCreateInvWCID { get; set; }
@@ -47,10 +46,13 @@ namespace AceCreator
         public HudButton ButtonExportSQL { get; set; }
         public HudButton ButtonYotesWCIDLookUp { get; set; }
 
-        public HudButton ButtonDeleteItem { get; set; }
-
         public HudStaticText LabelGetInfo { get; set; }
+
+        public HudButton ButtonDeleteItem { get; set; }
+        public HudButton ButtonRemoveInstace { get; set; }
+        public HudButton CommandRefreshFilesList { get; set; }
         public HudButton ButtonGetInfo { get; set; }
+
 
         public HudTextBox TextBoxPathJSON { get; set; }
         public HudTextBox TextBoxPathSQL { get; set; }
@@ -118,6 +120,13 @@ namespace AceCreator
             // Content Tab
             ChoiceJSON = (HudCombo)view["ChoiceJSON"];
             ChoiceJSON.Change += new EventHandler(ChoiceJSON_Change);
+
+            CommandConvertJSON = view != null ? (HudButton)view["CommandConvertJSON"] : new HudButton();
+            CommandConvertJSON.Hit += new EventHandler(ButtonConvertJSON_Click);
+
+            ButtonOpenJSON = view != null ? (HudButton)view["ButtonOpenJSON"] : new HudButton();
+            ButtonOpenJSON.Hit += new EventHandler(ButtonOpenJSON_Click);
+
             ChoiceSQL = (HudCombo)view["ChoiceSQL"];
             ChoiceSQL.Change += new EventHandler(ChoiceSQL_Change);
 
@@ -126,15 +135,6 @@ namespace AceCreator
 
             ButtonOpenSQL = view != null ? (HudButton)view["ButtonOpenSQL"] : new HudButton();
             ButtonOpenSQL.Hit += new EventHandler(ButtonOpenSQL_Click);
-
-            CommandConvertJSON = view != null ? (HudButton)view["CommandConvertJSON"] : new HudButton();
-            CommandConvertJSON.Hit += new EventHandler(ButtonConvertJSON_Click);
-
-            ButtonOpenJSON = view != null ? (HudButton)view["ButtonOpenJSON"] : new HudButton();
-            ButtonOpenJSON.Hit += new EventHandler(ButtonOpenJSON_Click);
-
-            CommandRefreshFilesList = view != null ? (HudButton)view["CommandRefreshFilesList"] : new HudButton();
-            CommandRefreshFilesList.Hit += new EventHandler(ButtonRefreshFilesList_Click);
 
             TextboxCreateWCID = (HudTextBox)view["TextboxCreateWCID"];
 
@@ -157,15 +157,23 @@ namespace AceCreator
             ButtonExportSQL = view != null ? (HudButton)view["ButtonExportSQL"] : new HudButton();
             ButtonExportSQL.Hit += new EventHandler(ButtonExportSQL_Click);
 
-            ButtonDeleteItem = view != null ? (HudButton)view["ButtonDeleteItem"] : new HudButton();
-            ButtonDeleteItem.Hit += new EventHandler(ButtonDeleteItem_Click);
-
             ButtonYotesWCIDLookUp = view != null ? (HudButton)view["ButtonYotesWCIDLookUp"] : new HudButton();
             ButtonYotesWCIDLookUp.Hit += new EventHandler(ButtonYotesWCIDLookUp_Click);
 
-            LabelGetInfo = (HudStaticText)view["LabelGetInfo"];        
+            LabelGetInfo = (HudStaticText)view["LabelGetInfo"]; 
+
+            ButtonRemoveInstace = view != null ? (HudButton)view["ButtonRemoveInstace"] : new HudButton();
+            ButtonRemoveInstace.Hit += new EventHandler(ButtonRemoveInstace_Click);
+
+            ButtonDeleteItem = view != null ? (HudButton)view["ButtonDeleteItem"] : new HudButton();
+            ButtonDeleteItem.Hit += new EventHandler(ButtonDeleteItem_Click);
+
+            CommandRefreshFilesList = view != null ? (HudButton)view["CommandRefreshFilesList"] : new HudButton();
+            CommandRefreshFilesList.Hit += new EventHandler(ButtonRefreshFilesList_Click);
+
             ButtonGetInfo = view != null ? (HudButton)view["ButtonGetInfo"] : new HudButton();
             ButtonGetInfo.Hit += new EventHandler(ButtonGetInfo_Click);
+
 
             // Paths Tab
             TextBoxPathJSON = (HudTextBox)view["TextboxPathJSON"];
@@ -463,6 +471,7 @@ namespace AceCreator
         {
             try
             {
+                Globals.ButtonCommand = "/delete";
                 WO = CoreManager.Current.WorldFilter[CoreManager.Current.Actions.CurrentSelection];
                 aceItem.name = WO.Name;
                 aceItem.id = WO.Id;
@@ -510,6 +519,24 @@ namespace AceCreator
             catch (Exception ex) { Util.LogError(ex); }
 
         }
+        public void ButtonRemoveInstace_Click(object sender, EventArgs e)
+        {
+
+            try
+            {
+                Globals.ButtonCommand = "/removeinst";
+
+                WO = CoreManager.Current.WorldFilter[CoreManager.Current.Actions.CurrentSelection];
+                aceItem.name = WO.Name;
+                aceItem.id = WO.Id;
+
+                Globals.Host.Actions.RequestId(Globals.Host.Actions.CurrentSelection);
+                CoreManager.Current.WorldFilter.ChangeObject += DeleteItemWaitForItemUpdate;
+            }
+            catch (Exception ex) { Util.LogError(ex); }
+
+        }
+      
         // Methods
         private void GetInfoWaitForItemUpdate(object sender, ChangeObjectEventArgs e)
         {
@@ -530,8 +557,9 @@ namespace AceCreator
             {
                 if (e.Changed.Id == aceItem.id)
                 {
-                    Util.SendChatCommand("/delete");
+                    Util.SendChatCommand(Globals.ButtonCommand);
                     CoreManager.Current.WorldFilter.ChangeObject -= DeleteItemWaitForItemUpdate;
+                    Globals.ButtonCommand = "NONE";
                 }
             }
             catch (Exception ex) { Util.LogError(ex); }

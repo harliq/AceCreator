@@ -5,12 +5,12 @@
 			<control progid="DecalControls.FixedLayout" clipped="">
 				<control progid="DecalControls.StaticText" name="LabelJson" left="10" top="5" width="256" height="15" text="Select JSON File"/>
 				<control progid="DecalControls.Choice" name="ChoiceJSON" left="5" top="25" width="340" height="20"/>
-				<control progid="DecalControls.PushButton" name="CommandConvertJSON" left="10" top="50" width="80" height="20" text="Import JSON"/>
-        <control progid="DecalControls.PushButton" name="ButtonOpenJSON" left="110" top="50" width="80" height="20" text="Edit JSON"/>
+				<control progid="DecalControls.PushButton" name="CommandConvertJSON" left="10" top="50" width="90" height="20" text="Import JSON"/>
+        <control progid="DecalControls.PushButton" name="ButtonOpenJSON" left="120" top="50" width="70" height="20" text="Edit JSON"/>
 				<control progid="DecalControls.StaticText" name="LabelSQL" left="10" top="80" width="256" height="15" text="Select SQL File"/>
 				<control progid="DecalControls.Choice" name="ChoiceSQL" left="5" top="100" width="340" height="20"/>
-				<control progid="DecalControls.PushButton" name="CommandConvertSQL" left="10" top="125" width="80" height="20" text="Import SQL"/>
-        <control progid="DecalControls.PushButton" name="ButtonOpenSQL" left="110" top="125" width="80" height="20" text="Edit SQL"/>
+				<control progid="DecalControls.PushButton" name="CommandConvertSQL" left="10" top="125" width="90" height="20" text="Import SQL"/>
+        <control progid="DecalControls.PushButton" name="ButtonOpenSQL" left="120" top="125" width="70" height="20" text="Edit SQL"/>
 				
         <control progid="DecalControls.StaticText" name="LabelWCID" left="10" top="176" width="35" height="15" text="WCID"/>
         <control progid="DecalControls.Edit" name="TextboxCreateWCID" left="50" top="174" width="60" height="16" imageportalsrc="4726" text=""/>
@@ -21,18 +21,17 @@
         <control progid="DecalControls.StaticText" name="LabelJsonExport" left="10" top="205" width="100" height="15" text="JSON Export"/>
         <control progid="DecalControls.StaticText" name="LabelExportJsonWCID" left="10" top="226" width="35" height="15" text="WCID"/>
         <control progid="DecalControls.Edit" name="TextboxExportJsonWCID" left="50" top="224" width="60" height="16" imageportalsrc="4726" text=""/>
-        <control progid="DecalControls.PushButton" name="ButtonExportJSON" left="120" top="220" width="80" height="20" text="Export JSON"/>
+        <control progid="DecalControls.PushButton" name="ButtonExportJSON" left="120" top="220" width="70" height="20" text="Export JSON"/>
 
         <control progid="DecalControls.StaticText" name="LabelSqlExport" left="10" top="260" width="100" height="15" text="SQL Export"/>
         <control progid="DecalControls.StaticText" name="LabelExportSqlWCID" left="10" top="281" width="35" height="15" text="WCID"/>
         <control progid="DecalControls.Edit" name="TextboxExportSQLWCID" left="50" top="279" width="60" height="16" imageportalsrc="4726" text=""/>
-        <control progid="DecalControls.PushButton" name="ButtonExportSQL" left="120" top="275" width="80" height="20" text="Export SQL"/>
+        <control progid="DecalControls.PushButton" name="ButtonExportSQL" left="120" top="275" width="70" height="20" text="Export SQL"/>
 
-        
+        <control progid="DecalControls.PushButton" name="ButtonYotesWCIDLookUp" left="210" top="275" width="140" height="20" text="Lookup Selected on Yotes"/>
 
-        <control progid="DecalControls.PushButton" name="ButtonYotesWCIDLookUp" left="215" top="275" width="135" height="20" text="Lookup Selected on Yotes"/>
-
-        <control progid="DecalControls.StaticText" name="LabelGetInfo" left="5" top="345" width="340" height="50" text=""/>
+        <control progid="DecalControls.StaticText" name="LabelGetInfo" left="5" top="310" width="340" height="50" text=""/>
+        <control progid="DecalControls.PushButton" name="ButtonRemoveInstace" left="10" top="355" width="100" height="20" text="Remove Instance"/>
         <control progid="DecalControls.PushButton" name="ButtonDeleteItem" left="10" top="385" width="100" height="20" text="Delete Selected"/>
         <control progid="DecalControls.PushButton" name="CommandRefreshFilesList" left="130" top="385" width="100" height="20" text="Refresh File Lists"/>
         <control progid="DecalControls.PushButton" name="ButtonGetInfo" left="250" top="385" width="100" height="20" text="GetInfo"/>
