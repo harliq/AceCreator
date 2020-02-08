@@ -45,11 +45,14 @@ namespace AceCreator
         public HudTextBox TextboxExportSQLWCID { get; set; }
         public HudButton ButtonExportSQL { get; set; }
         public HudButton ButtonYotesWCIDLookUp { get; set; }
+        public HudButton ButtonPCAPSWCIDLookUp { get; set; }
+        
 
         public HudStaticText LabelGetInfo { get; set; }
 
-        public HudButton ButtonDeleteItem { get; set; }
         public HudButton ButtonRemoveInstace { get; set; }
+        public HudButton ButtonMyLocation { get; set; }
+        public HudButton ButtonDeleteItem { get; set; }       
         public HudButton CommandRefreshFilesList { get; set; }
         public HudButton ButtonGetInfo { get; set; }
 
@@ -160,10 +163,17 @@ namespace AceCreator
             ButtonYotesWCIDLookUp = view != null ? (HudButton)view["ButtonYotesWCIDLookUp"] : new HudButton();
             ButtonYotesWCIDLookUp.Hit += new EventHandler(ButtonYotesWCIDLookUp_Click);
 
+            ButtonPCAPSWCIDLookUp = view != null ? (HudButton)view["ButtonPCAPSWCIDLookUp"] : new HudButton();
+            ButtonPCAPSWCIDLookUp.Hit += new EventHandler(ButtonPCAPSWCIDLookUp_Click);
+            
+
             LabelGetInfo = (HudStaticText)view["LabelGetInfo"]; 
 
             ButtonRemoveInstace = view != null ? (HudButton)view["ButtonRemoveInstace"] : new HudButton();
             ButtonRemoveInstace.Hit += new EventHandler(ButtonRemoveInstace_Click);
+
+            ButtonMyLocation = view != null ? (HudButton)view["ButtonMyLocation"] : new HudButton();
+            ButtonMyLocation.Hit += new EventHandler(ButtonMyLocation_Click);
 
             ButtonDeleteItem = view != null ? (HudButton)view["ButtonDeleteItem"] : new HudButton();
             ButtonDeleteItem.Hit += new EventHandler(ButtonDeleteItem_Click);
@@ -253,6 +263,14 @@ namespace AceCreator
                         Util.WriteToChat("Opening Browser");
                         Globals.ButtonCommand = "";
                         System.Diagnostics.Process.Start("http://ac.yotesfan.com/weenies/items/" + wcid);
+                        Globals.ButtonCommand = "NONE";
+                    }
+                    if (Globals.ButtonCommand == "PCAPsLookup")
+                    {
+                        Util.WriteToChat("Opening Browser");
+                        Globals.ButtonCommand = "";
+                        System.Diagnostics.Process.Start("https://github.com/ACEmulator/ACE-PCAP-Exports/search?q=filename:" + wcid);
+                        Globals.ButtonCommand = "NONE";
                     }
                     // Util.WriteToChat(e.Text);
                 }
@@ -536,7 +554,37 @@ namespace AceCreator
             catch (Exception ex) { Util.LogError(ex); }
 
         }
-      
+        public void ButtonMyLocation_Click(object sender, EventArgs e)
+        {
+
+            try
+            {
+                Util.SendChatCommand("/loc");
+                // LabelCurrentLandblock = (HudStaticText)view["LabelCurrentLandblock"];
+                // var myLandCell = CoreManager.Current.Actions.Landcell;
+                // LabelCurrentLandblock.Text = CoreManager.Current.Actions.Landcell.ToString("X");
+            }
+            catch (Exception ex) { Util.LogError(ex); }
+
+        }
+        public void ButtonPCAPSWCIDLookUp_Click(object sender, EventArgs e)
+        {
+            Globals.ButtonCommand = "PCAPsLookup";
+            try
+            {
+                
+                WO = CoreManager.Current.WorldFilter[CoreManager.Current.Actions.CurrentSelection];
+                aceItem.name = WO.Name;
+                aceItem.id = WO.Id;
+
+                Globals.Host.Actions.RequestId(Globals.Host.Actions.CurrentSelection);
+                CoreManager.Current.WorldFilter.ChangeObject += GetInfoWaitForItemUpdate;
+                // https://github.com/ACEmulator/ACE-PCAP-Exports/search?q=filename:
+            }
+            catch (Exception ex) { Util.LogError(ex); }
+
+        }
+
         // Methods
         private void GetInfoWaitForItemUpdate(object sender, ChangeObjectEventArgs e)
         {
