@@ -10,12 +10,16 @@ namespace AceCreator
     {
         public static Collection<Regex> WeenieGetInfo = new Collection<Regex>();
         public static Collection<Regex> ExportFiles = new Collection<Regex>();
+        public static Collection<Regex> MyLocations = new Collection<Regex>();
+
 
         public ChatMessages()
         {
             // Weenie WCID
             WeenieGetInfo.Add(new Regex("^WeenieClassId:.*"));
             ExportFiles.Add(new Regex("^Exported.*"));
+            MyLocations.Add(new Regex("^Your location is:.*"));
+
         }
         public static bool GetWeenieInfo(string text, out string wcid)
         {
@@ -34,7 +38,24 @@ namespace AceCreator
             wcid = "False";
             return false;
         }
-        public static string RegExGroup(string pattern, string text)
+
+        public static bool LogMyLocations(string text, out string location)
+        {
+            foreach (Regex regex in MyLocations)
+            {
+                if (regex.IsMatch(text))
+                {
+
+                    location = RegExGroup("^Your location is: (.*)", text);
+                    return true;
+
+                }
+            }
+            location = "False";
+            return false;
+        }
+
+            public static string RegExGroup(string pattern, string text)
         {
 
             Regex r = new Regex(pattern, RegexOptions.IgnoreCase);
