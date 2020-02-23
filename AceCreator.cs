@@ -282,7 +282,10 @@ namespace AceCreator
                 }
                 if (ChatMessages.LogMyLocations(e.Text, out string location))
                 {
-                    Util.LogLocation(location);
+                    if (TextboxCreateWCID.Text == "")
+                        Util.LogLocation("BlankWCID, " + location);
+                    else
+                        Util.LogLocation(TextboxCreateWCID.Text + ", " + location);
                 }
             }
             catch (Exception ex)

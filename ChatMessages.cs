@@ -48,7 +48,7 @@ namespace AceCreator
 
                     location = RegExGroup("^Your location is: (.*)", text);
                     return true;
-
+                    
                 }
             }
             location = "False";
