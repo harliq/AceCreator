@@ -13,7 +13,7 @@ namespace AceCreator
 		{
 			try
 			{
-				using (StreamWriter writer = new StreamWriter(Environment.GetFolderPath(Environment.SpecialFolder.Personal) + @"\Decal Plugins\" + Globals.PluginName + " errors.txt", true))
+				using (StreamWriter writer = new StreamWriter(Environment.GetFolderPath(Environment.SpecialFolder.Personal) + @"\Decal Plugins\AceContentCreator\" + Globals.PluginName + " errors.txt", true))
 				{
 					writer.WriteLine("============================================================================");
 					writer.WriteLine(DateTime.Now.ToString());
@@ -34,8 +34,20 @@ namespace AceCreator
 			{
 			}
 		}
-        
-		public static void WriteToChat(string message)
+        public static void LogLocation(string location)
+        {
+            try
+            {
+                using (StreamWriter writer = new StreamWriter(Environment.GetFolderPath(Environment.SpecialFolder.Personal) + @"\Decal Plugins\AceContentCreator\" + Globals.PluginName + " Locations.txt", true))
+                {
+                    writer.WriteLine(location);
+                    writer.Close();
+                }
+            }
+            catch (Exception ex) { LogError(ex); }
+        }
+
+        public static void WriteToChat(string message)
 		{
 			try
 			{

@@ -80,7 +80,7 @@ namespace AceCreator
             {
                 // This initializes our static Globals class with references to the key objects your plugin will use, Host and Core.
                 // The OOP way would be to pass Host and Core to your objects, but this is easier.
-
+                System.IO.Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.Personal) + @"\Decal Plugins\AceContentCreator\");
                 CoreManager.Current.ChatBoxMessage += new EventHandler<ChatTextInterceptEventArgs>(Current_ChatBoxMessage);
                 Globals.Init("AceCreator", Host, Core);
                 LoadWindow();
@@ -279,6 +279,13 @@ namespace AceCreator
                     JsonChoiceList();
                     SqlChoiceList();
                     Util.WriteToChat("ListRefresh");
+                }
+                if (ChatMessages.LogMyLocations(e.Text, out string location))
+                {
+                    if (TextboxCreateWCID.Text == "")
+                        Util.LogLocation("BlankWCID, " + location);
+                    else
+                        Util.LogLocation(TextboxCreateWCID.Text + ", " + location);
                 }
             }
             catch (Exception ex)
