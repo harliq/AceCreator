@@ -24,6 +24,10 @@ namespace AceCreator
 
         public static string PathJSON;
         public static string PathSQL;
+
+        public static string PathLandBlockJSON;
+        public static string PathLandBlockSQL;
+
         public static string YotesWCID;
         public static string ButtonCommand;
     }
