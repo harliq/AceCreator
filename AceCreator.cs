@@ -377,11 +377,10 @@ namespace AceCreator
         {
             try
             {
-                TextboxCreateWCID = (HudTextBox)view["TextboxCreateWCID"];
-                Util.SendChatCommand(@"/import-sql " + ((HudStaticText)ChoiceSQL[ChoiceSQL.Current]).Text);
-                Util.WriteToChat("Imported SQL= " + ((HudStaticText)ChoiceSQL[ChoiceSQL.Current]).Text);
-
                 string tsplit = ((HudStaticText)ChoiceSQL[ChoiceSQL.Current]).Text;
+                TextboxCreateWCID = (HudTextBox)view["TextboxCreateWCID"];
+                Util.SendChatCommand(@"/import-sql " + tsplit.Split(' ')[0]);
+                // Util.WriteToChat("Imported SQL= " + ((HudStaticText)ChoiceSQL[ChoiceSQL.Current]).Text);
                 TextboxCreateWCID.Text = tsplit.Split(' ')[0];
             }
             catch (Exception ex) { Util.LogError(ex); }
@@ -390,10 +389,10 @@ namespace AceCreator
         {
             try
             {
-                TextboxCreateWCID = (HudTextBox)view["TextboxCreateWCID"];
-                Util.SendChatCommand(@"/import-json " + ((HudStaticText)ChoiceJSON[ChoiceJSON.Current]).Text);
-                Util.WriteToChat("Imported JSON= " + ((HudStaticText)ChoiceJSON[ChoiceJSON.Current]).Text);
                 string tsplit = ((HudStaticText)ChoiceJSON[ChoiceJSON.Current]).Text;
+                TextboxCreateWCID = (HudTextBox)view["TextboxCreateWCID"];
+                Util.SendChatCommand(@"/import-json " + tsplit.Split(' ')[0]);
+                // Util.WriteToChat("Imported JSON= " + ((HudStaticText)ChoiceJSON[ChoiceJSON.Current]).Text);                
                 TextboxCreateWCID.Text = tsplit.Split(' ')[0];
             }
             catch (Exception ex) { Util.LogError(ex); }
