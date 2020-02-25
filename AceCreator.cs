@@ -56,11 +56,32 @@ namespace AceCreator
         public HudButton CommandRefreshFilesList { get; set; }
         public HudButton ButtonGetInfo { get; set; }
 
+        // LandBlocksTab
+        public HudCombo ChoiceLandblockJSON { get; set; }
+        public HudButton ButtonImportLandblockJSON { get; set; }
+        public HudButton ButtonEditLandblockJSON { get; set; }
 
+        public HudCombo ChoiceLandblockSQL { get; set; }
+        public HudButton ButtonImportLandblockSQL { get; set; }
+        public HudButton ButtonEditLandblockSQL { get; set; }
+
+        public HudButton ButtonReloadLandblock { get; set; }
+        public HudButton ButtonClearCache { get; set; }
+
+        // Paths Tab
         public HudTextBox TextBoxPathJSON { get; set; }
         public HudTextBox TextBoxPathSQL { get; set; }
+        public HudTextBox TextboxPathLandBlockJSON { get; set; }
+        public HudTextBox TextboxPathLandBlockSQL { get; set; }
+
+
         public HudButton ButtonSavePaths { get; set; }
-        public HudButton ButtonTest { get; set; }
+        public HudButton ButtonLoadINI { get; set; }
+        public HudButton ButtonOpenINI { get; set; }
+
+
+        
+
 
         private static VirindiViewService.ViewProperties properties;
         private static VirindiViewService.ControlGroup controls;
@@ -87,6 +108,8 @@ namespace AceCreator
                 LoadPathSettings();
                 JsonChoiceList();
                 SqlChoiceList();
+                LoadLandBlockJSONChoiceList();
+                LoadLandBlockSQLChoiceList();
                 //Initialize the view.
                 // MVWireupHelper.WireupStart(this, Host);
 
@@ -184,16 +207,55 @@ namespace AceCreator
             ButtonGetInfo = view != null ? (HudButton)view["ButtonGetInfo"] : new HudButton();
             ButtonGetInfo.Hit += new EventHandler(ButtonGetInfo_Click);
 
+            // ***** LandBlocksTab *****
+
+            ChoiceLandblockJSON = (HudCombo)view["ChoiceLandblockJSON"];
+            //ChoiceLandblockJSON.Change += new EventHandler(ChoiceLandblockJSON_Change);
+
+            ButtonImportLandblockJSON = view != null ? (HudButton)view["ButtonImportLandblockJSON"] : new HudButton();
+            ButtonImportLandblockJSON.Hit += new EventHandler(ButtonImportLandblockJSON_Click);
+
+            ButtonEditLandblockJSON = view != null ? (HudButton)view["ButtonEditLandblockJSON"] : new HudButton();
+            ButtonEditLandblockJSON.Hit += new EventHandler(ButtonEditLandblockJSON_Click);
+
+            
+
+
+            ChoiceLandblockSQL = (HudCombo)view["ChoiceLandblockSQL"];
+            //ChoiceLandblockSQL.Change += new EventHandler(ChoiceLandblockSQL_Change);
+
+            ButtonImportLandblockSQL = view != null ? (HudButton)view["ButtonImportLandblockSQL"] : new HudButton();
+            ButtonImportLandblockSQL.Hit += new EventHandler(ButtonImportLandblockSQL_Click);
+
+            ButtonEditLandblockSQL = view != null ? (HudButton)view["ButtonEditLandblockSQL"] : new HudButton();
+            ButtonEditLandblockSQL.Hit += new EventHandler(ButtonEditLandblockSQL_Click);
+
+            ButtonReloadLandblock = view != null ? (HudButton)view["ButtonReloadLandblock"] : new HudButton();
+            ButtonReloadLandblock.Hit += new EventHandler(ButtonReloadLandblock_Click);
+
+            ButtonClearCache = view != null ? (HudButton)view["ButtonClearCache"] : new HudButton();
+            ButtonClearCache.Hit += new EventHandler(ButtonClearCache_Click);
+            
+
 
             // Paths Tab
             TextBoxPathJSON = (HudTextBox)view["TextboxPathJSON"];
             TextBoxPathSQL = (HudTextBox)view["TextboxPathSQL"];
+            TextboxPathLandBlockJSON = (HudTextBox)view["TextboxPathLandBlockJSON"];
+            TextboxPathLandBlockSQL = (HudTextBox)view["TextboxPathLandBlockSQL"];
+
+
+            
 
             ButtonSavePaths = view != null ? (HudButton)view["ButtonSavePaths"] : new HudButton();
             ButtonSavePaths.Hit += new EventHandler(ButtonSavePaths_Click);
 
-            ButtonTest = view != null ? (HudButton)view["ButtonTest"] : new HudButton();
-            ButtonTest.Hit += new EventHandler(ButtonTest_Click);
+            ButtonLoadINI = view != null ? (HudButton)view["ButtonLoadINI"] : new HudButton();
+            ButtonLoadINI.Hit += new EventHandler(ButtonLoadINI_Click);
+
+            ButtonOpenINI = view != null ? (HudButton)view["ButtonOpenINI"] : new HudButton();
+            ButtonOpenINI.Hit += new EventHandler(ButtonOpenINI_Click);
+            
         }
 
         [BaseEvent("LoginComplete", "CharacterFilter")]
@@ -296,7 +358,7 @@ namespace AceCreator
         private void JsonChoiceList()
         {
             ChoiceJSON = (HudCombo)view["ChoiceJSON"];
-            // Util.WriteToChat(Globals.PathJSON);
+            Util.WriteToChat(Globals.PathJSON);
             ChoiceJSON.Clear();
             string filespath = Globals.PathJSON;
             DirectoryInfo d = new DirectoryInfo(filespath);
@@ -311,7 +373,7 @@ namespace AceCreator
         }
         private void SqlChoiceList()
         {
-            // Util.WriteToChat(Globals.PathSQL);
+            Util.WriteToChat(Globals.PathSQL);
             ChoiceSQL = (HudCombo)view["ChoiceSQL"];
             // ICombo addfile = JSONFileList.Add(File.AppendAllText)
             ChoiceSQL.Clear();
@@ -326,29 +388,82 @@ namespace AceCreator
 
             }
         }
+
+        private void LoadLandBlockJSONChoiceList()
+        {
+
+
+            ChoiceLandblockJSON = (HudCombo)view["ChoiceLandblockJSON"];
+            Util.WriteToChat(Globals.PathLandBlockJSON);
+            ChoiceLandblockJSON.Clear();
+            string filespath = Globals.PathLandBlockJSON;
+            DirectoryInfo d = new DirectoryInfo(filespath);
+            FileInfo[] files = d.GetFiles("*.json");
+
+            foreach (var file in files)
+            {
+                // Util.WriteToChat(file.Name);
+                ChoiceLandblockJSON.AddItem(file.Name, file);
+
+            }
+        }
+        private void LoadLandBlockSQLChoiceList()
+        {
+
+
+            ChoiceLandblockSQL = (HudCombo)view["ChoiceLandblockSQL"];
+            Util.WriteToChat(Globals.PathLandBlockSQL);
+            ChoiceLandblockSQL.Clear();
+            string filespath = Globals.PathLandBlockSQL;
+            DirectoryInfo d = new DirectoryInfo(filespath);
+            FileInfo[] files = d.GetFiles("*.sql");
+
+            foreach (var file in files)
+            {
+                // Util.WriteToChat(file.Name);
+                ChoiceLandblockSQL.AddItem(file.Name, file);
+
+            }
+        }
+
         private void LoadPathSettings()
         {
             Dictionary<string, string> pathsettings = Util.LoadSetttings();
             TextBoxPathJSON = (HudTextBox)view["TextboxPathJSON"];
             TextBoxPathSQL = (HudTextBox)view["TextboxPathSQL"];
+            TextboxPathLandBlockJSON = (HudTextBox)view["TextboxPathLandBlockJSON"];
+            TextboxPathLandBlockSQL = (HudTextBox)view["TextboxPathLandBlockSQL"];
 
-            if (pathsettings.ContainsKey("jsonpath")) //  && pathsettings["jsonpath"] != "")
+            if (pathsettings.ContainsKey("weenie_jsonpath")) //  && pathsettings["jsonpath"] != "")
             {
-                TextBoxPathJSON.Text = pathsettings["jsonpath"];
-                Globals.PathJSON = pathsettings["jsonpath"];
-                // Util.WriteToChat(pathsettings["jsonpath"]);
+                TextBoxPathJSON.Text = pathsettings["weenie_jsonpath"];
+                Globals.PathJSON = pathsettings["weenie_jsonpath"];
+                Util.WriteToChat(pathsettings["weenie_jsonpath"]);
             }
 
-            if (pathsettings.ContainsKey("sqlpath")) // && pathsettings["sqlpath"] != "")
+            if (pathsettings.ContainsKey("weenie_sqlpath")) // && pathsettings["sqlpath"] != "")
             {
-                TextBoxPathSQL.Text = pathsettings["sqlpath"];
-                Globals.PathSQL = pathsettings["sqlpath"];
-                // Util.WriteToChat(pathsettings["sqlpath"]);
+                TextBoxPathSQL.Text = pathsettings["weenie_sqlpath"];
+                Globals.PathSQL = pathsettings["weenie_sqlpath"];
+                Util.WriteToChat(pathsettings["weenie_sqlpath"]);
             }
+            if (pathsettings.ContainsKey("landblock_jsonpath")) // && pathsettings["sqlpath"] != "")
+            {
+                TextboxPathLandBlockJSON.Text = pathsettings["landblock_jsonpath"];
+                Globals.PathLandBlockJSON = pathsettings["landblock_jsonpath"];
+                Util.WriteToChat(pathsettings["landblock_jsonpath"]);
+            }
+            if (pathsettings.ContainsKey("landblock_sqlpath")) // && pathsettings["sqlpath"] != "")
+            {
+                TextboxPathLandBlockSQL.Text = pathsettings["landblock_sqlpath"];
+                Globals.PathLandBlockSQL = pathsettings["landblock_sqlpath"];
+                Util.WriteToChat(pathsettings["landblock_sqlpath"]);
+            }
+
         }
         private void SavePathSettings(object sender, EventArgs e)
         {
-            Util.SaveIni(TextBoxPathJSON.Text, TextBoxPathSQL.Text);
+            Util.SaveIni(TextBoxPathJSON.Text, TextBoxPathSQL.Text, TextboxPathLandBlockJSON.Text, TextboxPathLandBlockSQL.Text);
         }
         // ComboBox Change
         public void ChoiceJSON_Change(object sender, EventArgs e)
@@ -405,6 +520,10 @@ namespace AceCreator
 
                 JsonChoiceList();
                 SqlChoiceList();
+                LoadLandBlockJSONChoiceList();
+                LoadLandBlockSQLChoiceList();
+
+
                 // Util.WriteToChat("Text= " + ((HudStaticText)ChoiceSQL[ChoiceSQL.Current]).Text);
             }
             catch (Exception ex) { Util.LogError(ex); }
@@ -414,15 +533,27 @@ namespace AceCreator
             try
             {
                 Util.WriteToChat("Writing Ini File");
-                Util.SaveIni(TextBoxPathJSON.Text, TextBoxPathSQL.Text);
+                Util.SaveIni(TextBoxPathJSON.Text, TextBoxPathSQL.Text, TextboxPathLandBlockJSON.Text, TextboxPathLandBlockSQL.Text);
             }
             catch (Exception ex) { Util.LogError(ex); }
         }
-        public void ButtonTest_Click(object sender, EventArgs e)
+        public void ButtonLoadINI_Click(object sender, EventArgs e)
         {
             try
             {
                 LoadPathSettings();
+            }
+            catch (Exception ex) { Util.LogError(ex); }
+        }
+        public void ButtonOpenINI_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string assemblyFolder = System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+                string filePath = System.IO.Path.Combine(assemblyFolder, "acecreator.ini");
+                System.Diagnostics.Process.Start(filePath);
+                Util.WriteToChat(filePath);
+
             }
             catch (Exception ex) { Util.LogError(ex); }
         }
@@ -590,6 +721,77 @@ namespace AceCreator
             catch (Exception ex) { Util.LogError(ex); }
 
         }
+        public void ButtonImportLandblockJSON_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // string tsplit = ((HudStaticText)ChoiceLandblockJSON[ChoiceLandblockJSON.Current]).Text;
+                string wcid = ((HudStaticText)ChoiceLandblockJSON[ChoiceLandblockJSON.Current]).Text.Replace(".json","");
+                // TextboxCreateWCID = (HudTextBox)view["TextboxCreateWCID"];
+                Util.SendChatCommand(@"/import-json " + wcid + " landblock");
+                // Util.WriteToChat("Imported JSON= " + ((HudStaticText)ChoiceJSON[ChoiceJSON.Current]).Text);                
+                // TextboxCreateWCID.Text = tsplit.Split(' ')[0];
+            }
+            catch (Exception ex) { Util.LogError(ex); }
+        }
+
+        public void ButtonImportLandblockSQL_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // string tsplit = ((HudStaticText)ChoiceLandblockSQL[ChoiceLandblockSQL.Current]).Text;
+                string wcid = ((HudStaticText)ChoiceLandblockSQL[ChoiceLandblockSQL.Current]).Text.Replace(".sql", "");
+                //TextboxCreateWCID = (HudTextBox)view["TextboxCreateWCID"];
+                Util.SendChatCommand(@"/import-sql " + wcid + " landblock");
+                // Util.WriteToChat("Imported JSON= " + ((HudStaticText)ChoiceJSON[ChoiceJSON.Current]).Text);                
+                // TextboxCreateWCID.Text = tsplit.Split(' ')[0];
+            }
+            catch (Exception ex) { Util.LogError(ex); }
+        }
+
+        public void ButtonEditLandblockJSON_Click(object sender, EventArgs e)
+        {
+
+            try
+            {
+                System.Diagnostics.Process.Start(Globals.PathLandBlockJSON + @"\" + ((HudStaticText)ChoiceLandblockJSON[ChoiceLandblockJSON.Current]).Text);
+            }
+            catch (Exception ex) { Util.LogError(ex); }
+
+        }
+        public void ButtonEditLandblockSQL_Click(object sender, EventArgs e)
+        {
+
+            try
+            {
+                System.Diagnostics.Process.Start(Globals.PathLandBlockSQL + @"\" + ((HudStaticText)ChoiceLandblockSQL[ChoiceLandblockSQL.Current]).Text);
+            }
+            catch (Exception ex) { Util.LogError(ex); }
+
+        }
+
+        public void ButtonReloadLandblock_Click(object sender, EventArgs e)
+        {
+
+            try
+            {
+                Util.SendChatCommand("/reload-landblock");
+            }
+            catch (Exception ex) { Util.LogError(ex); }
+
+        }
+        public void ButtonClearCache_Click(object sender, EventArgs e)
+        {
+
+            try
+            {
+                Util.SendChatCommand("/clearcache");
+            }
+            catch (Exception ex) { Util.LogError(ex); }
+
+        }
+
+
 
         // Methods
         private void GetInfoWaitForItemUpdate(object sender, ChangeObjectEventArgs e)

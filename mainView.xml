@@ -41,14 +41,65 @@
 			</control>
 
 		</page>
+
+
+      <page label="Landblocks">
+        <control progid="DecalControls.FixedLayout" clipped="">
+          <control progid="DecalControls.StaticText" name="LabelLandblockJson" left="10" top="5" width="256" height="15" text="Select Landblock JSON File"/>
+          <control progid="DecalControls.Choice" name="ChoiceLandblockJSON" left="5" top="25" width="340" height="20"/>
+          <control progid="DecalControls.PushButton" name="ButtonImportLandblockJSON" left="10" top="50" width="80" height="20" text="Import JSON"/>
+          <control progid="DecalControls.PushButton" name="ButtonEditLandblockJSON" left="120" top="50" width="80" height="20" text="Edit Landblock"/>
+          
+          <control progid="DecalControls.StaticText" name="LabelLandblockSQL" left="10" top="80" width="256" height="15" text="Select Landblock SQL File"/>
+          <control progid="DecalControls.Choice" name="ChoiceLandblockSQL" left="5" top="100" width="340" height="20"/>
+          <control progid="DecalControls.PushButton" name="ButtonImportLandblockSQL" left="10" top="125" width="80" height="20" text="Import SQL"/>
+          <control progid="DecalControls.PushButton" name="ButtonEditLandblockSQL" left="120" top="125" width="80" height="20" text="Edit Landblock"/>
+          
+          <control progid="DecalControls.PushButton" name="ButtonReloadLandblock" left="10" top="200" width="165" height="25" text="Reload Landblock"/>
+          <control progid="DecalControls.PushButton" name="ButtonClearCache" left="185" top="200" width="165" height="25" text="Clear Cache"/>
+        </control>
+      </page>
+
+
+
+      <page label="Quests/Recipes">
+        <control progid="DecalControls.FixedLayout" clipped="">
+
+          <control progid="DecalControls.StaticText" name="LabelQuestJson" left="10" top="55" width="256" height="15" text="Select Quest JSON File"/>
+          <control progid="DecalControls.Choice" name="ChoiceQuestJSON" left="5" top="75" width="340" height="20"/>
+          <control progid="DecalControls.PushButton" name="ButtonImportQuestJSON" left="10" top="100" width="80" height="20" text="Import JSON"/>
+          <control progid="DecalControls.StaticText" name="LabelQuestSQL" left="10" top="130" width="256" height="15" text="Select Quest SQL File"/>
+          <control progid="DecalControls.Choice" name="ChoiceQuestSQL" left="5" top="150" width="340" height="20"/>
+          <control progid="DecalControls.PushButton" name="ButtonImportQuestSQL" left="10" top="175" width="80" height="20" text="Import SQL"/>
+
+          <control progid="DecalControls.StaticText" name="LabelRecipeJson" left="10" top="205" width="256" height="15" text="Select Recipe JSON File"/>
+          <control progid="DecalControls.Choice" name="ChoiceRecipeJSON" left="5" top="225" width="340" height="20"/>
+          <control progid="DecalControls.PushButton" name="ButtonImportRecipeJSON" left="10" top="250" width="80" height="20" text="Import JSON"/>
+          <control progid="DecalControls.StaticText" name="LabelRecipeSQL" left="10" top="280" width="256" height="15" text="Select Recipe SQL File"/>
+          <control progid="DecalControls.Choice" name="ChoiceRecipeSQL" left="5" top="300" width="340" height="20"/>
+          <control progid="DecalControls.PushButton" name="ButtonImportRecipeSQL" left="10" top="325" width="80" height="20" text="Import SQL"/>
+        </control>
+      </page>
+      
+      
+      
 		<page label="File Paths">
       <control progid="DecalControls.FixedLayout" clipped="">
-        <control progid="DecalControls.StaticText" name="LabelSQL" left="10" top="10" width="200" height="15" text="JSON File PAth"/>
-        <control progid="DecalControls.Edit" name="TextboxPathJSON" left="10" top="30" width="340" height="16" imageportalsrc="4726" text=""/>
-        <control progid="DecalControls.StaticText" name="LabelSQL" left="10" top="60" width="200" height="15" text="SQL File PAth"/>
-        <control progid="DecalControls.Edit" name="TextboxPathSQL" left="10" top="80" width="340" height="16" imageportalsrc="4726" text=""/>
-        <control progid="DecalControls.PushButton" name="ButtonSavePaths" left="75" top="115" width="100" height="20" text="Save Paths"/>
-        <control progid="DecalControls.PushButton" name="ButtonTest" left="185" top="115" width="100" height="20" text="Load *.ini"/>
+        <control progid="DecalControls.StaticText" name="LabelJSON" left="10" top="5" width="200" height="15" text="Weenie JSON File PAth"/>
+        <control progid="DecalControls.Edit" name="TextboxPathJSON" left="10" top="25" width="340" height="15" imageportalsrc="4726" text=""/>
+        <control progid="DecalControls.StaticText" name="LabelSQL" left="10" top="45" width="200" height="15" text="Weenie SQL File PAth"/>
+        <control progid="DecalControls.Edit" name="TextboxPathSQL" left="10" top="65" width="340" height="15" imageportalsrc="4726" text=""/>
+
+        <control progid="DecalControls.StaticText" name="LabelLandBlockJSON" left="10" top="90" width="200" height="15" text="LandBlock JSON File PAth"/>
+        <control progid="DecalControls.Edit" name="TextboxPathLandBlockJSON" left="10" top="110" width="340" height="15" imageportalsrc="4726" text=""/>
+        <control progid="DecalControls.StaticText" name="LabelLandBlockSQL" left="10" top="130" width="200" height="15" text="LandBlock SQL File PAth"/>
+        <control progid="DecalControls.Edit" name="TextboxPathLandBlockSQL" left="10" top="150" width="340" height="15" imageportalsrc="4726" text=""/>
+
+        
+        
+        <control progid="DecalControls.PushButton" name="ButtonSavePaths" left="10" top="385" width="100" height="20" text="Save Paths"/>
+        <control progid="DecalControls.PushButton" name="ButtonLoadINI" left="120" top="385" width="100" height="20" text="Load *.ini"/>
+        <control progid="DecalControls.PushButton" name="ButtonOpenINI" left="230" top="385" width="100" height="20" text="Open *.ini"/>
       </control>
 		</page>
 		</control>

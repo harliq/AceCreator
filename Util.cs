@@ -68,7 +68,7 @@ namespace AceCreator
             catch (Exception ex) { LogError(ex); }
         }
 
-        public static void SaveIni(string jsonpath, string sqlpath)
+        public static void SaveIni(string weenie_jsonpath, string weenie_sqlpath, string landblock_jsonpath, string landblock_sqlpath)
         {
             try
             {
@@ -81,8 +81,10 @@ namespace AceCreator
 
                     using (StreamWriter writer = new StreamWriter(filePath, false))
                     {
-                        writer.WriteLine("jsonpath=");
-                        writer.WriteLine("sqlpath=");
+                        writer.WriteLine("weenie_jsonpath=");
+                        writer.WriteLine("weenie_sqlpath=");
+                        writer.WriteLine("landblock_jsonpath=");
+                        writer.WriteLine("landblock_weeniesqlpath=");
                         writer.Close();
                     }
                 }
@@ -91,8 +93,10 @@ namespace AceCreator
 
                 using (StreamWriter writer = new StreamWriter(filePath, false))
                 {
-                    writer.WriteLine("jsonpath=" + jsonpath);
-                    writer.WriteLine("sqlpath=" + sqlpath);
+                    writer.WriteLine("weenie_jsonpath=" + weenie_jsonpath);
+                    writer.WriteLine("weenie_sqlpath=" + weenie_sqlpath);
+                    writer.WriteLine("landblock_jsonpath=" + landblock_jsonpath);
+                    writer.WriteLine("landblock_sqlpath=" + landblock_sqlpath);
                     writer.Close();
                     WriteToChat("Path Settings Saved to acecreator.ini");
                 }
@@ -110,7 +114,7 @@ namespace AceCreator
             Dictionary<string, string> temp = new Dictionary<string, string>();
 
             if (!File.Exists(filePath))
-                SaveIni("", "");
+                SaveIni("", "","","");
 
             foreach (string line in File.ReadAllLines(filePath))
             {
