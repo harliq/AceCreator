@@ -392,7 +392,11 @@ namespace AceCreator
         private void LoadLandBlockJSONChoiceList()
         {
 
-
+            if (Globals.PathLandBlockJSON == "")
+            {
+                Util.WriteToChat("JSON Landblock Path blank, Ignoring");
+                return;
+            }
             ChoiceLandblockJSON = (HudCombo)view["ChoiceLandblockJSON"];
             Util.WriteToChat(Globals.PathLandBlockJSON);
             ChoiceLandblockJSON.Clear();
@@ -410,7 +414,11 @@ namespace AceCreator
         private void LoadLandBlockSQLChoiceList()
         {
 
-
+            if (Globals.PathLandBlockSQL == "")
+            {
+                Util.WriteToChat("SQL Landblock Path blank, Ignoring");
+                return;
+            }
             ChoiceLandblockSQL = (HudCombo)view["ChoiceLandblockSQL"];
             Util.WriteToChat(Globals.PathLandBlockSQL);
             ChoiceLandblockSQL.Clear();
