@@ -24,73 +24,18 @@ namespace AceCreator
     // The view here is SamplePlugin.mainView.xml because our projects default namespace is SamplePlugin, and the file name is mainView.xml.
     // The other key here is that mainView.xml must be included as an embeded resource. If its not, your plugin will not show up in-game.
     [FriendlyName("AceCreator")]
-    public class AceCreator : PluginBase
+    public partial class AceCreator : PluginBase
     {
+        //  For seeing ID has completed
+        WorldObject WO;
+        private readonly AceItem aceItem = new AceItem();
+
         private ChatMessages cm = new ChatMessages();
-        public HudCombo ChoiceJSON { get; set; }
-        public HudButton CommandConvertJSON { get; set; }
-        public HudButton ButtonOpenJSON { get; set; }
-
-        public HudCombo ChoiceSQL { get; set; }
-        public HudButton CommandConvertSQL { get; set; }
-        public HudButton ButtonOpenSQL { get; set; }
-
-        public HudTextBox TextboxCreateWCID { get; set; }
-        public HudButton ButtonCreateWCID { get; set; }
-        public HudButton ButtonCreateInvWCID { get; set; }
-        public HudButton ButtonCreateInstantWCID { get; set; }
-
-        public HudTextBox TextboxExportJsonWCID { get; set; }
-        public HudButton ButtonExportJSON { get; set; }
-        public HudTextBox TextboxExportSQLWCID { get; set; }
-        public HudButton ButtonExportSQL { get; set; }
-        public HudButton ButtonYotesWCIDLookUp { get; set; }
-        public HudButton ButtonPCAPSWCIDLookUp { get; set; }
-        
-
-        public HudStaticText LabelGetInfo { get; set; }
-
-        public HudButton ButtonRemoveInstace { get; set; }
-        public HudButton ButtonMyLocation { get; set; }
-        public HudButton ButtonDeleteItem { get; set; }       
-        public HudButton CommandRefreshFilesList { get; set; }
-        public HudButton ButtonGetInfo { get; set; }
-
-        // LandBlocksTab
-        public HudCombo ChoiceLandblockJSON { get; set; }
-        public HudButton ButtonImportLandblockJSON { get; set; }
-        public HudButton ButtonEditLandblockJSON { get; set; }
-
-        public HudCombo ChoiceLandblockSQL { get; set; }
-        public HudButton ButtonImportLandblockSQL { get; set; }
-        public HudButton ButtonEditLandblockSQL { get; set; }
-
-        public HudButton ButtonReloadLandblock { get; set; }
-        public HudButton ButtonClearCache { get; set; }
-
-        // Paths Tab
-        public HudTextBox TextBoxPathJSON { get; set; }
-        public HudTextBox TextBoxPathSQL { get; set; }
-        public HudTextBox TextboxPathLandBlockJSON { get; set; }
-        public HudTextBox TextboxPathLandBlockSQL { get; set; }
-
-
-        public HudButton ButtonSavePaths { get; set; }
-        public HudButton ButtonLoadINI { get; set; }
-        public HudButton ButtonOpenINI { get; set; }
-
-
-        
-
+        public static HudTabView TabView { get; private set; }
 
         private static VirindiViewService.ViewProperties properties;
         private static VirindiViewService.ControlGroup controls;
         private static VirindiViewService.HudView view;
-        public static HudTabView TabView { get; private set; }
-
-        //  For seeing ID has completed
-        WorldObject WO;
-        private readonly AceItem aceItem = new AceItem();
 
         /// <summary>
         /// This is called when the plugin is started up. This happens only once.
@@ -106,8 +51,8 @@ namespace AceCreator
                 Globals.Init("AceCreator", Host, Core);
                 LoadWindow();
                 LoadPathSettings();
-                JsonChoiceList();
-                SqlChoiceList();
+                JsonChoiceListLoadFiles();
+                SqlChoiceListLoadFiles();
                 LoadLandBlockJSONChoiceList();
                 LoadLandBlockSQLChoiceList();
                 //Initialize the view.
@@ -143,7 +88,10 @@ namespace AceCreator
             //view.Title = "ACE Content Creator - Version " + typeof(AceCreator).Assembly.GetName().Version;
             view.Title = "ACE Content Creator - Version " + myFileVersionInfo.FileVersion;
 
-            // Content Tab
+            // In order to have some sort of organization and to keep the clutter down, 
+            // the varibles for each tab are declared in their corresponding TabFiles, along with the other control events.
+            
+            // ***** Content Tab *****
             ChoiceJSON = (HudCombo)view["ChoiceJSON"];
             ChoiceJSON.Change += new EventHandler(ChoiceJSON_Change);
 
@@ -187,8 +135,7 @@ namespace AceCreator
             ButtonYotesWCIDLookUp.Hit += new EventHandler(ButtonYotesWCIDLookUp_Click);
 
             ButtonPCAPSWCIDLookUp = view != null ? (HudButton)view["ButtonPCAPSWCIDLookUp"] : new HudButton();
-            ButtonPCAPSWCIDLookUp.Hit += new EventHandler(ButtonPCAPSWCIDLookUp_Click);
-            
+            ButtonPCAPSWCIDLookUp.Hit += new EventHandler(ButtonPCAPSWCIDLookUp_Click);            
 
             LabelGetInfo = (HudStaticText)view["LabelGetInfo"]; 
 
@@ -207,7 +154,7 @@ namespace AceCreator
             ButtonGetInfo = view != null ? (HudButton)view["ButtonGetInfo"] : new HudButton();
             ButtonGetInfo.Hit += new EventHandler(ButtonGetInfo_Click);
 
-            // ***** LandBlocksTab *****
+            // ***** LandBlocks Tab *****
 
             ChoiceLandblockJSON = (HudCombo)view["ChoiceLandblockJSON"];
             //ChoiceLandblockJSON.Change += new EventHandler(ChoiceLandblockJSON_Change);
@@ -217,9 +164,6 @@ namespace AceCreator
 
             ButtonEditLandblockJSON = view != null ? (HudButton)view["ButtonEditLandblockJSON"] : new HudButton();
             ButtonEditLandblockJSON.Hit += new EventHandler(ButtonEditLandblockJSON_Click);
-
-            
-
 
             ChoiceLandblockSQL = (HudCombo)view["ChoiceLandblockSQL"];
             //ChoiceLandblockSQL.Change += new EventHandler(ChoiceLandblockSQL_Change);
@@ -235,18 +179,13 @@ namespace AceCreator
 
             ButtonClearCache = view != null ? (HudButton)view["ButtonClearCache"] : new HudButton();
             ButtonClearCache.Hit += new EventHandler(ButtonClearCache_Click);
-            
 
-
-            // Paths Tab
+            // ***** Paths Tab *****
             TextBoxPathJSON = (HudTextBox)view["TextboxPathJSON"];
             TextBoxPathSQL = (HudTextBox)view["TextboxPathSQL"];
             TextboxPathLandBlockJSON = (HudTextBox)view["TextboxPathLandBlockJSON"];
             TextboxPathLandBlockSQL = (HudTextBox)view["TextboxPathLandBlockSQL"];
-
-
-            
-
+          
             ButtonSavePaths = view != null ? (HudButton)view["ButtonSavePaths"] : new HudButton();
             ButtonSavePaths.Hit += new EventHandler(ButtonSavePaths_Click);
 
@@ -304,7 +243,8 @@ namespace AceCreator
             }
             catch (Exception ex) { Util.LogError(ex); }
         }
-
+  
+        // Methods
         private void Current_ChatBoxMessage(object sender, ChatTextInterceptEventArgs e)
         {
             try
@@ -338,8 +278,8 @@ namespace AceCreator
                 }
                 if (ChatMessages.FileExport(e.Text))
                 {
-                    JsonChoiceList();
-                    SqlChoiceList();
+                    JsonChoiceListLoadFiles();
+                    SqlChoiceListLoadFiles();
                     Util.WriteToChat("ListRefresh");
                 }
                 if (ChatMessages.LogMyLocations(e.Text, out string location))
@@ -355,7 +295,7 @@ namespace AceCreator
                 Util.WriteToChat("ChatBoxMessage Error - " + ex);
             }
         }
-        private void JsonChoiceList()
+        private void JsonChoiceListLoadFiles()
         {
             ChoiceJSON = (HudCombo)view["ChoiceJSON"];
             Util.WriteToChat(Globals.PathJSON);
@@ -371,7 +311,7 @@ namespace AceCreator
 
             }
         }
-        private void SqlChoiceList()
+        private void SqlChoiceListLoadFiles()
         {
             Util.WriteToChat(Globals.PathSQL);
             ChoiceSQL = (HudCombo)view["ChoiceSQL"];
@@ -387,8 +327,83 @@ namespace AceCreator
                 ChoiceSQL.AddItem(file.Name, file.Name);
 
             }
-        }
+        }        
+        private void LoadPathSettings()
+        {
+            Dictionary<string, string> pathsettings = Util.LoadSetttings();
+            TextBoxPathJSON = (HudTextBox)view["TextboxPathJSON"];
+            TextBoxPathSQL = (HudTextBox)view["TextboxPathSQL"];
+            TextboxPathLandBlockJSON = (HudTextBox)view["TextboxPathLandBlockJSON"];
+            TextboxPathLandBlockSQL = (HudTextBox)view["TextboxPathLandBlockSQL"];
 
+            if (pathsettings.ContainsKey("weenie_jsonpath")) //  && pathsettings["jsonpath"] != "")
+            {
+                TextBoxPathJSON.Text = pathsettings["weenie_jsonpath"];
+                Globals.PathJSON = pathsettings["weenie_jsonpath"];
+                Util.WriteToChat(pathsettings["weenie_jsonpath"]);
+            }
+
+            if (pathsettings.ContainsKey("weenie_sqlpath")) // && pathsettings["sqlpath"] != "")
+            {
+                TextBoxPathSQL.Text = pathsettings["weenie_sqlpath"];
+                Globals.PathSQL = pathsettings["weenie_sqlpath"];
+                Util.WriteToChat(pathsettings["weenie_sqlpath"]);
+            }
+            if (pathsettings.ContainsKey("landblock_jsonpath")) // && pathsettings["sqlpath"] != "")
+            {
+                TextboxPathLandBlockJSON.Text = pathsettings["landblock_jsonpath"];
+                Globals.PathLandBlockJSON = pathsettings["landblock_jsonpath"];
+                Util.WriteToChat(pathsettings["landblock_jsonpath"]);
+            }
+            if (pathsettings.ContainsKey("landblock_sqlpath")) // && pathsettings["sqlpath"] != "")
+            {
+                TextboxPathLandBlockSQL.Text = pathsettings["landblock_sqlpath"];
+                Globals.PathLandBlockSQL = pathsettings["landblock_sqlpath"];
+                Util.WriteToChat(pathsettings["landblock_sqlpath"]);
+            }
+
+        }
+        private void SavePathSettings(object sender, EventArgs e)
+        {
+            Util.SaveIni(TextBoxPathJSON.Text, TextBoxPathSQL.Text, TextboxPathLandBlockJSON.Text, TextboxPathLandBlockSQL.Text);
+        }
+         private void GetInfoWaitForItemUpdate(object sender, ChangeObjectEventArgs e)
+        {
+            try
+            {
+                if (e.Changed.Id == aceItem.id)
+                {
+
+                    Util.SendChatCommand("/getinfo");
+                    CoreManager.Current.WorldFilter.ChangeObject -= GetInfoWaitForItemUpdate;
+                }
+            }
+            catch (Exception ex) { Util.LogError(ex); }
+        }
+        private void DeleteItemWaitForItemUpdate(object sender, ChangeObjectEventArgs e)
+        {
+            try
+            {
+                if (e.Changed.Id == aceItem.id)
+                {
+                    Util.SendChatCommand(Globals.ButtonCommand);
+                    CoreManager.Current.WorldFilter.ChangeObject -= DeleteItemWaitForItemUpdate;
+                    Globals.ButtonCommand = "NONE";
+                }
+            }
+            catch (Exception ex) { Util.LogError(ex); }
+        }
+        private void LookupYotesWaitForItemUpdate(object sender, ChangeObjectEventArgs e)
+        {
+            try
+            {
+                if (e.Changed.Id == aceItem.id)
+                {
+                    CoreManager.Current.WorldFilter.ChangeObject -= LookupYotesWaitForItemUpdate;                 
+                }
+            }
+            catch (Exception ex) { Util.LogError(ex); }
+        }
         private void LoadLandBlockJSONChoiceList()
         {
 
@@ -432,412 +447,6 @@ namespace AceCreator
                 ChoiceLandblockSQL.AddItem(file.Name, file);
 
             }
-        }
-
-        private void LoadPathSettings()
-        {
-            Dictionary<string, string> pathsettings = Util.LoadSetttings();
-            TextBoxPathJSON = (HudTextBox)view["TextboxPathJSON"];
-            TextBoxPathSQL = (HudTextBox)view["TextboxPathSQL"];
-            TextboxPathLandBlockJSON = (HudTextBox)view["TextboxPathLandBlockJSON"];
-            TextboxPathLandBlockSQL = (HudTextBox)view["TextboxPathLandBlockSQL"];
-
-            if (pathsettings.ContainsKey("weenie_jsonpath")) //  && pathsettings["jsonpath"] != "")
-            {
-                TextBoxPathJSON.Text = pathsettings["weenie_jsonpath"];
-                Globals.PathJSON = pathsettings["weenie_jsonpath"];
-                Util.WriteToChat(pathsettings["weenie_jsonpath"]);
-            }
-
-            if (pathsettings.ContainsKey("weenie_sqlpath")) // && pathsettings["sqlpath"] != "")
-            {
-                TextBoxPathSQL.Text = pathsettings["weenie_sqlpath"];
-                Globals.PathSQL = pathsettings["weenie_sqlpath"];
-                Util.WriteToChat(pathsettings["weenie_sqlpath"]);
-            }
-            if (pathsettings.ContainsKey("landblock_jsonpath")) // && pathsettings["sqlpath"] != "")
-            {
-                TextboxPathLandBlockJSON.Text = pathsettings["landblock_jsonpath"];
-                Globals.PathLandBlockJSON = pathsettings["landblock_jsonpath"];
-                Util.WriteToChat(pathsettings["landblock_jsonpath"]);
-            }
-            if (pathsettings.ContainsKey("landblock_sqlpath")) // && pathsettings["sqlpath"] != "")
-            {
-                TextboxPathLandBlockSQL.Text = pathsettings["landblock_sqlpath"];
-                Globals.PathLandBlockSQL = pathsettings["landblock_sqlpath"];
-                Util.WriteToChat(pathsettings["landblock_sqlpath"]);
-            }
-
-        }
-        private void SavePathSettings(object sender, EventArgs e)
-        {
-            Util.SaveIni(TextBoxPathJSON.Text, TextBoxPathSQL.Text, TextboxPathLandBlockJSON.Text, TextboxPathLandBlockSQL.Text);
-        }
-        // ComboBox Change
-        public void ChoiceJSON_Change(object sender, EventArgs e)
-        {
-            try
-            {
-                TextboxCreateWCID = (HudTextBox)view["TextboxCreateWCID"];
-                string tsplit = ((HudStaticText)ChoiceJSON[ChoiceJSON.Current]).Text;
-                TextboxCreateWCID.Text = tsplit.Split(' ')[0];
-            }
-            catch (Exception ex) { Util.LogError(ex); }
-        }
-        public void ChoiceSQL_Change(object sender, EventArgs e)
-        {
-            try
-            {
-                TextboxCreateWCID = (HudTextBox)view["TextboxCreateWCID"];
-                string tsplit = ((HudStaticText)ChoiceSQL[ChoiceSQL.Current]).Text;
-                TextboxCreateWCID.Text = tsplit.Split(' ')[0];
-            }
-            catch (Exception ex) { Util.LogError(ex); }
-
-        }
-        // Buttons
-        public void ButtonConvertSQL_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                string tsplit = ((HudStaticText)ChoiceSQL[ChoiceSQL.Current]).Text;
-                TextboxCreateWCID = (HudTextBox)view["TextboxCreateWCID"];
-                Util.SendChatCommand(@"/import-sql " + tsplit.Split(' ')[0]);
-                // Util.WriteToChat("Imported SQL= " + ((HudStaticText)ChoiceSQL[ChoiceSQL.Current]).Text);
-                TextboxCreateWCID.Text = tsplit.Split(' ')[0];
-            }
-            catch (Exception ex) { Util.LogError(ex); }
-        }
-        public void ButtonConvertJSON_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                string tsplit = ((HudStaticText)ChoiceJSON[ChoiceJSON.Current]).Text;
-                TextboxCreateWCID = (HudTextBox)view["TextboxCreateWCID"];
-                Util.SendChatCommand(@"/import-json " + tsplit.Split(' ')[0]);
-                // Util.WriteToChat("Imported JSON= " + ((HudStaticText)ChoiceJSON[ChoiceJSON.Current]).Text);                
-                TextboxCreateWCID.Text = tsplit.Split(' ')[0];
-            }
-            catch (Exception ex) { Util.LogError(ex); }
-        }
-        public void ButtonRefreshFilesList_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                Util.WriteToChat("Reloading FileLists");
-
-                JsonChoiceList();
-                SqlChoiceList();
-                LoadLandBlockJSONChoiceList();
-                LoadLandBlockSQLChoiceList();
-
-
-                // Util.WriteToChat("Text= " + ((HudStaticText)ChoiceSQL[ChoiceSQL.Current]).Text);
-            }
-            catch (Exception ex) { Util.LogError(ex); }
-        }
-        public void ButtonSavePaths_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                Util.WriteToChat("Writing Ini File");
-                Util.SaveIni(TextBoxPathJSON.Text, TextBoxPathSQL.Text, TextboxPathLandBlockJSON.Text, TextboxPathLandBlockSQL.Text);
-            }
-            catch (Exception ex) { Util.LogError(ex); }
-        }
-        public void ButtonLoadINI_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                LoadPathSettings();
-            }
-            catch (Exception ex) { Util.LogError(ex); }
-        }
-        public void ButtonOpenINI_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                string assemblyFolder = System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-                string filePath = System.IO.Path.Combine(assemblyFolder, "acecreator.ini");
-                System.Diagnostics.Process.Start(filePath);
-                Util.WriteToChat(filePath);
-
-            }
-            catch (Exception ex) { Util.LogError(ex); }
-        }
-        public void ButtonCreateWCID_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                Util.SendChatCommand(@"/create " + TextboxCreateWCID.Text);
-            }
-            catch (Exception ex) { Util.LogError(ex); }
-
-        }
-        public void ButtonCreateInvWCID_Click(object sender, EventArgs e)
-        {
-            try
-            {
-
-                Util.SendChatCommand(@"/ci " + TextboxCreateWCID.Text);
-            }
-            catch (Exception ex) { Util.LogError(ex); }
-
-        }
-        public void ButtonCreateInstantWCID_Click(object sender, EventArgs e)
-        {
-            try
-            {
-
-                Util.SendChatCommand(@"/createinst " + TextboxCreateWCID.Text);
-            }
-            catch (Exception ex) { Util.LogError(ex); }
-
-        }
-        public void ButtonExportJSON_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                Util.SendChatCommand(@"/export-json " + TextboxExportJsonWCID.Text);
-                JsonChoiceList();
-            }
-            catch (Exception ex) { Util.LogError(ex); }
-
-        }
-        public void ButtonExportSQL_Click(object sender, EventArgs e)
-        {
-            try
-            {
-
-                Util.SendChatCommand(@"/export-sql " + TextboxExportSQLWCID.Text);
-                SqlChoiceList();
-            }
-            catch (Exception ex) { Util.LogError(ex); }
-
-        }
-        public void ButtonGetInfo_Click(object sender, EventArgs e)
-        {
-            Globals.ButtonCommand = "GetInfo";
-            try
-            {
-                WO = CoreManager.Current.WorldFilter[CoreManager.Current.Actions.CurrentSelection];
-                aceItem.name = WO.Name;
-                aceItem.id = WO.Id;
-
-                Globals.Host.Actions.RequestId(Globals.Host.Actions.CurrentSelection);
-                CoreManager.Current.WorldFilter.ChangeObject += GetInfoWaitForItemUpdate;
-            }
-            catch (Exception ex) { Util.LogError(ex); }
-
-        }
-        public void ButtonDeleteItem_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                Globals.ButtonCommand = "/delete";
-                WO = CoreManager.Current.WorldFilter[CoreManager.Current.Actions.CurrentSelection];
-                aceItem.name = WO.Name;
-                aceItem.id = WO.Id;
-
-                Globals.Host.Actions.RequestId(Globals.Host.Actions.CurrentSelection);
-                CoreManager.Current.WorldFilter.ChangeObject += DeleteItemWaitForItemUpdate;
-            }
-            catch (Exception ex) { Util.LogError(ex); }
-
-        }
-        public void ButtonYotesWCIDLookUp_Click(object sender, EventArgs e)
-        {
-            Globals.ButtonCommand = "YotesLookup";
-            try
-            {
-                WO = CoreManager.Current.WorldFilter[CoreManager.Current.Actions.CurrentSelection];
-                aceItem.name = WO.Name;
-                aceItem.id = WO.Id;
-
-                Globals.Host.Actions.RequestId(Globals.Host.Actions.CurrentSelection);
-                CoreManager.Current.WorldFilter.ChangeObject += GetInfoWaitForItemUpdate;
-                Util.WriteToChat(Globals.YotesWCID);
-
-            }
-            catch (Exception ex) { Util.LogError(ex); }
-
-        }
-        public void ButtonOpenJSON_Click(object sender, EventArgs e)
-        {
-            
-            try
-            {
-                System.Diagnostics.Process.Start(Globals.PathJSON + @"\" + ((HudStaticText)ChoiceJSON[ChoiceJSON.Current]).Text);
-            }
-            catch (Exception ex) { Util.LogError(ex); }
-
-        }
-        public void ButtonOpenSQL_Click(object sender, EventArgs e)
-        {
-
-            try
-            {
-                System.Diagnostics.Process.Start(Globals.PathSQL + @"\" + ((HudStaticText)ChoiceSQL[ChoiceSQL.Current]).Text);
-            }
-            catch (Exception ex) { Util.LogError(ex); }
-
-        }
-        public void ButtonRemoveInstace_Click(object sender, EventArgs e)
-        {
-
-            try
-            {
-                Globals.ButtonCommand = "/removeinst";
-
-                WO = CoreManager.Current.WorldFilter[CoreManager.Current.Actions.CurrentSelection];
-                aceItem.name = WO.Name;
-                aceItem.id = WO.Id;
-
-                Globals.Host.Actions.RequestId(Globals.Host.Actions.CurrentSelection);
-                CoreManager.Current.WorldFilter.ChangeObject += DeleteItemWaitForItemUpdate;
-            }
-            catch (Exception ex) { Util.LogError(ex); }
-
-        }
-        public void ButtonMyLocation_Click(object sender, EventArgs e)
-        {
-
-            try
-            {
-                Util.SendChatCommand("/loc");
-                // LabelCurrentLandblock = (HudStaticText)view["LabelCurrentLandblock"];
-                // var myLandCell = CoreManager.Current.Actions.Landcell;
-                // LabelCurrentLandblock.Text = CoreManager.Current.Actions.Landcell.ToString("X");
-            }
-            catch (Exception ex) { Util.LogError(ex); }
-
-        }
-        public void ButtonPCAPSWCIDLookUp_Click(object sender, EventArgs e)
-        {
-            Globals.ButtonCommand = "PCAPsLookup";
-            try
-            {
-                
-                WO = CoreManager.Current.WorldFilter[CoreManager.Current.Actions.CurrentSelection];
-                aceItem.name = WO.Name;
-                aceItem.id = WO.Id;
-
-                Globals.Host.Actions.RequestId(Globals.Host.Actions.CurrentSelection);
-                CoreManager.Current.WorldFilter.ChangeObject += GetInfoWaitForItemUpdate;
-                // https://github.com/ACEmulator/ACE-PCAP-Exports/search?q=filename:
-            }
-            catch (Exception ex) { Util.LogError(ex); }
-
-        }
-        public void ButtonImportLandblockJSON_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                // string tsplit = ((HudStaticText)ChoiceLandblockJSON[ChoiceLandblockJSON.Current]).Text;
-                string wcid = ((HudStaticText)ChoiceLandblockJSON[ChoiceLandblockJSON.Current]).Text.Replace(".json","");
-                // TextboxCreateWCID = (HudTextBox)view["TextboxCreateWCID"];
-                Util.SendChatCommand(@"/import-json " + wcid + " landblock");
-                // Util.WriteToChat("Imported JSON= " + ((HudStaticText)ChoiceJSON[ChoiceJSON.Current]).Text);                
-                // TextboxCreateWCID.Text = tsplit.Split(' ')[0];
-            }
-            catch (Exception ex) { Util.LogError(ex); }
-        }
-
-        public void ButtonImportLandblockSQL_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                // string tsplit = ((HudStaticText)ChoiceLandblockSQL[ChoiceLandblockSQL.Current]).Text;
-                string wcid = ((HudStaticText)ChoiceLandblockSQL[ChoiceLandblockSQL.Current]).Text.Replace(".sql", "");
-                //TextboxCreateWCID = (HudTextBox)view["TextboxCreateWCID"];
-                Util.SendChatCommand(@"/import-sql " + wcid + " landblock");
-                // Util.WriteToChat("Imported JSON= " + ((HudStaticText)ChoiceJSON[ChoiceJSON.Current]).Text);                
-                // TextboxCreateWCID.Text = tsplit.Split(' ')[0];
-            }
-            catch (Exception ex) { Util.LogError(ex); }
-        }
-
-        public void ButtonEditLandblockJSON_Click(object sender, EventArgs e)
-        {
-
-            try
-            {
-                System.Diagnostics.Process.Start(Globals.PathLandBlockJSON + @"\" + ((HudStaticText)ChoiceLandblockJSON[ChoiceLandblockJSON.Current]).Text);
-            }
-            catch (Exception ex) { Util.LogError(ex); }
-
-        }
-        public void ButtonEditLandblockSQL_Click(object sender, EventArgs e)
-        {
-
-            try
-            {
-                System.Diagnostics.Process.Start(Globals.PathLandBlockSQL + @"\" + ((HudStaticText)ChoiceLandblockSQL[ChoiceLandblockSQL.Current]).Text);
-            }
-            catch (Exception ex) { Util.LogError(ex); }
-
-        }
-
-        public void ButtonReloadLandblock_Click(object sender, EventArgs e)
-        {
-
-            try
-            {
-                Util.SendChatCommand("/reload-landblock");
-            }
-            catch (Exception ex) { Util.LogError(ex); }
-
-        }
-        public void ButtonClearCache_Click(object sender, EventArgs e)
-        {
-
-            try
-            {
-                Util.SendChatCommand("/clearcache");
-            }
-            catch (Exception ex) { Util.LogError(ex); }
-
-        }
-
-
-
-        // Methods
-        private void GetInfoWaitForItemUpdate(object sender, ChangeObjectEventArgs e)
-        {
-            try
-            {
-                if (e.Changed.Id == aceItem.id)
-                {
-
-                    Util.SendChatCommand("/getinfo");
-                    CoreManager.Current.WorldFilter.ChangeObject -= GetInfoWaitForItemUpdate;
-                }
-            }
-            catch (Exception ex) { Util.LogError(ex); }
-        }
-        private void DeleteItemWaitForItemUpdate(object sender, ChangeObjectEventArgs e)
-        {
-            try
-            {
-                if (e.Changed.Id == aceItem.id)
-                {
-                    Util.SendChatCommand(Globals.ButtonCommand);
-                    CoreManager.Current.WorldFilter.ChangeObject -= DeleteItemWaitForItemUpdate;
-                    Globals.ButtonCommand = "NONE";
-                }
-            }
-            catch (Exception ex) { Util.LogError(ex); }
-        }
-        private void LookupYotesWaitForItemUpdate(object sender, ChangeObjectEventArgs e)
-        {
-            try
-            {
-                if (e.Changed.Id == aceItem.id)
-                {
-                    CoreManager.Current.WorldFilter.ChangeObject -= LookupYotesWaitForItemUpdate;                 
-                }
-            }
-            catch (Exception ex) { Util.LogError(ex); }
         }
     }
 }
