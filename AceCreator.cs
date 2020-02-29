@@ -53,8 +53,8 @@ namespace AceCreator
                 LoadPathSettings();
                 JsonChoiceListLoadFiles();
                 SqlChoiceListLoadFiles();
-                LoadLandBlockJSONChoiceList();
-                LoadLandBlockSQLChoiceList();
+                RefreshAllLists();
+
                 //Initialize the view.
                 // MVWireupHelper.WireupStart(this, Host);
 
@@ -180,12 +180,46 @@ namespace AceCreator
             ButtonClearCache = view != null ? (HudButton)view["ButtonClearCache"] : new HudButton();
             ButtonClearCache.Hit += new EventHandler(ButtonClearCache_Click);
 
+
+            // ***** Quests/Recipes Tab *****
+            ChoiceQuestJSON = (HudCombo)view["ChoiceQuestJSON"];
+            ButtonImportQuestJSON = view != null ? (HudButton)view["ButtonImportQuestJSON"] : new HudButton();
+            ButtonImportQuestJSON.Hit += new EventHandler(ButtonImportQuestJSON_Click);
+            ButtonEditQuestJSON = view != null ? (HudButton)view["ButtonEditQuestJSON"] : new HudButton();
+            ButtonEditQuestJSON.Hit += new EventHandler(ButtonEditQuestJSON_Click);
+
+            ChoiceQuestSQL = (HudCombo)view["ChoiceQuestSQL"];
+            ButtonImportQuestSQL = view != null ? (HudButton)view["ButtonImportQuestSQL"] : new HudButton();
+            ButtonImportQuestSQL.Hit += new EventHandler(ButtonImportQuestSQL_Click);
+            ButtonEditQuestSQL = view != null ? (HudButton)view["ButtonEditQuestSQL"] : new HudButton();
+            ButtonEditQuestSQL.Hit += new EventHandler(ButtonEditQuestSQL_Click);
+
+            ChoiceRecipeJSON = (HudCombo)view["ChoiceRecipeJSON"];
+            ButtonImportRecipeJSON = view != null ? (HudButton)view["ButtonImportRecipeJSON"] : new HudButton();
+            ButtonImportRecipeJSON.Hit += new EventHandler(ButtonImportRecipeJSON_Click);
+            ButtonEditRecipeJSON = view != null ? (HudButton)view["ButtonEditRecipeJSON"] : new HudButton();
+            ButtonEditRecipeJSON.Hit += new EventHandler(ButtonEditRecipeJSON_Click);
+
+            ChoiceRecipeSQL = (HudCombo)view["ChoiceRecipeSQL"];
+            ButtonImportRecipeSQL = view != null ? (HudButton)view["ButtonImportRecipeSQL"] : new HudButton();
+            ButtonImportRecipeSQL.Hit += new EventHandler(ButtonImportRecipeSQL_Click);
+            ButtonEditRecipeSQL = view != null ? (HudButton)view["ButtonEditRecipeSQL"] : new HudButton();
+            ButtonEditRecipeSQL.Hit += new EventHandler(ButtonEditRecipeSQL_Click);
+
+
             // ***** Paths Tab *****
             TextBoxPathJSON = (HudTextBox)view["TextboxPathJSON"];
             TextBoxPathSQL = (HudTextBox)view["TextboxPathSQL"];
             TextboxPathLandBlockJSON = (HudTextBox)view["TextboxPathLandBlockJSON"];
             TextboxPathLandBlockSQL = (HudTextBox)view["TextboxPathLandBlockSQL"];
-          
+
+            TextboxPathQuestJSON = (HudTextBox)view["TextboxPathQuestJSON"];
+            TextboxPathQuestSQL = (HudTextBox)view["TextboxPathQuestSQL"];
+
+            TextboxPathRecipeJSON = (HudTextBox)view["TextboxPathRecipeJSON"];
+            TextboxPathRecipeSQL = (HudTextBox)view["TextboxPathRecipeSQL"];
+
+
             ButtonSavePaths = view != null ? (HudButton)view["ButtonSavePaths"] : new HudButton();
             ButtonSavePaths.Hit += new EventHandler(ButtonSavePaths_Click);
 
@@ -194,6 +228,10 @@ namespace AceCreator
 
             ButtonOpenINI = view != null ? (HudButton)view["ButtonOpenINI"] : new HudButton();
             ButtonOpenINI.Hit += new EventHandler(ButtonOpenINI_Click);
+
+            ButtonACCWiki = view != null ? (HudButton)view["ButtonACCWiki"] : new HudButton();
+            ButtonACCWiki.Hit += new EventHandler(ButtonACCWiki_Click);
+
             
         }
 
@@ -342,7 +380,6 @@ namespace AceCreator
                 Globals.PathJSON = pathsettings["weenie_jsonpath"];
                 Util.WriteToChat(pathsettings["weenie_jsonpath"]);
             }
-
             if (pathsettings.ContainsKey("weenie_sqlpath")) // && pathsettings["sqlpath"] != "")
             {
                 TextBoxPathSQL.Text = pathsettings["weenie_sqlpath"];
@@ -361,11 +398,37 @@ namespace AceCreator
                 Globals.PathLandBlockSQL = pathsettings["landblock_sqlpath"];
                 Util.WriteToChat(pathsettings["landblock_sqlpath"]);
             }
+            if (pathsettings.ContainsKey("quest_jsonpath")) 
+            {
+                TextboxPathQuestJSON.Text = pathsettings["quest_jsonpath"];
+                Globals.PathQuestJSON = pathsettings["quest_jsonpath"];
+                Util.WriteToChat(pathsettings["quest_jsonpath"]);
+            }
+            if (pathsettings.ContainsKey("quest_sqlpath")) 
+            {
+                TextboxPathQuestSQL.Text = pathsettings["quest_sqlpath"];
+                Globals.PathQuestSQL = pathsettings["quest_sqlpath"];
+                Util.WriteToChat(pathsettings["quest_sqlpath"]);
+            }
 
+            if (pathsettings.ContainsKey("recipe_jsonpath")) 
+            {
+                TextboxPathRecipeJSON.Text = pathsettings["recipe_jsonpath"];
+                Globals.PathRecipeJSON = pathsettings["recipe_jsonpath"];
+                Util.WriteToChat(pathsettings["recipe_jsonpath"]);
+            }
+            if (pathsettings.ContainsKey("recipe_sqlpath")) 
+            {
+                TextboxPathRecipeSQL.Text = pathsettings["recipe_sqlpath"];
+                Globals.PathRecipeSQL = pathsettings["recipe_sqlpath"];
+                Util.WriteToChat(pathsettings["recipe_sqlpath"]);
+            }
+            RefreshAllLists();
         }
         private void SavePathSettings(object sender, EventArgs e)
         {
-            Util.SaveIni(TextBoxPathJSON.Text, TextBoxPathSQL.Text, TextboxPathLandBlockJSON.Text, TextboxPathLandBlockSQL.Text);
+            Util.SaveIni(TextBoxPathJSON.Text, TextBoxPathSQL.Text, TextboxPathLandBlockJSON.Text, TextboxPathLandBlockSQL.Text,
+                         TextboxPathQuestJSON.Text, TextboxPathQuestSQL.Text, TextboxPathRecipeJSON.Text, TextboxPathRecipeSQL.Text);
         }
          private void GetInfoWaitForItemUpdate(object sender, ChangeObjectEventArgs e)
         {
@@ -447,6 +510,109 @@ namespace AceCreator
                 ChoiceLandblockSQL.AddItem(file.Name, file);
 
             }
+        }
+
+
+
+        private void LoadQuestJSONChoiceList()
+        {
+
+            if (Globals.PathQuestJSON == "")
+            {
+                Util.WriteToChat("JSON Quest Path blank, Ignoring");
+                return;
+            }
+            ChoiceQuestJSON = (HudCombo)view["ChoiceQuestJSON"];
+            Util.WriteToChat(Globals.PathQuestJSON);
+            ChoiceQuestJSON.Clear();
+            string filespath = Globals.PathQuestJSON;
+            DirectoryInfo d = new DirectoryInfo(filespath);
+            FileInfo[] files = d.GetFiles("*.json");
+
+            foreach (var file in files)
+            {
+                // Util.WriteToChat(file.Name);
+                ChoiceQuestJSON.AddItem(file.Name, file);
+
+            }
+        }
+        private void LoadQuestSQLChoiceList()
+        {
+
+            if (Globals.PathQuestSQL == "")
+            {
+                Util.WriteToChat("SQL Quest Path blank, Ignoring");
+                return;
+            }
+            ChoiceQuestSQL = (HudCombo)view["ChoiceQuestSQL"];
+            Util.WriteToChat(Globals.PathQuestSQL);
+            ChoiceQuestSQL.Clear();
+            string filespath = Globals.PathQuestSQL;
+            DirectoryInfo d = new DirectoryInfo(filespath);
+            FileInfo[] files = d.GetFiles("*.sql");
+
+            foreach (var file in files)
+            {
+                // Util.WriteToChat(file.Name);
+                ChoiceQuestSQL.AddItem(file.Name, file);
+
+            }
+        }
+
+
+
+        private void LoadRecipeJSONChoiceList()
+        {
+
+            if (Globals.PathRecipeJSON == "")
+            {
+                Util.WriteToChat("JSON Recipe Path blank, Ignoring");
+                return;
+            }
+            ChoiceRecipeJSON = (HudCombo)view["ChoiceRecipeJSON"];
+            Util.WriteToChat(Globals.PathRecipeJSON);
+            ChoiceRecipeJSON.Clear();
+            string filespath = Globals.PathRecipeJSON;
+            DirectoryInfo d = new DirectoryInfo(filespath);
+            FileInfo[] files = d.GetFiles("*.json");
+
+            foreach (var file in files)
+            {
+                // Util.WriteToChat(file.Name);
+                ChoiceRecipeJSON.AddItem(file.Name, file);
+
+            }
+        }
+        private void LoadRecipeSQLChoiceList()
+        {
+
+            if (Globals.PathRecipeSQL == "")
+            {
+                Util.WriteToChat("SQL Recipe Path blank, Ignoring");
+                return;
+            }
+            ChoiceRecipeSQL = (HudCombo)view["ChoiceRecipeSQL"];
+            Util.WriteToChat(Globals.PathRecipeSQL);
+            ChoiceRecipeSQL.Clear();
+            string filespath = Globals.PathRecipeSQL;
+            DirectoryInfo d = new DirectoryInfo(filespath);
+            FileInfo[] files = d.GetFiles("*.sql");
+
+            foreach (var file in files)
+            {
+                // Util.WriteToChat(file.Name);
+                ChoiceRecipeSQL.AddItem(file.Name, file);
+
+            }
+        }
+        private void RefreshAllLists()
+        {
+            LoadLandBlockJSONChoiceList();
+            LoadLandBlockSQLChoiceList();
+            LoadQuestJSONChoiceList();
+            LoadQuestSQLChoiceList();
+            LoadRecipeJSONChoiceList();
+            LoadRecipeSQLChoiceList();
         }
     }
 }

@@ -68,7 +68,8 @@ namespace AceCreator
             catch (Exception ex) { LogError(ex); }
         }
 
-        public static void SaveIni(string weenie_jsonpath, string weenie_sqlpath, string landblock_jsonpath, string landblock_sqlpath)
+        public static void SaveIni(string weenie_jsonpath, string weenie_sqlpath, string landblock_jsonpath, string landblock_sqlpath,
+                                   string quest_jsonpath, string quest_sqlpath, string recipe_jsonpath, string recipe_sqlpath)
         {
             try
             {
@@ -84,7 +85,12 @@ namespace AceCreator
                         writer.WriteLine("weenie_jsonpath=");
                         writer.WriteLine("weenie_sqlpath=");
                         writer.WriteLine("landblock_jsonpath=");
-                        writer.WriteLine("landblock_weeniesqlpath=");
+                        writer.WriteLine("landblock_sqlpath=");
+
+                        writer.WriteLine("quest_jsonpath=");
+                        writer.WriteLine("quest_sqlpath=");
+                        writer.WriteLine("recipe_jsonpath=");
+                        writer.WriteLine("recipe_sqlpath=");
                         writer.Close();
                     }
                 }
@@ -97,6 +103,12 @@ namespace AceCreator
                     writer.WriteLine("weenie_sqlpath=" + weenie_sqlpath);
                     writer.WriteLine("landblock_jsonpath=" + landblock_jsonpath);
                     writer.WriteLine("landblock_sqlpath=" + landblock_sqlpath);
+
+                    writer.WriteLine("quest_jsonpath=" + quest_jsonpath);
+                    writer.WriteLine("quest_sqlpath=" + quest_sqlpath);
+                    writer.WriteLine("recipe_jsonpath=" + recipe_jsonpath);
+                    writer.WriteLine("recipe_sqlpath=" + recipe_sqlpath);
+
                     writer.Close();
                     WriteToChat("Path Settings Saved to acecreator.ini");
                 }
@@ -114,7 +126,7 @@ namespace AceCreator
             Dictionary<string, string> temp = new Dictionary<string, string>();
 
             if (!File.Exists(filePath))
-                SaveIni("", "","","");
+                SaveIni("", "","","","", "", "" ,"");
 
             foreach (string line in File.ReadAllLines(filePath))
             {

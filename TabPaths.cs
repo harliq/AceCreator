@@ -18,9 +18,20 @@ namespace AceCreator
         public HudTextBox TextBoxPathSQL { get; set; }
         public HudTextBox TextboxPathLandBlockJSON { get; set; }
         public HudTextBox TextboxPathLandBlockSQL { get; set; }
+
+        public HudTextBox TextboxPathQuestJSON { get; set; }
+        public HudTextBox TextboxPathQuestSQL { get; set; }
+
+        public HudTextBox TextboxPathRecipeJSON { get; set; }
+        public HudTextBox TextboxPathRecipeSQL { get; set; }
+
+
         public HudButton ButtonSavePaths { get; set; }
         public HudButton ButtonLoadINI { get; set; }
         public HudButton ButtonOpenINI { get; set; }
+        public HudButton ButtonACCWiki { get; set; }
+
+        
 
         // Button Events
         public void ButtonSavePaths_Click(object sender, EventArgs e)
@@ -28,7 +39,8 @@ namespace AceCreator
             try
             {
                 Util.WriteToChat("Writing Ini File");
-                Util.SaveIni(TextBoxPathJSON.Text, TextBoxPathSQL.Text, TextboxPathLandBlockJSON.Text, TextboxPathLandBlockSQL.Text);
+                Util.SaveIni(TextBoxPathJSON.Text, TextBoxPathSQL.Text, TextboxPathLandBlockJSON.Text, TextboxPathLandBlockSQL.Text,
+             TextboxPathQuestJSON.Text, TextboxPathQuestSQL.Text, TextboxPathRecipeJSON.Text, TextboxPathRecipeSQL.Text);
             }
             catch (Exception ex) { Util.LogError(ex); }
         }
@@ -52,6 +64,18 @@ namespace AceCreator
             }
             catch (Exception ex) { Util.LogError(ex); }
         }
+
+        public void ButtonACCWiki_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                System.Diagnostics.Process.Start("https://github.com/harliq/AceCreator/wiki");
+
+            }
+            catch (Exception ex) { Util.LogError(ex); }
+        }
+
+        
 
     }
 }
