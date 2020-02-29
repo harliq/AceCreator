@@ -252,12 +252,7 @@ namespace AceCreator
             try
             {
                 Util.WriteToChat("Reloading FileLists");
-
-                JsonChoiceListLoadFiles();
-                SqlChoiceListLoadFiles();
-                LoadLandBlockJSONChoiceList();
-                LoadLandBlockSQLChoiceList();
-
+                RefreshAllLists();
 
                 // Util.WriteToChat("Text= " + ((HudStaticText)ChoiceSQL[ChoiceSQL.Current]).Text);
             }
