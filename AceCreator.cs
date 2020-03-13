@@ -51,8 +51,8 @@ namespace AceCreator
                 Globals.Init("AceCreator", Host, Core);
                 LoadWindow();
                 LoadPathSettings();
-                JsonChoiceListLoadFiles();
-                SqlChoiceListLoadFiles();
+                //JsonChoiceListLoadFiles();
+                //SqlChoiceListLoadFiles();
                 RefreshAllLists();
 
                 //Initialize the view.
@@ -607,6 +607,8 @@ namespace AceCreator
         }
         private void RefreshAllLists()
         {
+            JsonChoiceListLoadFiles();
+            SqlChoiceListLoadFiles();
             LoadLandBlockJSONChoiceList();
             LoadLandBlockSQLChoiceList();
             LoadQuestJSONChoiceList();
