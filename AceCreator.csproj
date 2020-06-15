@@ -51,6 +51,7 @@
     <Compile Include="Lib\DecalProxy.cs" />
     <Compile Include="PluginCore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TabNudge.cs" />
     <Compile Include="TabPaths.cs" />
     <Compile Include="TabQuestRecipes.cs" />
     <Compile Include="Util.cs" />

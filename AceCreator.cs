@@ -155,7 +155,6 @@ namespace AceCreator
             ButtonGetInfo.Hit += new EventHandler(ButtonGetInfo_Click);
 
             // ***** LandBlocks Tab *****
-
             ChoiceLandblockJSON = (HudCombo)view["ChoiceLandblockJSON"];
             //ChoiceLandblockJSON.Change += new EventHandler(ChoiceLandblockJSON_Change);
 
