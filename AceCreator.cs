@@ -154,6 +154,58 @@ namespace AceCreator
             ButtonGetInfo = view != null ? (HudButton)view["ButtonGetInfo"] : new HudButton();
             ButtonGetInfo.Hit += new EventHandler(ButtonGetInfo_Click);
 
+            // ***** Nudge Tab *****
+            ButtonNudgeN = view != null ? (HudButton)view["ButtonNudgeN"] : new HudButton();
+            ButtonNudgeN.Hit += new EventHandler(ButtonNudgeN_Click);
+
+            ButtonNudgeNE = view != null ? (HudButton)view["ButtonNudgeE"] : new HudButton();
+            ButtonNudgeNE.Hit += new EventHandler(ButtonNudgeNE_Click);
+
+            ButtonNudgeE = view != null ? (HudButton)view["ButtonNudgeE"] : new HudButton();
+            ButtonNudgeE.Hit += new EventHandler(ButtonNudgeE_Click);
+
+            ButtonNudgeSE = view != null ? (HudButton)view["ButtonNudgeSE"] : new HudButton();
+            ButtonNudgeSE.Hit += new EventHandler(ButtonNudgeSE_Click);
+
+            ButtonNudgeS = view != null ? (HudButton)view["ButtonNudgeS"] : new HudButton();
+            ButtonNudgeS.Hit += new EventHandler(ButtonNudgeS_Click);
+
+            ButtonNudgeSW = view != null ? (HudButton)view["ButtonNudgeSW"] : new HudButton();
+            ButtonNudgeSW.Hit += new EventHandler(ButtonNudgeSW_Click);
+
+            ButtonNudgeW = view != null ? (HudButton)view["ButtonNudgeW"] : new HudButton();
+            ButtonNudgeW.Hit += new EventHandler(ButtonNudgeW_Click);
+
+            ButtonNudgeNW = view != null ? (HudButton)view["ButtonNudgeNW"] : new HudButton();
+            ButtonNudgeNW.Hit += new EventHandler(ButtonNudgeNW_Click);
+
+            ButtonNudgeUp = view != null ? (HudButton)view["ButtonNudgeUp"] : new HudButton();
+            ButtonNudgeUp.Hit += new EventHandler(ButtonNudgeUp_Click);
+
+            ButtonNudgeDown = view != null ? (HudButton)view["ButtonNudgeDown"] : new HudButton();
+            ButtonNudgeDown.Hit += new EventHandler(ButtonNudgeDown_Click);
+
+
+            TextboxNudgeValueCustom = (HudTextBox)view["TextboxNudgeValueCustom"];
+
+            ButtonRotateN = view != null ? (HudButton)view["ButtonRotateN"] : new HudButton();
+            ButtonRotateN.Hit += new EventHandler(ButtonRotateN_Click);
+
+            ButtonRotateE = view != null ? (HudButton)view["ButtonRotateE"] : new HudButton();
+            ButtonRotateE.Hit += new EventHandler(ButtonRotateE_Click);
+
+            ButtonRotateS = view != null ? (HudButton)view["ButtonRotateS"] : new HudButton();
+            ButtonRotateS.Hit += new EventHandler(ButtonRotateS_Click);
+
+            ButtonRotateW = view != null ? (HudButton)view["ButtonRotateW"] : new HudButton();
+            ButtonRotateW.Hit += new EventHandler(ButtonRotateW_Click);
+
+            ButtonFreeRotate = view != null ? (HudButton)view["ButtonFreeRotate"] : new HudButton();
+            ButtonFreeRotate.Hit += new EventHandler(ButtonFreeRotate_Click);
+
+            TextboxFreeRotate = (HudTextBox)view["TextboxFreeRotate"];
+
+
             // ***** LandBlocks Tab *****
             ChoiceLandblockJSON = (HudCombo)view["ChoiceLandblockJSON"];
             //ChoiceLandblockJSON.Change += new EventHandler(ChoiceLandblockJSON_Change);
@@ -450,6 +502,19 @@ namespace AceCreator
                 {
                     Util.SendChatCommand(Globals.ButtonCommand);
                     CoreManager.Current.WorldFilter.ChangeObject -= DeleteItemWaitForItemUpdate;
+                    Globals.ButtonCommand = "NONE";
+                }
+            }
+            catch (Exception ex) { Util.LogError(ex); }
+        }
+        private void WaitForItemUpdate(object sender, ChangeObjectEventArgs e)
+        {
+            try
+            {
+                if (e.Changed.Id == aceItem.id)
+                {
+                    Util.SendChatCommand(Globals.ButtonCommand);
+                    CoreManager.Current.WorldFilter.ChangeObject -= WaitForItemUpdate;
                     Globals.ButtonCommand = "NONE";
                 }
             }
