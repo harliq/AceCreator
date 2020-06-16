@@ -115,19 +115,34 @@
 
       <page label="Advanced">
         <control progid="DecalControls.FixedLayout" clipped="">
-          <control progid="DecalControls.StaticText" name="LabelWarning" left="140" top="5" width="90" height="15" text="WARNING!"/>
-          <control progid="DecalControls.StaticText" name="LabelWarningTwo" left="60" top="25" width="240" height="50" text="Do NOT use the following commands unless you know what your are doing!"/>
-
-          <control progid="DecalControls.StaticText" name="LabelParentChild" left="10" top="200" width="150" height="15" text="Parent/Child Linking"/>
-          <control progid="DecalControls.PushButton" name="ButtonGetParentGUID" left="10" top="225" width="165" height="25" text="Get Parent GUID"/>
+          <control progid="DecalControls.StaticText" name="LabelWarning" left="50" top="5" width="260" height="15" color="#FF0000" text="WARNING! - Use the following at your own risk!"/>
           
-          <control progid="DecalControls.StaticText" name="LabelParentGUID" left="10" top="265" width="100" height="15" text="Parent GUID:"/>
-          <control progid="DecalControls.Edit" name="TextboxParentGUID" left="120" top="260" width="100" height="20" imageportalsrc="4726" text=""/>
 
-          <control progid="DecalControls.StaticText" name="LabelChildWCID" left="10" top="290" width="100" height="15" text="Child WCID:"/>
-          <control progid="DecalControls.Edit" name="TextboxChildWCID" left="120" top="285" width="100" height="20" imageportalsrc="4726" text=""/>
+          <control progid="DecalControls.StaticText" name="LabelGenerator" left="10" top="30" width="256" height="15" text="Select a Parent object to create an Instance of:"/>
+          <control progid="DecalControls.Choice" name="ChoiceGenerator" left="10" top="50" width="340" height="20"/>
 
-          <control progid="DecalControls.PushButton" name="ButtonLinkChild" left="10" top="320" width="165" height="25" text="Link Child WCID to Parent"/>
+          <control progid="DecalControls.StaticText" name="LabelParentWCID" left="10" top="85" width="100" height="15" text="Parent WCID:"/>
+          <control progid="DecalControls.Edit" name="TextboxGeneratorWCID" left="90" top="80" width="80" height="20" imageportalsrc="4726" text=""/>
+          
+          
+          <control progid="DecalControls.PushButton" name="ButtonCreateGenerator" left="10" top="110" width="105" height="20" text="Create Instance"/>
+          <control progid="DecalControls.PushButton" name="ButtonEditGeneratorList" left="125" top="110" width="105" height="20" text="Edit Dropdown List"/>
+          <control progid="DecalControls.PushButton" name="ButtonRefreshGeneratorList" left="240" top="110" width="110" height="20" text="Refresh List"/>
+          
+          <control progid="DecalControls.StaticText" name="LabelParentChild" left="120" top="145" width="150" height="15" text="Parent/Child Linking"/>
+          
+          
+          
+          
+          <control progid="DecalControls.StaticText" name="LabelParentGUID" left="10" top="170" width="100" height="15" text="Parent GUID:"/>
+          <control progid="DecalControls.Edit" name="TextboxParentGUID" left="90" top="165" width="80" height="20" imageportalsrc="4726" text=""/>
+          <control progid="DecalControls.PushButton" name="ButtonGetParentGUID" left="180" top="165" width="160" height="20" text="Get Parent GUID"/>
+          
+          <control progid="DecalControls.StaticText" name="LabelChildWCID" left="10" top="200" width="100" height="15" text="Child WCID:"/>
+          <control progid="DecalControls.Edit" name="TextboxChildWCID" left="90" top="195" width="80" height="20" imageportalsrc="4726" text=""/>
+          <control progid="DecalControls.Choice" name="ChoiceChildList" left="180" top="197" width="160" height="20"/>
+          
+          <control progid="DecalControls.PushButton" name="ButtonLinkChild" left="10" top="225" width="340" height="25" text="Link Child WCID to Parent"/>
           
         </control>
       </page>

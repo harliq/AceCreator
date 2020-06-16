@@ -54,7 +54,7 @@ namespace AceCreator
                 //JsonChoiceListLoadFiles();
                 //SqlChoiceListLoadFiles();
                 RefreshAllLists();
-
+                LoadParentObjectsFile();
                 //Initialize the view.
                 // MVWireupHelper.WireupStart(this, Host);
 
@@ -158,7 +158,7 @@ namespace AceCreator
             ButtonNudgeN = view != null ? (HudButton)view["ButtonNudgeN"] : new HudButton();
             ButtonNudgeN.Hit += new EventHandler(ButtonNudgeN_Click);
 
-            ButtonNudgeNE = view != null ? (HudButton)view["ButtonNudgeE"] : new HudButton();
+            ButtonNudgeNE = view != null ? (HudButton)view["ButtonNudgeNE"] : new HudButton();
             ButtonNudgeNE.Hit += new EventHandler(ButtonNudgeNE_Click);
 
             ButtonNudgeE = view != null ? (HudButton)view["ButtonNudgeE"] : new HudButton();
@@ -271,6 +271,24 @@ namespace AceCreator
             // ***** Advanced Tab *****
 
 
+            ChoiceGenerator = (HudCombo)view["ChoiceGenerator"];
+            ChoiceGenerator.Change += new EventHandler(ChoiceGenerator_Change);
+
+            TextboxGeneratorWCID = (HudTextBox)view["TextboxGeneratorWCID"];
+            
+
+            ButtonCreateGenerator = view != null ? (HudButton)view["ButtonCreateGenerator"] : new HudButton();
+            ButtonCreateGenerator.Hit += new EventHandler(ButtonCreateGenerator_Click);
+
+            ButtonEditGeneratorList = view != null ? (HudButton)view["ButtonEditGeneratorList"] : new HudButton();
+            ButtonEditGeneratorList.Hit += new EventHandler(ButtonEditGeneratorList_Click);
+
+            ButtonRefreshGeneratorList = view != null ? (HudButton)view["ButtonRefreshGeneratorList"] : new HudButton();
+            ButtonRefreshGeneratorList.Hit += new EventHandler(ButtonRefreshGeneratorList_Click);
+
+            ChoiceChildList = (HudCombo)view["ChoiceChildList"];
+            ChoiceChildList.Change += new EventHandler(ChoiceChildList_Change);
+
             ButtonGetParentGUID = view != null ? (HudButton)view["ButtonGetParentGUID"] : new HudButton();
             ButtonGetParentGUID.Hit += new EventHandler(ButtonGetParentGUID_Click);
 
@@ -279,6 +297,10 @@ namespace AceCreator
 
             TextboxParentGUID = (HudTextBox)view["TextboxParentGUID"];
             TextboxChildWCID = (HudTextBox)view["TextboxChildWCID"];
+
+
+
+
 
             // ***** Paths Tab *****
             TextBoxPathJSON = (HudTextBox)view["TextboxPathJSON"];
@@ -305,7 +327,9 @@ namespace AceCreator
             ButtonACCWiki = view != null ? (HudButton)view["ButtonACCWiki"] : new HudButton();
             ButtonACCWiki.Hit += new EventHandler(ButtonACCWiki_Click);
 
-            
+            // Making some stuff not seen
+            ButtonYotesWCIDLookUp.Visible = false;
+
         }
 
         [BaseEvent("LoginComplete", "CharacterFilter")]
@@ -440,8 +464,12 @@ namespace AceCreator
         {
             Util.WriteToChat(Globals.PathSQL);
             ChoiceSQL = (HudCombo)view["ChoiceSQL"];
+            ChoiceChildList = (HudCombo)view["ChoiceChildList"];
+
             // ICombo addfile = JSONFileList.Add(File.AppendAllText)
             ChoiceSQL.Clear();
+            ChoiceChildList.Clear();
+
             string filespath = Globals.PathSQL;
             DirectoryInfo d = new DirectoryInfo(filespath);
             FileInfo[] files = d.GetFiles("*.sql");
@@ -450,6 +478,7 @@ namespace AceCreator
             {
                 // Util.WriteToChat(file.Name);
                 ChoiceSQL.AddItem(file.Name, file.Name);
+                ChoiceChildList.AddItem(file.Name, file.Name);
 
             }
         }        
@@ -715,6 +744,52 @@ namespace AceCreator
             LoadQuestSQLChoiceList();
             LoadRecipeJSONChoiceList();
             LoadRecipeSQLChoiceList();
+        }
+
+        public void LoadParentObjectsFile()
+        {
+            ChoiceGenerator = (HudCombo)view["ChoiceGenerator"];
+            ChoiceGenerator.Clear();
+            try
+            {
+                string assemblyFolder = System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+                string filePath = System.IO.Path.Combine(assemblyFolder, "parentobjects.ini");
+
+                if (!File.Exists(filePath))
+                {
+                    File.Create(filePath).Close();
+
+                    using (StreamWriter writer = new StreamWriter(filePath, false))
+                    {
+                        writer.WriteLine("1154 Linkable Monster Generator");
+                        writer.WriteLine("4219 Linkable Monster Generator ( 7 Min. )");
+                        writer.WriteLine("7923 Linkable Monster Generator ( 3 Min. )");
+                        writer.WriteLine("7924 Linkable Monster Generator ( 5 Min. )");
+
+                        writer.WriteLine("7925 Linkable Monster Generator ( 10 Min.)");
+                        writer.WriteLine("7926 Linkable Monster Generator ( 20 Min.)");
+                        writer.WriteLine("7932 Linkable Monster Generator ( 4 Min. )");
+                        writer.WriteLine("21120	Linkable Monster Generator");
+                        writer.WriteLine("24129	Linkable Monster Generator ( 2 Min.)");
+                        writer.Close();
+                    }
+                }
+
+                string[] lines = File.ReadAllLines(filePath);
+
+                foreach (string line in File.ReadAllLines(filePath))
+                {
+                    ChoiceGenerator.AddItem(line, line);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                                
+                Util.WriteToChat(ex.Message);
+
+            }
+            
         }
     }
 }
