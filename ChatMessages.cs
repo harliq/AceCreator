@@ -12,7 +12,7 @@ namespace AceCreator
         public static Collection<Regex> ExportFiles = new Collection<Regex>();
         public static Collection<Regex> MyLocations = new Collection<Regex>();
         public static Collection<Regex> MyLandblock = new Collection<Regex>();
-
+        public static Collection<Regex> ParentGUID = new Collection<Regex>();
 
         public ChatMessages()
         {
@@ -21,7 +21,7 @@ namespace AceCreator
             ExportFiles.Add(new Regex("^Exported.*"));
             MyLocations.Add(new Regex("^Your location is:.*"));
             MyLandblock.Add(new Regex("^CurrentLandblock:.*"));
-
+            ParentGUID.Add(new Regex("^GUID:.*"));
         }
         public static bool GetWeenieInfo(string text, out string wcid)
         {
@@ -72,7 +72,21 @@ namespace AceCreator
             landblock = "False";
             return false;
         }
+        public static bool GetParentGUID(string text, out string guid)
+        {
+            foreach (Regex regex in MyLandblock)
+            {
+                if (regex.IsMatch(text))
+                {
 
+                    guid = RegExGroup("^GUID: (.*)", text);
+                    return true;
+
+                }
+            }
+            guid = "False";
+            return false;
+        }
 
         public static string RegExGroup(string pattern, string text)
         {

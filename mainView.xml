@@ -115,7 +115,19 @@
 
       <page label="Advanced">
         <control progid="DecalControls.FixedLayout" clipped="">
-          <control progid="DecalControls.StaticText" name="LabelWarning" left="10" top="5" width="360" height="40" text="WARNING!  Do NOT use the following commands unless you know what your are doing!"/>
+          <control progid="DecalControls.StaticText" name="LabelWarning" left="140" top="5" width="90" height="15" text="WARNING!"/>
+          <control progid="DecalControls.StaticText" name="LabelWarningTwo" left="60" top="25" width="240" height="50" text="Do NOT use the following commands unless you know what your are doing!"/>
+
+          <control progid="DecalControls.StaticText" name="LabelParentChild" left="10" top="200" width="150" height="15" text="Parent/Child Linking"/>
+          <control progid="DecalControls.PushButton" name="ButtonGetParentGUID" left="10" top="225" width="165" height="25" text="Get Parent GUID"/>
+          
+          <control progid="DecalControls.StaticText" name="LabelParentGUID" left="10" top="265" width="100" height="15" text="Parent GUID:"/>
+          <control progid="DecalControls.Edit" name="TextboxParentGUID" left="120" top="260" width="100" height="20" imageportalsrc="4726" text=""/>
+
+          <control progid="DecalControls.StaticText" name="LabelChildWCID" left="10" top="290" width="100" height="15" text="Child WCID:"/>
+          <control progid="DecalControls.Edit" name="TextboxChildWCID" left="120" top="285" width="100" height="20" imageportalsrc="4726" text=""/>
+
+          <control progid="DecalControls.PushButton" name="ButtonLinkChild" left="10" top="225" width="165" height="25" text="Link Child WCID to Parent"/>
           
         </control>
       </page>

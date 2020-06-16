@@ -263,9 +263,22 @@ namespace AceCreator
             ChoiceRecipeSQL = (HudCombo)view["ChoiceRecipeSQL"];
             ButtonImportRecipeSQL = view != null ? (HudButton)view["ButtonImportRecipeSQL"] : new HudButton();
             ButtonImportRecipeSQL.Hit += new EventHandler(ButtonImportRecipeSQL_Click);
+
             ButtonEditRecipeSQL = view != null ? (HudButton)view["ButtonEditRecipeSQL"] : new HudButton();
             ButtonEditRecipeSQL.Hit += new EventHandler(ButtonEditRecipeSQL_Click);
 
+
+            // ***** Advanced Tab *****
+
+
+            ButtonGetParentGUID = view != null ? (HudButton)view["ButtonGetParentGUID"] : new HudButton();
+            ButtonGetParentGUID.Hit += new EventHandler(ButtonGetParentGUID_Click);
+
+            ButtonLinkChild = view != null ? (HudButton)view["ButtonLinkChild"] : new HudButton();
+            ButtonLinkChild.Hit += new EventHandler(ButtonLinkChild_Click);
+
+            TextboxParentGUID = (HudTextBox)view["TextboxParentGUID"];
+            TextboxChildWCID = (HudTextBox)view["TextboxChildWCID"];
 
             // ***** Paths Tab *****
             TextBoxPathJSON = (HudTextBox)view["TextboxPathJSON"];
@@ -392,6 +405,12 @@ namespace AceCreator
                     TextboxCurrentLandblock = (HudTextBox)view["TextboxCurrentLandblock"];
 
                     TextboxCurrentLandblock.Text = landblock;
+                }
+                if (ChatMessages.GetParentGUID(e.Text, out string guid))
+                {
+                    TextboxParentGUID = (HudTextBox)view["TextboxParentGUID"];
+
+                    TextboxParentGUID.Text = guid;
                 }
             }
             catch (Exception ex)

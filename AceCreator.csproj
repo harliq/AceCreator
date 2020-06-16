@@ -46,6 +46,7 @@
     <Compile Include="AceItem.cs" />
     <Compile Include="ChatMessages.cs" />
     <Compile Include="Globals.cs" />
+    <Compile Include="TabAdvanced.cs" />
     <Compile Include="TabContent.cs" />
     <Compile Include="TabLandBlock.cs" />
     <Compile Include="Lib\DecalProxy.cs" />
