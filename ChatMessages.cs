@@ -23,7 +23,7 @@ namespace AceCreator
             MyLandblock.Add(new Regex("^CurrentLandblock:.*"));
             ParentGUID.Add(new Regex("^GUID:.*"));
         }
-        public static bool GetWeenieInfo(string text, out string wcid)
+        public static bool GetWeenieInfo(string text, out string wcid, out string guid)
         {
             foreach (Regex regex in WeenieGetInfo)
             {
@@ -33,11 +33,13 @@ namespace AceCreator
                     // Util.WriteToChat("CapGroup1= " + RegExGroup(@"WeenieClassId: (.*)", text));
 
                     wcid = RegExGroup(@"WeenieClassId: (.*)", text);
+                    guid = RegExGroup("^GUID: (.*)", text);
                     return true;
 
                 }
             }
             wcid = "False";
+            guid = "False";
             return false;
         }
 

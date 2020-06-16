@@ -33,7 +33,7 @@ namespace AceCreator
         }
         public void ButtonLinkChild_Click(object sender, EventArgs e)
         {
-            Globals.ButtonCommand = "GetInfo";
+            
             try
             {
                 Util.SendChatCommand("/createinst -p " + TextboxParentGUID.Text +" -c " + TextboxChildWCID.Text);

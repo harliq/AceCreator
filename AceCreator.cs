@@ -361,15 +361,18 @@ namespace AceCreator
             try
             {
 
-                if (ChatMessages.GetWeenieInfo(e.Text, out string wcid))
+                if (ChatMessages.GetWeenieInfo(e.Text, out string wcid, out string guid))
                 {
                     TextboxExportJsonWCID = (HudTextBox)view["TextboxExportJsonWCID"];
                     TextboxExportSQLWCID = (HudTextBox)view["TextboxExportSQLWCID"];
+                    TextboxParentGUID = (HudTextBox)view["TextboxParentGUID"];                    
 
                     LabelGetInfo = (HudStaticText)view["LabelGetInfo"];
                     LabelGetInfo.Text = e.Text;
                     TextboxExportJsonWCID.Text = wcid;
                     TextboxExportSQLWCID.Text = wcid;
+                    TextboxParentGUID.Text = guid;
+
                     Globals.YotesWCID = wcid;
                     if (Globals.ButtonCommand == "YotesLookup")
                     {
@@ -406,12 +409,11 @@ namespace AceCreator
 
                     TextboxCurrentLandblock.Text = landblock;
                 }
-                if (ChatMessages.GetParentGUID(e.Text, out string guid))
-                {
-                    TextboxParentGUID = (HudTextBox)view["TextboxParentGUID"];
-
-                    TextboxParentGUID.Text = guid;
-                }
+                //if (ChatMessages.GetParentGUID(e.Text, out string guid))
+                //{
+                //    TextboxParentGUID = (HudTextBox)view["TextboxParentGUID"];
+                //    TextboxParentGUID.Text = guid;
+                //}
             }
             catch (Exception ex)
             {
