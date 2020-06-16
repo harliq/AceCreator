@@ -15,6 +15,7 @@ namespace AceCreator
         public HudButton ButtonCreateGenerator { get; set; }
         public HudButton ButtonEditGeneratorList { get; set; }
         public HudButton ButtonRefreshGeneratorList { get; set; }
+        public HudButton ButtonAdvancedRemoveInst { get; set; }
 
         public HudTextBox TextboxGeneratorWCID { get; set; }
 
@@ -81,7 +82,7 @@ namespace AceCreator
 
             try
             {
-                Util.SendChatCommand(@"/ci " + TextboxGeneratorWCID.Text);
+                Util.SendChatCommand("/createinst " + TextboxGeneratorWCID.Text);
             }
             catch (Exception ex) { Util.LogError(ex); }
         }

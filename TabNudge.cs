@@ -33,6 +33,12 @@ namespace AceCreator
         public HudButton ButtonRotateE { get; set; }
         public HudButton ButtonRotateS { get; set; }
         public HudButton ButtonRotateW { get; set; }
+
+        public HudButton ButtonRotateNE { get; set; }
+        public HudButton ButtonRotateSE { get; set; }
+        public HudButton ButtonRotateSW { get; set; }
+        public HudButton ButtonRotateNW { get; set; }
+
         public HudButton ButtonFreeRotate { get; set; }
 
         public HudTextBox TextboxFreeRotate { get; set; }
@@ -150,17 +156,13 @@ namespace AceCreator
             }
             catch (Exception ex) { Util.LogError(ex); }
         }
+        //Rotate
         public void ButtonRotateN_Click(object sender, EventArgs e)
         {
             try
             {
                 Globals.ButtonCommand = "/rotate n";
-                WO = CoreManager.Current.WorldFilter[CoreManager.Current.Actions.CurrentSelection];
-                aceItem.name = WO.Name;
-                aceItem.id = WO.Id;
-
-                Globals.Host.Actions.RequestId(Globals.Host.Actions.CurrentSelection);
-                CoreManager.Current.WorldFilter.ChangeObject += WaitForItemUpdate;
+                CommandWait(sender, e);
             }
             catch (Exception ex) { Util.LogError(ex); }
         }
@@ -169,12 +171,7 @@ namespace AceCreator
             try
             {
                 Globals.ButtonCommand = "/rotate e";
-                WO = CoreManager.Current.WorldFilter[CoreManager.Current.Actions.CurrentSelection];
-                aceItem.name = WO.Name;
-                aceItem.id = WO.Id;
-
-                Globals.Host.Actions.RequestId(Globals.Host.Actions.CurrentSelection);
-                CoreManager.Current.WorldFilter.ChangeObject += WaitForItemUpdate;
+                CommandWait(sender, e);
             }
             catch (Exception ex) { Util.LogError(ex); }
         }
@@ -184,12 +181,7 @@ namespace AceCreator
             try
             {
                 Globals.ButtonCommand = "/rotate s";
-                WO = CoreManager.Current.WorldFilter[CoreManager.Current.Actions.CurrentSelection];
-                aceItem.name = WO.Name;
-                aceItem.id = WO.Id;
-
-                Globals.Host.Actions.RequestId(Globals.Host.Actions.CurrentSelection);
-                CoreManager.Current.WorldFilter.ChangeObject += WaitForItemUpdate;
+                CommandWait(sender, e);
             }
             catch (Exception ex) { Util.LogError(ex); }
         }
@@ -199,20 +191,62 @@ namespace AceCreator
             try
             {
                 Globals.ButtonCommand = "/rotate w";
-                WO = CoreManager.Current.WorldFilter[CoreManager.Current.Actions.CurrentSelection];
-                aceItem.name = WO.Name;
-                aceItem.id = WO.Id;
-
-                Globals.Host.Actions.RequestId(Globals.Host.Actions.CurrentSelection);
-                CoreManager.Current.WorldFilter.ChangeObject += WaitForItemUpdate;
+                CommandWait(sender, e);
             }
             catch (Exception ex) { Util.LogError(ex); }
         }
+
+        public void ButtonRotateNE_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Globals.ButtonCommand = "/rotate ne";
+                CommandWait(sender, e);
+            }
+            catch (Exception ex) { Util.LogError(ex); }
+        }
+        public void ButtonRotateSE_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Globals.ButtonCommand = "/rotate se";
+                CommandWait(sender, e);
+            }
+            catch (Exception ex) { Util.LogError(ex); }
+        }
+        public void ButtonRotateSW_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Globals.ButtonCommand = "/rotate sw";
+                CommandWait(sender, e);
+            }
+            catch (Exception ex) { Util.LogError(ex); }
+        }
+        public void ButtonRotateNW_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Globals.ButtonCommand = "/rotate nw";
+                CommandWait(sender, e);
+            }
+            catch (Exception ex) { Util.LogError(ex); }
+        }
+
         public void ButtonFreeRotate_Click(object sender, EventArgs e)
         {
             try
             {
-                Globals.ButtonCommand = "/rotate " + TextboxFreeRotate.Text;
+                int tempRotateValue;
+                int finalRotateValue = 0;
+                int.TryParse(TextboxFreeRotate.Text, out tempRotateValue);
+
+                if (tempRotateValue > 360)
+                    Util.WriteToChat("Rotate Value is above 360");
+                else
+                    finalRotateValue = 360 - tempRotateValue;
+
+                Globals.ButtonCommand = "/rotate " + finalRotateValue;
                 WO = CoreManager.Current.WorldFilter[CoreManager.Current.Actions.CurrentSelection];
                 aceItem.name = WO.Name;
                 aceItem.id = WO.Id;
@@ -242,6 +276,20 @@ namespace AceCreator
             try
             {
                 Globals.ButtonCommand = "/nudge down " + TextboxNudgeValueCustom.Text;
+                WO = CoreManager.Current.WorldFilter[CoreManager.Current.Actions.CurrentSelection];
+                aceItem.name = WO.Name;
+                aceItem.id = WO.Id;
+
+                Globals.Host.Actions.RequestId(Globals.Host.Actions.CurrentSelection);
+                CoreManager.Current.WorldFilter.ChangeObject += WaitForItemUpdate;
+            }
+            catch (Exception ex) { Util.LogError(ex); }
+        }
+
+        public void CommandWait(object sender, EventArgs e)
+        {
+            try
+            {                
                 WO = CoreManager.Current.WorldFilter[CoreManager.Current.Actions.CurrentSelection];
                 aceItem.name = WO.Name;
                 aceItem.id = WO.Id;

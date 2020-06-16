@@ -200,6 +200,20 @@ namespace AceCreator
             ButtonRotateW = view != null ? (HudButton)view["ButtonRotateW"] : new HudButton();
             ButtonRotateW.Hit += new EventHandler(ButtonRotateW_Click);
 
+
+            ButtonRotateNE = view != null ? (HudButton)view["ButtonRotateNE"] : new HudButton();
+            ButtonRotateNE.Hit += new EventHandler(ButtonRotateNE_Click);
+
+            ButtonRotateSE = view != null ? (HudButton)view["ButtonRotateSE"] : new HudButton();
+            ButtonRotateSE.Hit += new EventHandler(ButtonRotateSE_Click);
+
+            ButtonRotateSW = view != null ? (HudButton)view["ButtonRotateSW"] : new HudButton();
+            ButtonRotateSW.Hit += new EventHandler(ButtonRotateSW_Click);
+
+            ButtonRotateNW = view != null ? (HudButton)view["ButtonRotateNW"] : new HudButton();
+            ButtonRotateNW.Hit += new EventHandler(ButtonRotateNW_Click);
+
+
             ButtonFreeRotate = view != null ? (HudButton)view["ButtonFreeRotate"] : new HudButton();
             ButtonFreeRotate.Hit += new EventHandler(ButtonFreeRotate_Click);
 
@@ -298,8 +312,9 @@ namespace AceCreator
             TextboxParentGUID = (HudTextBox)view["TextboxParentGUID"];
             TextboxChildWCID = (HudTextBox)view["TextboxChildWCID"];
 
-
-
+            ButtonAdvancedRemoveInst = view != null ? (HudButton)view["ButtonAdvancedRemoveInst"] : new HudButton();
+            ButtonAdvancedRemoveInst.Hit += new EventHandler(ButtonRemoveInstace_Click);
+            
 
 
             // ***** Paths Tab *****
@@ -328,7 +343,7 @@ namespace AceCreator
             ButtonACCWiki.Hit += new EventHandler(ButtonACCWiki_Click);
 
             // Making some stuff not seen
-            ButtonYotesWCIDLookUp.Visible = false;
+            //ButtonYotesWCIDLookUp.Visible = false;
 
         }
 
