@@ -312,10 +312,11 @@ namespace AceCreator
             TextboxParentGUID = (HudTextBox)view["TextboxParentGUID"];
             TextboxChildWCID = (HudTextBox)view["TextboxChildWCID"];
 
+            ButtonCreateMob = view != null ? (HudButton)view["ButtonCreateMob"] : new HudButton();
+            ButtonCreateMob.Hit += new EventHandler(ButtonCreateMob_Click);
+            
             ButtonAdvancedRemoveInst = view != null ? (HudButton)view["ButtonAdvancedRemoveInst"] : new HudButton();
             ButtonAdvancedRemoveInst.Hit += new EventHandler(ButtonRemoveInstace_Click);
-            
-
 
             // ***** Paths Tab *****
             TextBoxPathJSON = (HudTextBox)view["TextboxPathJSON"];

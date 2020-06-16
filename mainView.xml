@@ -157,9 +157,9 @@
           <control progid="DecalControls.Choice" name="ChoiceChildList" left="180" top="197" width="160" height="20"/>
           
           <control progid="DecalControls.PushButton" name="ButtonLinkChild" left="10" top="225" width="340" height="25" text="Link Child WCID to Parent"/>
+          <control progid="DecalControls.PushButton" name="ButtonCreateMob" left="10" top="260" width="340" height="25" text="Create Mob (/createinst -p GUID -c 1)"/>
 
-
-          <control progid="DecalControls.PushButton" name="ButtonAdvancedRemoveInst" left="10" top="265" width="340" height="25" text="Remove Instance"/>
+          <control progid="DecalControls.PushButton" name="ButtonAdvancedRemoveInst" left="10" top="305" width="340" height="25" text="Remove Instance"/>
         </control>
       </page>
 

@@ -16,6 +16,9 @@ namespace AceCreator
         public HudButton ButtonEditGeneratorList { get; set; }
         public HudButton ButtonRefreshGeneratorList { get; set; }
         public HudButton ButtonAdvancedRemoveInst { get; set; }
+        public HudButton ButtonCreateMob { get; set; }
+
+        
 
         public HudTextBox TextboxGeneratorWCID { get; set; }
 
@@ -108,5 +111,16 @@ namespace AceCreator
             }
             catch (Exception ex) { Util.LogError(ex); }
         }
+        public void ButtonCreateMob_Click(object sender, EventArgs e)
+        {
+
+            try
+            {
+                Util.SendChatCommand("/createinst -p GUID -c 1");
+
+            }
+            catch (Exception ex) { Util.LogError(ex); }
+        }
+        
     }
 }
