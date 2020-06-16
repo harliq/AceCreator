@@ -231,6 +231,15 @@ namespace AceCreator
             ButtonClearCache = view != null ? (HudButton)view["ButtonClearCache"] : new HudButton();
             ButtonClearCache.Hit += new EventHandler(ButtonClearCache_Click);
 
+            ButtonGetCurrentLandblock = view != null ? (HudButton)view["ButtonGetCurrentLandblock"] : new HudButton();
+            ButtonGetCurrentLandblock.Hit += new EventHandler(ButtonGetCurrentLandblock_Click);
+
+            ButtonExportLandblock = view != null ? (HudButton)view["ButtonExportLandblock"] : new HudButton();
+            ButtonExportLandblock.Hit += new EventHandler(ButtonExportLandblock_Click);
+
+            TextboxFreeRotate = (HudTextBox)view["TextboxFreeRotate"];
+
+
 
             // ***** Quests/Recipes Tab *****
             ChoiceQuestJSON = (HudCombo)view["ChoiceQuestJSON"];
@@ -377,6 +386,12 @@ namespace AceCreator
                         Util.LogLocation("BlankWCID, " + location);
                     else
                         Util.LogLocation(TextboxCreateWCID.Text + ", " + location);
+                }
+                if (ChatMessages.GetCurrentLandblock(e.Text, out string landblock))
+                {
+                    TextboxCurrentLandblock = (HudTextBox)view["TextboxCurrentLandblock"];
+
+                    TextboxCurrentLandblock.Text = landblock;
                 }
             }
             catch (Exception ex)
