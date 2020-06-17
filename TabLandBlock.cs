@@ -38,12 +38,8 @@ namespace AceCreator
         {
             try
             {
-                // string tsplit = ((HudStaticText)ChoiceLandblockJSON[ChoiceLandblockJSON.Current]).Text;
                 string wcid = ((HudStaticText)ChoiceLandblockJSON[ChoiceLandblockJSON.Current]).Text.Replace(".json", "");
-                // TextboxCreateWCID = (HudTextBox)view["TextboxCreateWCID"];
                 Util.SendChatCommand(@"/import-json " + wcid + " landblock");
-                // Util.WriteToChat("Imported JSON= " + ((HudStaticText)ChoiceJSON[ChoiceJSON.Current]).Text);                
-                // TextboxCreateWCID.Text = tsplit.Split(' ')[0];
             }
             catch (Exception ex) { Util.LogError(ex); }
         }
@@ -52,12 +48,8 @@ namespace AceCreator
         {
             try
             {
-                // string tsplit = ((HudStaticText)ChoiceLandblockSQL[ChoiceLandblockSQL.Current]).Text;
                 string wcid = ((HudStaticText)ChoiceLandblockSQL[ChoiceLandblockSQL.Current]).Text.Replace(".sql", "");
-                //TextboxCreateWCID = (HudTextBox)view["TextboxCreateWCID"];
                 Util.SendChatCommand(@"/import-sql " + wcid + " landblock");
-                // Util.WriteToChat("Imported JSON= " + ((HudStaticText)ChoiceJSON[ChoiceJSON.Current]).Text);                
-                // TextboxCreateWCID.Text = tsplit.Split(' ')[0];
             }
             catch (Exception ex) { Util.LogError(ex); }
         }
@@ -116,7 +108,7 @@ namespace AceCreator
         }
         public void ButtonExportLandblock_Click(object sender, EventArgs e)
         {
-            // Globals.ButtonCommand = "/export-sql landblock " + TextboxCurrentLandblock.Text;
+            
             try
             {
                 Util.SendChatCommand("/export-sql landblock " + TextboxCurrentLandblock.Text);
