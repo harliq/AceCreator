@@ -48,6 +48,7 @@
     <Compile Include="Globals.cs" />
     <Compile Include="TabAdvanced.cs" />
     <Compile Include="TabContent.cs" />
+    <Compile Include="TabHelp.cs" />
     <Compile Include="TabLandBlock.cs" />
     <Compile Include="Lib\DecalProxy.cs" />
     <Compile Include="PluginCore.cs" />

@@ -54,12 +54,8 @@ namespace AceCreator
             try
             {
                 Globals.ButtonCommand = "/nudge n " + TextboxNudgeValueCustom.Text;
-                WO = CoreManager.Current.WorldFilter[CoreManager.Current.Actions.CurrentSelection];
-                aceItem.name = WO.Name;
-                aceItem.id = WO.Id;
+                CommandWait(sender, e);
 
-                Globals.Host.Actions.RequestId(Globals.Host.Actions.CurrentSelection);
-                CoreManager.Current.WorldFilter.ChangeObject += WaitForItemUpdate;
             }
             catch (Exception ex) { Util.LogError(ex); }
         }
@@ -68,12 +64,7 @@ namespace AceCreator
             try
             {
                 Globals.ButtonCommand = "/nudge ne " + TextboxNudgeValueCustom.Text;
-                WO = CoreManager.Current.WorldFilter[CoreManager.Current.Actions.CurrentSelection];
-                aceItem.name = WO.Name;
-                aceItem.id = WO.Id;
-
-                Globals.Host.Actions.RequestId(Globals.Host.Actions.CurrentSelection);
-                CoreManager.Current.WorldFilter.ChangeObject += WaitForItemUpdate;
+                CommandWait(sender, e);
             }
             catch (Exception ex) { Util.LogError(ex); }
         }
@@ -82,12 +73,7 @@ namespace AceCreator
             try
             {
                 Globals.ButtonCommand = "/nudge e " + TextboxNudgeValueCustom.Text;
-                WO = CoreManager.Current.WorldFilter[CoreManager.Current.Actions.CurrentSelection];
-                aceItem.name = WO.Name;
-                aceItem.id = WO.Id;
-
-                Globals.Host.Actions.RequestId(Globals.Host.Actions.CurrentSelection);
-                CoreManager.Current.WorldFilter.ChangeObject += WaitForItemUpdate;
+                CommandWait(sender, e);
             }
             catch (Exception ex) { Util.LogError(ex); }
         }
@@ -96,12 +82,7 @@ namespace AceCreator
             try
             {
                 Globals.ButtonCommand = "/nudge se " + TextboxNudgeValueCustom.Text;
-                WO = CoreManager.Current.WorldFilter[CoreManager.Current.Actions.CurrentSelection];
-                aceItem.name = WO.Name;
-                aceItem.id = WO.Id;
-
-                Globals.Host.Actions.RequestId(Globals.Host.Actions.CurrentSelection);
-                CoreManager.Current.WorldFilter.ChangeObject += WaitForItemUpdate;
+                CommandWait(sender, e);
             }
             catch (Exception ex) { Util.LogError(ex); }
         }
@@ -110,12 +91,7 @@ namespace AceCreator
             try
             {
                 Globals.ButtonCommand = "/nudge s " + TextboxNudgeValueCustom.Text;
-                WO = CoreManager.Current.WorldFilter[CoreManager.Current.Actions.CurrentSelection];
-                aceItem.name = WO.Name;
-                aceItem.id = WO.Id;
-
-                Globals.Host.Actions.RequestId(Globals.Host.Actions.CurrentSelection);
-                CoreManager.Current.WorldFilter.ChangeObject += WaitForItemUpdate;
+                CommandWait(sender, e);
             }
             catch (Exception ex) { Util.LogError(ex); }
         }
@@ -124,12 +100,7 @@ namespace AceCreator
             try
             {
                 Globals.ButtonCommand = "/nudge sw " + TextboxNudgeValueCustom.Text;
-                WO = CoreManager.Current.WorldFilter[CoreManager.Current.Actions.CurrentSelection];
-                aceItem.name = WO.Name;
-                aceItem.id = WO.Id;
-
-                Globals.Host.Actions.RequestId(Globals.Host.Actions.CurrentSelection);
-                CoreManager.Current.WorldFilter.ChangeObject += WaitForItemUpdate;
+                CommandWait(sender, e);
             }
             catch (Exception ex) { Util.LogError(ex); }
         }
@@ -138,12 +109,7 @@ namespace AceCreator
             try
             {
                 Globals.ButtonCommand = "/nudge w " + TextboxNudgeValueCustom.Text;
-                WO = CoreManager.Current.WorldFilter[CoreManager.Current.Actions.CurrentSelection];
-                aceItem.name = WO.Name;
-                aceItem.id = WO.Id;
-
-                Globals.Host.Actions.RequestId(Globals.Host.Actions.CurrentSelection);
-                CoreManager.Current.WorldFilter.ChangeObject += WaitForItemUpdate;
+                CommandWait(sender, e);
             }
             catch (Exception ex) { Util.LogError(ex); }
         }
@@ -152,12 +118,7 @@ namespace AceCreator
             try
             {
                 Globals.ButtonCommand = "/nudge nw " + TextboxNudgeValueCustom.Text;
-                WO = CoreManager.Current.WorldFilter[CoreManager.Current.Actions.CurrentSelection];
-                aceItem.name = WO.Name;
-                aceItem.id = WO.Id;
-
-                Globals.Host.Actions.RequestId(Globals.Host.Actions.CurrentSelection);
-                CoreManager.Current.WorldFilter.ChangeObject += WaitForItemUpdate;
+                CommandWait(sender, e);
             }
             catch (Exception ex) { Util.LogError(ex); }
         }
@@ -255,13 +216,11 @@ namespace AceCreator
                 else
                     finalRotateValue = 360 - tempRotateValue;
 
-                Globals.ButtonCommand = "/rotate " + finalRotateValue;
-                WO = CoreManager.Current.WorldFilter[CoreManager.Current.Actions.CurrentSelection];
-                aceItem.name = WO.Name;
-                aceItem.id = WO.Id;
 
-                Globals.Host.Actions.RequestId(Globals.Host.Actions.CurrentSelection);
-                CoreManager.Current.WorldFilter.ChangeObject += WaitForItemUpdate;
+                Globals.ButtonCommand = "/rotate " + finalRotateValue;
+
+                CommandWait(sender, e);
+
             }
             catch (Exception ex) { Util.LogError(ex); }
         }
@@ -271,12 +230,8 @@ namespace AceCreator
             try
             {
                 Globals.ButtonCommand = "/nudge up " + TextboxNudgeValueCustom.Text;
-                WO = CoreManager.Current.WorldFilter[CoreManager.Current.Actions.CurrentSelection];
-                aceItem.name = WO.Name;
-                aceItem.id = WO.Id;
+                CommandWait(sender, e);
 
-                Globals.Host.Actions.RequestId(Globals.Host.Actions.CurrentSelection);
-                CoreManager.Current.WorldFilter.ChangeObject += WaitForItemUpdate;
             }
             catch (Exception ex) { Util.LogError(ex); }
         }
@@ -285,12 +240,8 @@ namespace AceCreator
             try
             {
                 Globals.ButtonCommand = "/nudge down " + TextboxNudgeValueCustom.Text;
-                WO = CoreManager.Current.WorldFilter[CoreManager.Current.Actions.CurrentSelection];
-                aceItem.name = WO.Name;
-                aceItem.id = WO.Id;
+                CommandWait(sender, e);
 
-                Globals.Host.Actions.RequestId(Globals.Host.Actions.CurrentSelection);
-                CoreManager.Current.WorldFilter.ChangeObject += WaitForItemUpdate;
             }
             catch (Exception ex) { Util.LogError(ex); }
         }

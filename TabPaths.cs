@@ -29,7 +29,7 @@ namespace AceCreator
         public HudButton ButtonSavePaths { get; set; }
         public HudButton ButtonLoadINI { get; set; }
         public HudButton ButtonOpenINI { get; set; }
-        public HudButton ButtonACCWiki { get; set; }
+
 
         
 
@@ -65,15 +65,7 @@ namespace AceCreator
             catch (Exception ex) { Util.LogError(ex); }
         }
 
-        public void ButtonACCWiki_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                System.Diagnostics.Process.Start("https://github.com/harliq/AceCreator/wiki");
 
-            }
-            catch (Exception ex) { Util.LogError(ex); }
-        }
 
         
 

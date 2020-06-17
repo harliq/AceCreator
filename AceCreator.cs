@@ -351,11 +351,16 @@ namespace AceCreator
             ButtonOpenINI = view != null ? (HudButton)view["ButtonOpenINI"] : new HudButton();
             ButtonOpenINI.Hit += new EventHandler(ButtonOpenINI_Click);
 
+
+            // ***** Help Tab *****
             ButtonACCWiki = view != null ? (HudButton)view["ButtonACCWiki"] : new HudButton();
             ButtonACCWiki.Hit += new EventHandler(ButtonACCWiki_Click);
 
-            // Making some stuff not seen
-            ButtonYotesWCIDLookUp.Visible = false;
+            ButtonACEWiki = view != null ? (HudButton)view["ButtonACEWiki"] : new HudButton();
+            ButtonACEWiki.Hit += new EventHandler(ButtonACEWiki_Click);
+
+            // *** Making some stuff not seen ***
+            // ButtonYotesWCIDLookUp.Visible = false;
             ButtonCreateMob.Visible = false;
 
         }
@@ -461,11 +466,7 @@ namespace AceCreator
 
                     TextboxCurrentLandblock.Text = landblock;
                 }
-                //if (ChatMessages.GetParentGUID(e.Text, out string guid))
-                //{
-                //    TextboxParentGUID = (HudTextBox)view["TextboxParentGUID"];
-                //    TextboxParentGUID.Text = guid;
-                //}
+
             }
             catch (Exception ex)
             {
@@ -789,16 +790,22 @@ namespace AceCreator
 
                     using (StreamWriter writer = new StreamWriter(filePath, false))
                     {
-                        writer.WriteLine("1154 Linkable Monster Generator");
-                        writer.WriteLine("4219 Linkable Monster Generator ( 7 Min. )");
-                        writer.WriteLine("7923 Linkable Monster Generator ( 3 Min. )");
-                        writer.WriteLine("7924 Linkable Monster Generator ( 5 Min. )");
-
-                        writer.WriteLine("7925 Linkable Monster Generator ( 10 Min.)");
-                        writer.WriteLine("7926 Linkable Monster Generator ( 20 Min.)");
-                        writer.WriteLine("7932 Linkable Monster Generator ( 4 Min. )");
-                        writer.WriteLine("21120	Linkable Monster Generator");
-                        writer.WriteLine("24129	Linkable Monster Generator ( 2 Min.)");
+                        // Monster Gens
+                        writer.WriteLine("28282 Linkable Monster Generator - 10 Secs");
+                        writer.WriteLine("15274 Linkable Monster Generator - 1 Min");
+                        writer.WriteLine("24129 Linkable Monster Generator - 2 Min");
+                        writer.WriteLine("07923 Linkable Monster Generator - 3 Min");
+                        writer.WriteLine("07932 Linkable Monster Generator - 4 Min");
+                        writer.WriteLine("07924 Linkable Monster Generator - 5 Min");
+                        writer.WriteLine("04219 Linkable Monster Generator - 7 Min");
+                        writer.WriteLine("07925 Linkable Monster Generator - 10 Min");
+                        writer.WriteLine("03955 Linkable Monster Generator - 15 Min");
+                        writer.WriteLine("07926 Linkable Monster Generator - 20 Min");
+                        // Item Gens
+                        writer.WriteLine("15759 Linkable Item Generator - 10 Secs");
+                        writer.WriteLine("05085 Linkable Item Generator - 25 Secs");
+                        writer.WriteLine("04142 Linkable Item Generator - 2 Min");
+                        
                         writer.Close();
                     }
                 }
