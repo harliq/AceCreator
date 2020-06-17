@@ -220,8 +220,19 @@ namespace AceCreator
             TextboxFreeRotate = (HudTextBox)view["TextboxFreeRotate"];
 
 
-            // ***** LandBlocks Tab *****
-            ChoiceLandblockJSON = (HudCombo)view["ChoiceLandblockJSON"];
+            ButtonNudgeHere = view != null ? (HudButton)view["ButtonNudgeHere"] : new HudButton();
+            ButtonNudgeHere.Hit += new EventHandler(ButtonNudgeHere_Click);
+
+            ButtonRotateHere = view != null ? (HudButton)view["ButtonRotateHere"] : new HudButton();
+            ButtonRotateHere.Hit += new EventHandler(ButtonRotateHere_Click);
+
+
+
+
+
+
+        // ***** LandBlocks Tab *****
+        ChoiceLandblockJSON = (HudCombo)view["ChoiceLandblockJSON"];
             //ChoiceLandblockJSON.Change += new EventHandler(ChoiceLandblockJSON_Change);
 
             ButtonImportLandblockJSON = view != null ? (HudButton)view["ButtonImportLandblockJSON"] : new HudButton();

@@ -69,15 +69,9 @@
         <control progid="DecalControls.PushButton" name="ButtonRotateSW" left="250" top="190" width="80" height="25" text="225 Degrees"/>
 				<control progid="DecalControls.PushButton" name="ButtonRotateW" left="250" top="220" width="80" height="25" text="270 Degrees"/>
         <control progid="DecalControls.PushButton" name="ButtonRotateNW" left="250" top="250" width="80" height="25" text="315 Degrees"/>
-        
-				
-				
-				
 
-
-       
-        <control progid="DecalControls.PushButton" name="ButtonRotateSW" left="30" top="190" width="80" height="25" text="Face South"/>
-        
+        <control progid="DecalControls.PushButton" name="ButtonNudgeHere" left="10" top="290" width="165" height="25" text="Nudge Here"/>
+        <control progid="DecalControls.PushButton" name="ButtonRotateHere" left="185" top="290" width="165" height="25" text="Rotate Here"/>
 
 			</control>
 
@@ -157,9 +151,9 @@
           <control progid="DecalControls.Choice" name="ChoiceChildList" left="180" top="197" width="160" height="20"/>
           
           <control progid="DecalControls.PushButton" name="ButtonLinkChild" left="10" top="225" width="340" height="25" text="Link Child WCID to Parent"/>
-          <control progid="DecalControls.PushButton" name="ButtonCreateMob" left="10" top="260" width="340" height="25" text="Create Mob (/createinst -p GUID -c 1)"/>
+          <control progid="DecalControls.PushButton" name="ButtonCreateMob" left="10" top="310" width="340" height="25" text="Create Mob (/createinst -p GUID -c 1)"/>
 
-          <control progid="DecalControls.PushButton" name="ButtonAdvancedRemoveInst" left="10" top="305" width="340" height="25" text="Remove Instance"/>
+          <control progid="DecalControls.PushButton" name="ButtonAdvancedRemoveInst" left="10" top="270" width="340" height="25" text="Remove Instance"/>
         </control>
       </page>
 

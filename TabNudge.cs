@@ -41,6 +41,11 @@ namespace AceCreator
 
         public HudButton ButtonFreeRotate { get; set; }
 
+        public HudButton ButtonNudgeHere { get; set; }
+        public HudButton ButtonRotateHere { get; set; }
+        
+
+
         public HudTextBox TextboxFreeRotate { get; set; }
 
         // Button Events
@@ -237,12 +242,16 @@ namespace AceCreator
         {
             try
             {
-                int tempRotateValue;
-                int finalRotateValue = 0;
-                int.TryParse(TextboxFreeRotate.Text, out tempRotateValue);
+                double tempRotateValue;
+                double finalRotateValue = 0;
+                double.TryParse(TextboxFreeRotate.Text, out tempRotateValue);
 
                 if (tempRotateValue > 360)
+                {
                     Util.WriteToChat("Rotate Value is above 360");
+                    return;
+                }
+
                 else
                     finalRotateValue = 360 - tempRotateValue;
 
@@ -282,6 +291,25 @@ namespace AceCreator
 
                 Globals.Host.Actions.RequestId(Globals.Host.Actions.CurrentSelection);
                 CoreManager.Current.WorldFilter.ChangeObject += WaitForItemUpdate;
+            }
+            catch (Exception ex) { Util.LogError(ex); }
+        }
+        public void ButtonNudgeHere_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Globals.ButtonCommand = "/nudge here";
+                CommandWait(sender, e);
+            }
+            catch (Exception ex) { Util.LogError(ex); }
+        }
+
+        public void ButtonRotateHere_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Globals.ButtonCommand = "/rotate here";
+                CommandWait(sender, e);
             }
             catch (Exception ex) { Util.LogError(ex); }
         }
