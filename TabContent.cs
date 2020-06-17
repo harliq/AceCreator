@@ -165,19 +165,22 @@ namespace AceCreator
         }
         public void ButtonYotesWCIDLookUp_Click(object sender, EventArgs e)
         {
-            Globals.ButtonCommand = "YotesLookup";
-            try
-            {
-                WO = CoreManager.Current.WorldFilter[CoreManager.Current.Actions.CurrentSelection];
-                aceItem.name = WO.Name;
-                aceItem.id = WO.Id;
+            WO = CoreManager.Current.WorldFilter[CoreManager.Current.Actions.CurrentSelection];
+            Util.WriteToChat(WO.Id.ToString());
+            
+            //Globals.ButtonCommand = "YotesLookup";
+            //try
+            //{
+            //    WO = CoreManager.Current.WorldFilter[CoreManager.Current.Actions.CurrentSelection];
+            //    aceItem.name = WO.Name;
+            //    aceItem.id = WO.Id;
 
-                Globals.Host.Actions.RequestId(Globals.Host.Actions.CurrentSelection);
-                CoreManager.Current.WorldFilter.ChangeObject += GetInfoWaitForItemUpdate;
-                Util.WriteToChat(Globals.YotesWCID);
+            //    Globals.Host.Actions.RequestId(Globals.Host.Actions.CurrentSelection);
+            //    CoreManager.Current.WorldFilter.ChangeObject += GetInfoWaitForItemUpdate;
+            //    Util.WriteToChat(Globals.YotesWCID);
 
-            }
-            catch (Exception ex) { Util.LogError(ex); }
+            //}
+            //catch (Exception ex) { Util.LogError(ex); }
 
         }
 

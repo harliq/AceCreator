@@ -54,7 +54,7 @@ namespace AceCreator
                 //JsonChoiceListLoadFiles();
                 //SqlChoiceListLoadFiles();
                 RefreshAllLists();
-
+                LoadParentObjectsFile();
                 //Initialize the view.
                 // MVWireupHelper.WireupStart(this, Host);
 
@@ -154,9 +154,85 @@ namespace AceCreator
             ButtonGetInfo = view != null ? (HudButton)view["ButtonGetInfo"] : new HudButton();
             ButtonGetInfo.Hit += new EventHandler(ButtonGetInfo_Click);
 
-            // ***** LandBlocks Tab *****
+            // ***** Nudge Tab *****
+            ButtonNudgeN = view != null ? (HudButton)view["ButtonNudgeN"] : new HudButton();
+            ButtonNudgeN.Hit += new EventHandler(ButtonNudgeN_Click);
 
-            ChoiceLandblockJSON = (HudCombo)view["ChoiceLandblockJSON"];
+            ButtonNudgeNE = view != null ? (HudButton)view["ButtonNudgeNE"] : new HudButton();
+            ButtonNudgeNE.Hit += new EventHandler(ButtonNudgeNE_Click);
+
+            ButtonNudgeE = view != null ? (HudButton)view["ButtonNudgeE"] : new HudButton();
+            ButtonNudgeE.Hit += new EventHandler(ButtonNudgeE_Click);
+
+            ButtonNudgeSE = view != null ? (HudButton)view["ButtonNudgeSE"] : new HudButton();
+            ButtonNudgeSE.Hit += new EventHandler(ButtonNudgeSE_Click);
+
+            ButtonNudgeS = view != null ? (HudButton)view["ButtonNudgeS"] : new HudButton();
+            ButtonNudgeS.Hit += new EventHandler(ButtonNudgeS_Click);
+
+            ButtonNudgeSW = view != null ? (HudButton)view["ButtonNudgeSW"] : new HudButton();
+            ButtonNudgeSW.Hit += new EventHandler(ButtonNudgeSW_Click);
+
+            ButtonNudgeW = view != null ? (HudButton)view["ButtonNudgeW"] : new HudButton();
+            ButtonNudgeW.Hit += new EventHandler(ButtonNudgeW_Click);
+
+            ButtonNudgeNW = view != null ? (HudButton)view["ButtonNudgeNW"] : new HudButton();
+            ButtonNudgeNW.Hit += new EventHandler(ButtonNudgeNW_Click);
+
+            ButtonNudgeUp = view != null ? (HudButton)view["ButtonNudgeUp"] : new HudButton();
+            ButtonNudgeUp.Hit += new EventHandler(ButtonNudgeUp_Click);
+
+            ButtonNudgeDown = view != null ? (HudButton)view["ButtonNudgeDown"] : new HudButton();
+            ButtonNudgeDown.Hit += new EventHandler(ButtonNudgeDown_Click);
+
+
+            TextboxNudgeValueCustom = (HudTextBox)view["TextboxNudgeValueCustom"];
+
+            ButtonRotateN = view != null ? (HudButton)view["ButtonRotateN"] : new HudButton();
+            ButtonRotateN.Hit += new EventHandler(ButtonRotateN_Click);
+
+            ButtonRotateE = view != null ? (HudButton)view["ButtonRotateE"] : new HudButton();
+            ButtonRotateE.Hit += new EventHandler(ButtonRotateE_Click);
+
+            ButtonRotateS = view != null ? (HudButton)view["ButtonRotateS"] : new HudButton();
+            ButtonRotateS.Hit += new EventHandler(ButtonRotateS_Click);
+
+            ButtonRotateW = view != null ? (HudButton)view["ButtonRotateW"] : new HudButton();
+            ButtonRotateW.Hit += new EventHandler(ButtonRotateW_Click);
+
+
+            ButtonRotateNE = view != null ? (HudButton)view["ButtonRotateNE"] : new HudButton();
+            ButtonRotateNE.Hit += new EventHandler(ButtonRotateNE_Click);
+
+            ButtonRotateSE = view != null ? (HudButton)view["ButtonRotateSE"] : new HudButton();
+            ButtonRotateSE.Hit += new EventHandler(ButtonRotateSE_Click);
+
+            ButtonRotateSW = view != null ? (HudButton)view["ButtonRotateSW"] : new HudButton();
+            ButtonRotateSW.Hit += new EventHandler(ButtonRotateSW_Click);
+
+            ButtonRotateNW = view != null ? (HudButton)view["ButtonRotateNW"] : new HudButton();
+            ButtonRotateNW.Hit += new EventHandler(ButtonRotateNW_Click);
+
+
+            ButtonFreeRotate = view != null ? (HudButton)view["ButtonFreeRotate"] : new HudButton();
+            ButtonFreeRotate.Hit += new EventHandler(ButtonFreeRotate_Click);
+
+            TextboxFreeRotate = (HudTextBox)view["TextboxFreeRotate"];
+
+
+            ButtonNudgeHere = view != null ? (HudButton)view["ButtonNudgeHere"] : new HudButton();
+            ButtonNudgeHere.Hit += new EventHandler(ButtonNudgeHere_Click);
+
+            ButtonRotateHere = view != null ? (HudButton)view["ButtonRotateHere"] : new HudButton();
+            ButtonRotateHere.Hit += new EventHandler(ButtonRotateHere_Click);
+
+
+
+
+
+
+        // ***** LandBlocks Tab *****
+        ChoiceLandblockJSON = (HudCombo)view["ChoiceLandblockJSON"];
             //ChoiceLandblockJSON.Change += new EventHandler(ChoiceLandblockJSON_Change);
 
             ButtonImportLandblockJSON = view != null ? (HudButton)view["ButtonImportLandblockJSON"] : new HudButton();
@@ -179,6 +255,15 @@ namespace AceCreator
 
             ButtonClearCache = view != null ? (HudButton)view["ButtonClearCache"] : new HudButton();
             ButtonClearCache.Hit += new EventHandler(ButtonClearCache_Click);
+
+            ButtonGetCurrentLandblock = view != null ? (HudButton)view["ButtonGetCurrentLandblock"] : new HudButton();
+            ButtonGetCurrentLandblock.Hit += new EventHandler(ButtonGetCurrentLandblock_Click);
+
+            ButtonExportLandblock = view != null ? (HudButton)view["ButtonExportLandblock"] : new HudButton();
+            ButtonExportLandblock.Hit += new EventHandler(ButtonExportLandblock_Click);
+
+            TextboxFreeRotate = (HudTextBox)view["TextboxFreeRotate"];
+
 
 
             // ***** Quests/Recipes Tab *****
@@ -203,9 +288,46 @@ namespace AceCreator
             ChoiceRecipeSQL = (HudCombo)view["ChoiceRecipeSQL"];
             ButtonImportRecipeSQL = view != null ? (HudButton)view["ButtonImportRecipeSQL"] : new HudButton();
             ButtonImportRecipeSQL.Hit += new EventHandler(ButtonImportRecipeSQL_Click);
+
             ButtonEditRecipeSQL = view != null ? (HudButton)view["ButtonEditRecipeSQL"] : new HudButton();
             ButtonEditRecipeSQL.Hit += new EventHandler(ButtonEditRecipeSQL_Click);
 
+
+            // ***** Advanced Tab *****
+
+
+            ChoiceGenerator = (HudCombo)view["ChoiceGenerator"];
+            ChoiceGenerator.Change += new EventHandler(ChoiceGenerator_Change);
+
+            TextboxGeneratorWCID = (HudTextBox)view["TextboxGeneratorWCID"];
+            
+
+            ButtonCreateGenerator = view != null ? (HudButton)view["ButtonCreateGenerator"] : new HudButton();
+            ButtonCreateGenerator.Hit += new EventHandler(ButtonCreateGenerator_Click);
+
+            ButtonEditGeneratorList = view != null ? (HudButton)view["ButtonEditGeneratorList"] : new HudButton();
+            ButtonEditGeneratorList.Hit += new EventHandler(ButtonEditGeneratorList_Click);
+
+            ButtonRefreshGeneratorList = view != null ? (HudButton)view["ButtonRefreshGeneratorList"] : new HudButton();
+            ButtonRefreshGeneratorList.Hit += new EventHandler(ButtonRefreshGeneratorList_Click);
+
+            ChoiceChildList = (HudCombo)view["ChoiceChildList"];
+            ChoiceChildList.Change += new EventHandler(ChoiceChildList_Change);
+
+            ButtonGetParentGUID = view != null ? (HudButton)view["ButtonGetParentGUID"] : new HudButton();
+            ButtonGetParentGUID.Hit += new EventHandler(ButtonGetParentGUID_Click);
+
+            ButtonLinkChild = view != null ? (HudButton)view["ButtonLinkChild"] : new HudButton();
+            ButtonLinkChild.Hit += new EventHandler(ButtonLinkChild_Click);
+
+            TextboxParentGUID = (HudTextBox)view["TextboxParentGUID"];
+            TextboxChildWCID = (HudTextBox)view["TextboxChildWCID"];
+
+            ButtonCreateMob = view != null ? (HudButton)view["ButtonCreateMob"] : new HudButton();
+            ButtonCreateMob.Hit += new EventHandler(ButtonCreateMob_Click);
+            
+            ButtonAdvancedRemoveInst = view != null ? (HudButton)view["ButtonAdvancedRemoveInst"] : new HudButton();
+            ButtonAdvancedRemoveInst.Hit += new EventHandler(ButtonRemoveInstace_Click);
 
             // ***** Paths Tab *****
             TextBoxPathJSON = (HudTextBox)view["TextboxPathJSON"];
@@ -232,7 +354,10 @@ namespace AceCreator
             ButtonACCWiki = view != null ? (HudButton)view["ButtonACCWiki"] : new HudButton();
             ButtonACCWiki.Hit += new EventHandler(ButtonACCWiki_Click);
 
-            
+            // Making some stuff not seen
+            ButtonYotesWCIDLookUp.Visible = false;
+            ButtonCreateMob.Visible = false;
+
         }
 
         [BaseEvent("LoginComplete", "CharacterFilter")]
@@ -288,15 +413,18 @@ namespace AceCreator
             try
             {
 
-                if (ChatMessages.GetWeenieInfo(e.Text, out string wcid))
+                if (ChatMessages.GetWeenieInfo(e.Text, out string wcid, out string guid))
                 {
                     TextboxExportJsonWCID = (HudTextBox)view["TextboxExportJsonWCID"];
                     TextboxExportSQLWCID = (HudTextBox)view["TextboxExportSQLWCID"];
+                    TextboxParentGUID = (HudTextBox)view["TextboxParentGUID"];                    
 
                     LabelGetInfo = (HudStaticText)view["LabelGetInfo"];
                     LabelGetInfo.Text = e.Text;
                     TextboxExportJsonWCID.Text = wcid;
                     TextboxExportSQLWCID.Text = wcid;
+                    TextboxParentGUID.Text = guid;
+
                     Globals.YotesWCID = wcid;
                     if (Globals.ButtonCommand == "YotesLookup")
                     {
@@ -327,6 +455,17 @@ namespace AceCreator
                     else
                         Util.LogLocation(TextboxCreateWCID.Text + ", " + location);
                 }
+                if (ChatMessages.GetCurrentLandblock(e.Text, out string landblock))
+                {
+                    TextboxCurrentLandblock = (HudTextBox)view["TextboxCurrentLandblock"];
+
+                    TextboxCurrentLandblock.Text = landblock;
+                }
+                //if (ChatMessages.GetParentGUID(e.Text, out string guid))
+                //{
+                //    TextboxParentGUID = (HudTextBox)view["TextboxParentGUID"];
+                //    TextboxParentGUID.Text = guid;
+                //}
             }
             catch (Exception ex)
             {
@@ -353,8 +492,12 @@ namespace AceCreator
         {
             Util.WriteToChat(Globals.PathSQL);
             ChoiceSQL = (HudCombo)view["ChoiceSQL"];
+            ChoiceChildList = (HudCombo)view["ChoiceChildList"];
+
             // ICombo addfile = JSONFileList.Add(File.AppendAllText)
             ChoiceSQL.Clear();
+            ChoiceChildList.Clear();
+
             string filespath = Globals.PathSQL;
             DirectoryInfo d = new DirectoryInfo(filespath);
             FileInfo[] files = d.GetFiles("*.sql");
@@ -363,6 +506,7 @@ namespace AceCreator
             {
                 // Util.WriteToChat(file.Name);
                 ChoiceSQL.AddItem(file.Name, file.Name);
+                ChoiceChildList.AddItem(file.Name, file.Name);
 
             }
         }        
@@ -451,6 +595,19 @@ namespace AceCreator
                 {
                     Util.SendChatCommand(Globals.ButtonCommand);
                     CoreManager.Current.WorldFilter.ChangeObject -= DeleteItemWaitForItemUpdate;
+                    Globals.ButtonCommand = "NONE";
+                }
+            }
+            catch (Exception ex) { Util.LogError(ex); }
+        }
+        private void WaitForItemUpdate(object sender, ChangeObjectEventArgs e)
+        {
+            try
+            {
+                if (e.Changed.Id == aceItem.id)
+                {
+                    Util.SendChatCommand(Globals.ButtonCommand);
+                    CoreManager.Current.WorldFilter.ChangeObject -= WaitForItemUpdate;
                     Globals.ButtonCommand = "NONE";
                 }
             }
@@ -615,6 +772,52 @@ namespace AceCreator
             LoadQuestSQLChoiceList();
             LoadRecipeJSONChoiceList();
             LoadRecipeSQLChoiceList();
+        }
+
+        public void LoadParentObjectsFile()
+        {
+            ChoiceGenerator = (HudCombo)view["ChoiceGenerator"];
+            ChoiceGenerator.Clear();
+            try
+            {
+                string assemblyFolder = System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+                string filePath = System.IO.Path.Combine(assemblyFolder, "parentobjects.ini");
+
+                if (!File.Exists(filePath))
+                {
+                    File.Create(filePath).Close();
+
+                    using (StreamWriter writer = new StreamWriter(filePath, false))
+                    {
+                        writer.WriteLine("1154 Linkable Monster Generator");
+                        writer.WriteLine("4219 Linkable Monster Generator ( 7 Min. )");
+                        writer.WriteLine("7923 Linkable Monster Generator ( 3 Min. )");
+                        writer.WriteLine("7924 Linkable Monster Generator ( 5 Min. )");
+
+                        writer.WriteLine("7925 Linkable Monster Generator ( 10 Min.)");
+                        writer.WriteLine("7926 Linkable Monster Generator ( 20 Min.)");
+                        writer.WriteLine("7932 Linkable Monster Generator ( 4 Min. )");
+                        writer.WriteLine("21120	Linkable Monster Generator");
+                        writer.WriteLine("24129	Linkable Monster Generator ( 2 Min.)");
+                        writer.Close();
+                    }
+                }
+
+                string[] lines = File.ReadAllLines(filePath);
+
+                foreach (string line in File.ReadAllLines(filePath))
+                {
+                    ChoiceGenerator.AddItem(line, line);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                                
+                Util.WriteToChat(ex.Message);
+
+            }
+            
         }
     }
 }

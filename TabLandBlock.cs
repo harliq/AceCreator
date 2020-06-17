@@ -27,6 +27,10 @@ namespace AceCreator
         public HudButton ButtonReloadLandblock { get; set; }
         public HudButton ButtonClearCache { get; set; }
 
+        public HudButton ButtonGetCurrentLandblock { get; set; }
+        public HudButton ButtonExportLandblock { get; set; }
+
+        public HudTextBox TextboxCurrentLandblock { get; set; }
 
 
         // Button Events
@@ -100,5 +104,26 @@ namespace AceCreator
 
         }
 
+        public void ButtonGetCurrentLandblock_Click(object sender, EventArgs e)
+        {
+            Globals.ButtonCommand = "GetLandblock";
+            try
+            {
+                Util.SendChatCommand("/myloc");
+            }
+            catch (Exception ex) { Util.LogError(ex); }
+
+        }
+        public void ButtonExportLandblock_Click(object sender, EventArgs e)
+        {
+            // Globals.ButtonCommand = "/export-sql landblock " + TextboxCurrentLandblock.Text;
+            try
+            {
+                Util.SendChatCommand("/export-sql landblock " + TextboxCurrentLandblock.Text);
+            }
+            catch (Exception ex) { Util.LogError(ex); }
+            LoadLandBlockJSONChoiceList();
+            LoadLandBlockSQLChoiceList();
+        }
     }
 }
