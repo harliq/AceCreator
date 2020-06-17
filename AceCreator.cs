@@ -344,7 +344,8 @@ namespace AceCreator
             ButtonACCWiki.Hit += new EventHandler(ButtonACCWiki_Click);
 
             // Making some stuff not seen
-            //ButtonYotesWCIDLookUp.Visible = false;
+            ButtonYotesWCIDLookUp.Visible = false;
+            ButtonCreateMob.Visible = false;
 
         }
 
