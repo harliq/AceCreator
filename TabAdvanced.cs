@@ -18,6 +18,7 @@ namespace AceCreator
         public HudButton ButtonAdvancedRemoveInst { get; set; }
         public HudButton ButtonCreateMob { get; set; }
 
+        public HudButton ButtonAdvancedRemoveEncounter { get; set; }
         
 
         public HudTextBox TextboxGeneratorWCID { get; set; }
@@ -118,7 +119,17 @@ namespace AceCreator
             }
             catch (Exception ex) { Util.LogError(ex); }
         }
+        public void ButtonAdvancedRemoveEncounter_Click(object sender, EventArgs e)
+        {
 
+            try
+            {
+                Globals.ButtonCommand = "/removeenc";
+                CommandWait(sender, e);
+
+            }
+            catch (Exception ex) { Util.LogError(ex); }
+        }
         
     }
 }
