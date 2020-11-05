@@ -327,9 +327,13 @@ namespace AceCreator
             ButtonAdvancedRemoveInst = view != null ? (HudButton)view["ButtonAdvancedRemoveInst"] : new HudButton();
             ButtonAdvancedRemoveInst.Hit += new EventHandler(ButtonRemoveInstace_Click);
 
+            ButtonAdvancedAddEncounter = view != null ? (HudButton)view["ButtonAdvancedAddEncounter"] : new HudButton();
+            ButtonAdvancedAddEncounter.Hit += new EventHandler(ButtonAdvancedAddEncounter_Click);
+
+            TextBoxEncounterWCID = (HudTextBox)view["TextBoxEncounterWCID"];
+
             ButtonAdvancedRemoveEncounter = view != null ? (HudButton)view["ButtonAdvancedRemoveEncounter"] : new HudButton();
             ButtonAdvancedRemoveEncounter.Hit += new EventHandler(ButtonAdvancedRemoveEncounter_Click);
-
 
             // ***** Paths Tab *****
             TextBoxPathJSON = (HudTextBox)view["TextboxPathJSON"];

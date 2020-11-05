@@ -18,8 +18,11 @@ namespace AceCreator
         public HudButton ButtonAdvancedRemoveInst { get; set; }
         public HudButton ButtonCreateMob { get; set; }
 
+
+        public HudButton ButtonAdvancedAddEncounter { get; set; }
         public HudButton ButtonAdvancedRemoveEncounter { get; set; }
-        
+        public HudTextBox TextBoxEncounterWCID { get; set; }
+
 
         public HudTextBox TextboxGeneratorWCID { get; set; }
 
@@ -130,6 +133,15 @@ namespace AceCreator
             }
             catch (Exception ex) { Util.LogError(ex); }
         }
-        
+        public void ButtonAdvancedAddEncounter_Click(object sender, EventArgs e)
+        {
+
+            try
+            {
+                Util.SendChatCommand("/addenc " + TextBoxEncounterWCID.Text);
+            }
+            catch (Exception ex) { Util.LogError(ex); }
+        }
+
     }
 }

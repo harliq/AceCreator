@@ -149,8 +149,11 @@
           <control progid="DecalControls.PushButton" name="ButtonCreateMob" left="10" top="310" width="340" height="25" text="Create Mob (/createinst -p GUID -c 1)"/>
 
           <control progid="DecalControls.PushButton" name="ButtonAdvancedRemoveInst" left="10" top="270" width="340" height="25" text="Remove Instance"/>
-
-          <control progid="DecalControls.PushButton" name="ButtonAdvancedRemoveEncounter" left="10" top="320" width="340" height="25" text="Remove Encounter"/>
+          
+          <control progid="DecalControls.PushButton" name="ButtonAdvancedAddEncounter" left="10" top="320" width="170" height="25" text="Add Encounter"/>
+          <control progid="DecalControls.StaticText" name="LabelEncounterWCID" left="190" top="325" width="60" height="15" text="Gen WCID:"/>
+          <control progid="DecalControls.Edit" name="TextBoxEncounterWCID" left="250" top="320" width="100" height="20" imageportalsrc="4726" text=""/>
+          <control progid="DecalControls.PushButton" name="ButtonAdvancedRemoveEncounter" left="10" top="355" width="170" height="25" text="Remove Selected Encounter"/>
 
         </control>
       </page>
