@@ -295,12 +295,10 @@ namespace AceCreator
 
             // ***** Advanced Tab *****
 
-
             ChoiceGenerator = (HudCombo)view["ChoiceGenerator"];
             ChoiceGenerator.Change += new EventHandler(ChoiceGenerator_Change);
 
-            TextboxGeneratorWCID = (HudTextBox)view["TextboxGeneratorWCID"];
-            
+            TextboxGeneratorWCID = (HudTextBox)view["TextboxGeneratorWCID"];           
 
             ButtonCreateGenerator = view != null ? (HudButton)view["ButtonCreateGenerator"] : new HudButton();
             ButtonCreateGenerator.Hit += new EventHandler(ButtonCreateGenerator_Click);
@@ -328,6 +326,10 @@ namespace AceCreator
             
             ButtonAdvancedRemoveInst = view != null ? (HudButton)view["ButtonAdvancedRemoveInst"] : new HudButton();
             ButtonAdvancedRemoveInst.Hit += new EventHandler(ButtonRemoveInstace_Click);
+
+            ButtonAdvancedRemoveEncounter = view != null ? (HudButton)view["ButtonAdvancedRemoveEncounter"] : new HudButton();
+            ButtonAdvancedRemoveEncounter.Hit += new EventHandler(ButtonAdvancedRemoveEncounter_Click);
+
 
             // ***** Paths Tab *****
             TextBoxPathJSON = (HudTextBox)view["TextboxPathJSON"];

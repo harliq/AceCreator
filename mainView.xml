@@ -149,6 +149,9 @@
           <control progid="DecalControls.PushButton" name="ButtonCreateMob" left="10" top="310" width="340" height="25" text="Create Mob (/createinst -p GUID -c 1)"/>
 
           <control progid="DecalControls.PushButton" name="ButtonAdvancedRemoveInst" left="10" top="270" width="340" height="25" text="Remove Instance"/>
+
+          <control progid="DecalControls.PushButton" name="ButtonAdvancedRemoveEncounter" left="10" top="320" width="340" height="25" text="Remove Encounter"/>
+
         </control>
       </page>
 
