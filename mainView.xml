@@ -33,16 +33,16 @@
 				<control progid="DecalControls.PushButton" name="CommandRefreshFilesList" left="130" top="385" width="100" height="20" text="Refresh File Lists"/>
 				<control progid="DecalControls.PushButton" name="ButtonGetInfo" left="250" top="385" width="100" height="20" text="GetInfo"/>
 			</control>
-
 		</page>
+
 		<page label="Nudge">
 			<control progid="DecalControls.FixedLayout" clipped="">
 				<control progid="DecalControls.StaticText" name="LabelNudge" left="30" top="7" width="280" height="15" text="Select object, then click which direction to nudge it"/>
 
-        <control progid="DecalControls.StaticText" name="LabelNudgeIncrement" left="20" top="50" width="100" height="15" text="Increment:"/>
-        <control progid="DecalControls.Edit" name="TextboxNudgeValueCustom" left="30" top="80" width="25" height="20" imageportalsrc="4726" text="0.5"/>
+		        <control progid="DecalControls.StaticText" name="LabelNudgeIncrement" left="20" top="50" width="100" height="15" text="Increment:"/>
+				<control progid="DecalControls.Edit" name="TextboxNudgeValueCustom" left="30" top="80" width="25" height="20" imageportalsrc="4726" text="0.5"/>
         
-        <control progid="DecalControls.PushButton" name="ButtonNudgeNW" left="110" top="30" width="40" height="25" text="NW"/>
+				<control progid="DecalControls.PushButton" name="ButtonNudgeNW" left="110" top="30" width="40" height="25" text="NW"/>
 				<control progid="DecalControls.PushButton" name="ButtonNudgeN" left="160" top="30" width="40" height="25" text="N"/>
 				<control progid="DecalControls.PushButton" name="ButtonNudgeNE" left="210" top="30" width="40" height="25" text="NE"/>
 				<control progid="DecalControls.PushButton" name="ButtonNudgeW" left="110" top="65" width="40" height="25" text="W"/>
@@ -51,32 +51,32 @@
 				<control progid="DecalControls.PushButton" name="ButtonNudgeS" left="160" top="100" width="40" height="25" text="S"/>
 				<control progid="DecalControls.PushButton" name="ButtonNudgeSE" left="210" top="100" width="40" height="25" text="SE"/>
 
-        <control progid="DecalControls.PushButton" name="ButtonNudgeUp" left="280" top="45" width="60" height="25" text="Up"/>
-        <control progid="DecalControls.PushButton" name="ButtonNudgeDown" left="280" top="80" width="60" height="25" text="Down"/>
+				<control progid="DecalControls.PushButton" name="ButtonNudgeUp" left="280" top="45" width="60" height="25" text="Up"/>
+				<control progid="DecalControls.PushButton" name="ButtonNudgeDown" left="280" top="80" width="60" height="25" text="Down"/>
 
 
-        <control progid="DecalControls.StaticText" name="LabelRotate" left="140" top="145" width="80" height="15" text="Rotate Object"/>
+				<control progid="DecalControls.StaticText" name="LabelRotate" left="140" top="145" width="80" height="15" text="Rotate Object"/>
 				<control progid="DecalControls.PushButton" name="ButtonRotateN" left="30" top="160" width="80" height="25" text="0 Degrees"/>
-        <control progid="DecalControls.PushButton" name="ButtonRotateNE" left="30" top="190" width="80" height="25" text="45 Degrees"/>
+				<control progid="DecalControls.PushButton" name="ButtonRotateNE" left="30" top="190" width="80" height="25" text="45 Degrees"/>
 				<control progid="DecalControls.PushButton" name="ButtonRotateE" left="30" top="220" width="80" height="25" text="90 Degrees"/>
-        <control progid="DecalControls.PushButton" name="ButtonRotateSE" left="30" top="250" width="80" height="25" text="135 Degrees"/>
+		        <control progid="DecalControls.PushButton" name="ButtonRotateSE" left="30" top="250" width="80" height="25" text="135 Degrees"/>
 
-        <control progid="DecalControls.StaticText" name="LabelFreeRotate" left="145" top="185" width="250" height="15" text="Free Rotate"/>
-        <control progid="DecalControls.Edit" name="TextboxFreeRotate" left="160" top="210" width="40" height="25" imageportalsrc="4726" text="25"/>
-        <control progid="DecalControls.PushButton" name="ButtonFreeRotate" left="140" top="250" width="80" height="25" text="Rotate"/>
+				<control progid="DecalControls.StaticText" name="LabelFreeRotate" left="145" top="185" width="250" height="15" text="Free Rotate"/>
+				<control progid="DecalControls.Edit" name="TextboxFreeRotate" left="160" top="210" width="40" height="25" imageportalsrc="4726" text="25"/>
+				<control progid="DecalControls.PushButton" name="ButtonFreeRotate" left="140" top="250" width="80" height="25" text="Rotate"/>
         
 				<control progid="DecalControls.PushButton" name="ButtonRotateS" left="250" top="160" width="80" height="25" text="180 Degrees"/>
-        <control progid="DecalControls.PushButton" name="ButtonRotateSW" left="250" top="190" width="80" height="25" text="225 Degrees"/>
+		        <control progid="DecalControls.PushButton" name="ButtonRotateSW" left="250" top="190" width="80" height="25" text="225 Degrees"/>
 				<control progid="DecalControls.PushButton" name="ButtonRotateW" left="250" top="220" width="80" height="25" text="270 Degrees"/>
-        <control progid="DecalControls.PushButton" name="ButtonRotateNW" left="250" top="250" width="80" height="25" text="315 Degrees"/>
+				<control progid="DecalControls.PushButton" name="ButtonRotateNW" left="250" top="250" width="80" height="25" text="315 Degrees"/>
 
-        <control progid="DecalControls.PushButton" name="ButtonNudgeHere" left="10" top="290" width="165" height="25" text="Nudge Here"/>
-        <control progid="DecalControls.PushButton" name="ButtonRotateHere" left="185" top="290" width="165" height="25" text="Rotate Here"/>
+				<control progid="DecalControls.PushButton" name="ButtonNudgeHere" left="10" top="290" width="165" height="25" text="Nudge Here"/>
+				<control progid="DecalControls.PushButton" name="ButtonRotateHere" left="185" top="290" width="165" height="25" text="Rotate Here"/>
 
 			</control>
-
 		</page>
-		<page label="Landblocks">
+			
+		<page label="Landblock">
 			<control progid="DecalControls.FixedLayout" clipped="">
 				<control progid="DecalControls.StaticText" name="LabelLandblockJson" left="10" top="5" width="256" height="15" text="Select Landblock JSON File"/>
 				<control progid="DecalControls.Choice" name="ChoiceLandblockJSON" left="5" top="25" width="340" height="20"/>
@@ -89,18 +89,16 @@
 				<control progid="DecalControls.PushButton" name="ButtonReloadLandblock" left="10" top="175" width="165" height="25" text="Reload Landblock"/>
 				<control progid="DecalControls.PushButton" name="ButtonClearCache" left="185" top="175" width="165" height="25" text="Clear Cache"/>
 
-        <control progid="DecalControls.PushButton" name="ButtonGetCurrentLandblock" left="10" top="225" width="165" height="25" text="Get Current Landblock"/>
-        <control progid="DecalControls.PushButton" name="ButtonExportLandblock" left="185" top="225" width="165" height="25" text="Export Landblock"/>
+				<control progid="DecalControls.PushButton" name="ButtonGetCurrentLandblock" left="10" top="225" width="165" height="25" text="Get Current Landblock"/>
+				<control progid="DecalControls.PushButton" name="ButtonExportLandblock" left="185" top="225" width="165" height="25" text="Export Landblock"/>
 
-        <control progid="DecalControls.StaticText" name="LabelCurrentLandblock" left="10" top="263" width="100" height="15" text="Current Landblock:"/>
-        <control progid="DecalControls.Edit" name="TextboxCurrentLandblock" left="110" top="260" width="50" height="20" imageportalsrc="4726" text=""/>
-        
-        
+				<control progid="DecalControls.StaticText" name="LabelCurrentLandblock" left="10" top="263" width="100" height="15" text="Current Landblock:"/>
+				<control progid="DecalControls.Edit" name="TextboxCurrentLandblock" left="110" top="260" width="50" height="20" imageportalsrc="4726" text=""/>
         
 			</control>
 		</page>
       
-		<page label="Quests/Recipes">
+		<page label="Quest/Recipe">
 			<control progid="DecalControls.FixedLayout" clipped="">
 				<control progid="DecalControls.StaticText" name="LabelQuestJson" left="10" top="5" width="256" height="15" text="Select Quest JSON File"/>
 				<control progid="DecalControls.Choice" name="ChoiceQuestJSON" left="5" top="25" width="340" height="20"/>
@@ -120,44 +118,82 @@
 				<control progid="DecalControls.PushButton" name="ButtonEditRecipeSQL" left="120" top="275" width="100" height="20" text="Edit Recipe SQL"/>               
 			</control>
 		</page>
-      <!--Advanced Commands -->
-      <page label="Advanced">
-        <control progid="DecalControls.FixedLayout" clipped="">
-          <control progid="DecalControls.StaticText" name="LabelWarning" left="50" top="5" width="260" height="15" color="#FF0000" text="WARNING! - Use the following at your own risk!"/>
-          
-          <control progid="DecalControls.StaticText" name="LabelGenerator" left="10" top="30" width="256" height="15" text="Select a Parent object to create an Instance of:"/>
-          <control progid="DecalControls.Choice" name="ChoiceGenerator" left="10" top="50" width="340" height="20"/>
 
-          <control progid="DecalControls.StaticText" name="LabelParentWCID" left="10" top="85" width="100" height="15" text="Parent WCID:"/>
-          <control progid="DecalControls.Edit" name="TextboxGeneratorWCID" left="90" top="80" width="80" height="20" imageportalsrc="4726" text=""/>          
+		<!--Property Commands -->
+		<page label="Property">
+			<control progid="DecalControls.FixedLayout" clipped="">
+			<control progid="DecalControls.StaticText" name="LabelWarning" left="50" top="5" width="260" height="15" color="#FF0000" text="WARNING! - Use the following at your own risk!"/>
           
-          <control progid="DecalControls.PushButton" name="ButtonCreateGenerator" left="10" top="110" width="105" height="20" text="Create Instance"/>
-          <control progid="DecalControls.PushButton" name="ButtonEditGeneratorList" left="125" top="110" width="105" height="20" text="Edit Dropdown List"/>
-          <control progid="DecalControls.PushButton" name="ButtonRefreshGeneratorList" left="240" top="110" width="110" height="20" text="Refresh List"/>
+			<control progid="DecalControls.StaticText" name="LabelGenerator" left="10" top="30" width="256" height="15" text="Select a Parent object to create an Instance of:"/>
+			<control progid="DecalControls.Choice" name="ChoiceGenerator" left="10" top="50" width="340" height="20"/>
+
+			<control progid="DecalControls.StaticText" name="LabelParentWCID" left="10" top="85" width="100" height="15" text="Parent WCID:"/>
+			<control progid="DecalControls.Edit" name="TextboxGeneratorWCID" left="90" top="80" width="80" height="20" imageportalsrc="4726" text=""/>          
           
-          <control progid="DecalControls.StaticText" name="LabelParentChild" left="120" top="145" width="150" height="15" text="Parent/Child Linking"/>
+			<control progid="DecalControls.PushButton" name="ButtonCreateGenerator" left="10" top="110" width="105" height="20" text="Create Instance"/>
+			<control progid="DecalControls.PushButton" name="ButtonEditGeneratorList" left="125" top="110" width="105" height="20" text="Edit Dropdown List"/>
+			<control progid="DecalControls.PushButton" name="ButtonRefreshGeneratorList" left="240" top="110" width="110" height="20" text="Refresh List"/>
+          
+			<control progid="DecalControls.StaticText" name="LabelParentChild" left="120" top="145" width="150" height="15" text="Parent/Child Linking"/>
                                       
-          <control progid="DecalControls.StaticText" name="LabelParentGUID" left="10" top="170" width="100" height="15" text="Parent GUID:"/>
-          <control progid="DecalControls.Edit" name="TextboxParentGUID" left="90" top="165" width="80" height="20" imageportalsrc="4726" text=""/>
-          <control progid="DecalControls.PushButton" name="ButtonGetParentGUID" left="180" top="165" width="160" height="20" text="Get Parent GUID"/>
+			<control progid="DecalControls.StaticText" name="LabelParentGUID" left="10" top="170" width="100" height="15" text="Parent GUID:"/>
+			<control progid="DecalControls.Edit" name="TextboxParentGUID" left="90" top="165" width="80" height="20" imageportalsrc="4726" text=""/>
+			<control progid="DecalControls.PushButton" name="ButtonGetParentGUID" left="180" top="165" width="160" height="20" text="Get Parent GUID"/>
           
-          <control progid="DecalControls.StaticText" name="LabelChildWCID" left="10" top="200" width="100" height="15" text="Child WCID:"/>
-          <control progid="DecalControls.Edit" name="TextboxChildWCID" left="90" top="195" width="80" height="20" imageportalsrc="4726" text=""/>
-          <control progid="DecalControls.Choice" name="ChoiceChildList" left="180" top="197" width="160" height="20"/>
+			<control progid="DecalControls.StaticText" name="LabelChildWCID" left="10" top="200" width="100" height="15" text="Child WCID:"/>
+			<control progid="DecalControls.Edit" name="TextboxChildWCID" left="90" top="195" width="80" height="20" imageportalsrc="4726" text=""/>
+			<control progid="DecalControls.Choice" name="ChoiceChildList" left="180" top="197" width="160" height="20"/>
           
-          <control progid="DecalControls.PushButton" name="ButtonLinkChild" left="10" top="225" width="340" height="25" text="Link Child WCID to Parent"/>
-          <control progid="DecalControls.PushButton" name="ButtonCreateMob" left="10" top="310" width="340" height="25" text="Create Mob (/createinst -p GUID -c 1)"/>
+			<control progid="DecalControls.PushButton" name="ButtonLinkChild" left="10" top="225" width="340" height="25" text="Link Child WCID to Parent"/>
+			<control progid="DecalControls.PushButton" name="ButtonCreateMob" left="10" top="310" width="340" height="25" text="Create Mob (/createinst -p GUID -c 1)"/>
 
-          <control progid="DecalControls.PushButton" name="ButtonAdvancedRemoveInst" left="10" top="270" width="340" height="25" text="Remove Instance"/>
+			<control progid="DecalControls.PushButton" name="ButtonAdvancedRemoveInst" left="10" top="270" width="340" height="25" text="Remove Instance"/>
           
-          <control progid="DecalControls.PushButton" name="ButtonAdvancedAddEncounter" left="10" top="320" width="170" height="25" text="Add Encounter"/>
-          <control progid="DecalControls.StaticText" name="LabelEncounterWCID" left="190" top="325" width="60" height="15" text="Gen WCID:"/>
-          <control progid="DecalControls.Edit" name="TextBoxEncounterWCID" left="250" top="320" width="100" height="20" imageportalsrc="4726" text=""/>
-          <control progid="DecalControls.PushButton" name="ButtonAdvancedRemoveEncounter" left="10" top="355" width="170" height="25" text="Remove Selected Encounter"/>
+			<control progid="DecalControls.PushButton" name="ButtonAdvancedAddEncounter" left="10" top="320" width="170" height="25" text="Add Encounter"/>
+			<control progid="DecalControls.StaticText" name="LabelEncounterWCID" left="190" top="325" width="60" height="15" text="Gen WCID:"/>
+			<control progid="DecalControls.Edit" name="TextBoxEncounterWCID" left="250" top="320" width="100" height="20" imageportalsrc="4726" text=""/>
+			<control progid="DecalControls.PushButton" name="ButtonAdvancedRemoveEncounter" left="10" top="355" width="170" height="25" text="Remove Selected Encounter"/>
 
         </control>
       </page>
 
+		<!--Advanced Commands -->
+		<page label="Advanced">
+			<control progid="DecalControls.FixedLayout" clipped="">
+				<control progid="DecalControls.StaticText" name="LabelWarning" left="50" top="5" width="260" height="15" color="#FF0000" text="WARNING! - Use the following at your own risk!"/>
+
+				<control progid="DecalControls.StaticText" name="LabelGenerator" left="10" top="30" width="256" height="15" text="Select a Parent object to create an Instance of:"/>
+				<control progid="DecalControls.Choice" name="ChoiceGenerator" left="10" top="50" width="340" height="20"/>
+
+				<control progid="DecalControls.StaticText" name="LabelParentWCID" left="10" top="85" width="100" height="15" text="Parent WCID:"/>
+				<control progid="DecalControls.Edit" name="TextboxGeneratorWCID" left="90" top="80" width="80" height="20" imageportalsrc="4726" text=""/>
+
+				<control progid="DecalControls.PushButton" name="ButtonCreateGenerator" left="10" top="110" width="105" height="20" text="Create Instance"/>
+				<control progid="DecalControls.PushButton" name="ButtonEditGeneratorList" left="125" top="110" width="105" height="20" text="Edit Dropdown List"/>
+				<control progid="DecalControls.PushButton" name="ButtonRefreshGeneratorList" left="240" top="110" width="110" height="20" text="Refresh List"/>
+
+				<control progid="DecalControls.StaticText" name="LabelParentChild" left="120" top="145" width="150" height="15" text="Parent/Child Linking"/>
+
+				<control progid="DecalControls.StaticText" name="LabelParentGUID" left="10" top="170" width="100" height="15" text="Parent GUID:"/>
+				<control progid="DecalControls.Edit" name="TextboxParentGUID" left="90" top="165" width="80" height="20" imageportalsrc="4726" text=""/>
+				<control progid="DecalControls.PushButton" name="ButtonGetParentGUID" left="180" top="165" width="160" height="20" text="Get Parent GUID"/>
+
+				<control progid="DecalControls.StaticText" name="LabelChildWCID" left="10" top="200" width="100" height="15" text="Child WCID:"/>
+				<control progid="DecalControls.Edit" name="TextboxChildWCID" left="90" top="195" width="80" height="20" imageportalsrc="4726" text=""/>
+				<control progid="DecalControls.Choice" name="ChoiceChildList" left="180" top="197" width="160" height="20"/>
+
+				<control progid="DecalControls.PushButton" name="ButtonLinkChild" left="10" top="225" width="340" height="25" text="Link Child WCID to Parent"/>
+				<control progid="DecalControls.PushButton" name="ButtonCreateMob" left="10" top="310" width="340" height="25" text="Create Mob (/createinst -p GUID -c 1)"/>
+
+				<control progid="DecalControls.PushButton" name="ButtonAdvancedRemoveInst" left="10" top="270" width="340" height="25" text="Remove Instance"/>
+
+				<control progid="DecalControls.PushButton" name="ButtonAdvancedAddEncounter" left="10" top="320" width="170" height="25" text="Add Encounter"/>
+				<control progid="DecalControls.StaticText" name="LabelEncounterWCID" left="190" top="325" width="60" height="15" text="Gen WCID:"/>
+				<control progid="DecalControls.Edit" name="TextBoxEncounterWCID" left="250" top="320" width="100" height="20" imageportalsrc="4726" text=""/>
+				<control progid="DecalControls.PushButton" name="ButtonAdvancedRemoveEncounter" left="10" top="355" width="170" height="25" text="Remove Selected Encounter"/>
+
+			</control>
+		</page>			
 
       <page label="Paths">
 			<control progid="DecalControls.FixedLayout" clipped="">
