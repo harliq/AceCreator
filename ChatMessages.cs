@@ -13,6 +13,7 @@ namespace AceCreator
         public static Collection<Regex> MyLocations = new Collection<Regex>();
         public static Collection<Regex> MyLandblock = new Collection<Regex>();
         public static Collection<Regex> ParentGUID = new Collection<Regex>();
+        public static Collection<Regex> PropetyDumpStop = new Collection<Regex>();
 
         public ChatMessages()
         {
@@ -22,6 +23,7 @@ namespace AceCreator
             MyLocations.Add(new Regex("^Your location is:.*"));
             MyLandblock.Add(new Regex("^CurrentLandblock:.*"));
             ParentGUID.Add(new Regex("^GUID:.*"));
+            PropetyDumpStop.Add(new Regex("^PropertyString.Name.*"));
         }
         public static bool GetWeenieInfo(string text, out string wcid, out string guid)
         {
@@ -109,6 +111,17 @@ namespace AceCreator
                 if (regex.IsMatch(text))
                 {
                         return true;
+                }
+            }
+            return false;
+        }
+        public static bool PropertyDumpEnd(string text)
+        {
+            foreach (Regex regex in PropetyDumpStop)
+            {
+                if (regex.IsMatch(text))
+                {
+                    return true;
                 }
             }
             return false;

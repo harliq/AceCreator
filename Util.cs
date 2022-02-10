@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using Decal.Adapter;
+using Decal.Adapter.Wrappers;
 using AceCreator.Lib;
 
 namespace AceCreator
@@ -136,5 +137,32 @@ namespace AceCreator
             }
             return temp;
         }
+
+        public static void WritePropertyDump(string textToWrite)
+        {
+            try
+            {
+                WorldObject WO;
+                AceItem aceItem = new AceItem();
+                WO = CoreManager.Current.WorldFilter[CoreManager.Current.Actions.CurrentSelection];
+                aceItem.name = WO.Name;
+                aceItem.id = WO.Type;
+                string dumpFileName = Environment.GetFolderPath(Environment.SpecialFolder.Personal) + @"\Decal Plugins\AceContentCreator\PropertyDumps\" + aceItem.id + " " + aceItem.name + " - Property Dump.txt";
+
+                string path = Environment.GetFolderPath(Environment.SpecialFolder.Personal) + @"\Decal Plugins\AceContentCreator\PropertyDumps";
+                if (!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+                }
+
+                File.WriteAllText(dumpFileName, textToWrite);
+
+                Util.WriteToChat("Property Dump was written to " + dumpFileName);
+
+            }
+            catch (Exception ex) { LogError(ex); }
+
+        }
+
     }
 }

@@ -4,6 +4,8 @@ using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Text.RegularExpressions;
+//using System.Text.RegularExpressions;
+//using AceCreator.Lib;
 using Decal.Adapter;
 using Decal.Adapter.Wrappers;
 using MyClasses.MetaViewWrappers;
@@ -36,6 +38,12 @@ namespace AceCreator
         private static VirindiViewService.ViewProperties properties;
         private static VirindiViewService.ControlGroup controls;
         private static VirindiViewService.HudView view;
+        public Dictionary<int, string> BoolTypes = new Dictionary<int, string>();
+        public Dictionary<int, string> IntTypes = new Dictionary<int, string>();
+        public Dictionary<int, string> Int64Types = new Dictionary<int, string>();
+        public Dictionary<int, string> FloatTypes = new Dictionary<int, string>();
+        public Dictionary<int, string> StringTypes = new Dictionary<int, string>();
+        string propertyDumpText = "";
 
         /// <summary>
         /// This is called when the plugin is started up. This happens only once.
@@ -53,8 +61,12 @@ namespace AceCreator
                 LoadPathSettings();
                 //JsonChoiceListLoadFiles();
                 //SqlChoiceListLoadFiles();
-                RefreshAllLists();
+                
                 LoadParentObjectsFile();
+                LoadPropertyTypes();
+                LoadDictionaryTypes();
+
+                RefreshAllLists();
                 //Initialize the view.
                 // MVWireupHelper.WireupStart(this, Host);
 
@@ -227,12 +239,8 @@ namespace AceCreator
             ButtonRotateHere.Hit += new EventHandler(ButtonRotateHere_Click);
 
 
-
-
-
-
-        // ***** LandBlocks Tab *****
-        ChoiceLandblockJSON = (HudCombo)view["ChoiceLandblockJSON"];
+            // ***** LandBlocks Tab *****
+            ChoiceLandblockJSON = (HudCombo)view["ChoiceLandblockJSON"];
             //ChoiceLandblockJSON.Change += new EventHandler(ChoiceLandblockJSON_Change);
 
             ButtonImportLandblockJSON = view != null ? (HudButton)view["ButtonImportLandblockJSON"] : new HudButton();
@@ -292,7 +300,24 @@ namespace AceCreator
             ButtonEditRecipeSQL = view != null ? (HudButton)view["ButtonEditRecipeSQL"] : new HudButton();
             ButtonEditRecipeSQL.Hit += new EventHandler(ButtonEditRecipeSQL_Click);
 
+            // ***** Property Tab *****
+            ChoicePropertyType = (HudCombo)view["ChoicePropertyType"];
 
+            ButtonSetProperty = view != null ? (HudButton)view["ButtonSetProperty"] : new HudButton();
+            ButtonSetProperty.Hit += new EventHandler(ButtonSetProperty_Click);
+
+            ButtonPropertyDump = view != null ? (HudButton)view["ButtonPropertyDump"] : new HudButton();
+            ButtonPropertyDump.Hit += new EventHandler(ButtonPropertyDump_Click);
+
+            TextboxProperty = (HudTextBox)view["TextboxProperty"];
+            TextboxPropertyValue = (HudTextBox)view["TextboxPropertyValue"];
+
+            CheckBoxSavePropertyDump = view != null ? (HudCheckBox)view["CheckBoxSavePropertyDump"] : new HudCheckBox();
+
+            ButtonDebug = view != null ? (HudButton)view["ButtonDebug"] : new HudButton();
+            ButtonDebug.Hit += new EventHandler(ButtonDebug_Click);
+
+            
             // ***** Advanced Tab *****
 
             ChoiceGenerator = (HudCombo)view["ChoiceGenerator"];
@@ -459,6 +484,10 @@ namespace AceCreator
                     SqlChoiceListLoadFiles();
                     Util.WriteToChat("ListRefresh");
                 }
+                //if (ChatMessages.PropertyDumpEnd(e.Text))
+                //{
+                //    Util.WriteToChat("/log");
+                //}
                 if (ChatMessages.LogMyLocations(e.Text, out string location))
                 {
                     if (TextboxCreateWCID.Text == "")
@@ -472,6 +501,15 @@ namespace AceCreator
 
                     TextboxCurrentLandblock.Text = landblock;
                 }
+                if (Globals.LogChat == true)
+                {
+                    propertyDumpText = propertyDumpText + e.Text + $"\r\n";
+
+                    Globals.LogChat = false;
+                    Util.WritePropertyDump(propertyDumpText);
+
+                    propertyDumpText = "";
+                }
 
             }
             catch (Exception ex)
@@ -481,42 +519,64 @@ namespace AceCreator
         }
         private void JsonChoiceListLoadFiles()
         {
-            ChoiceJSON = (HudCombo)view["ChoiceJSON"];
-            Util.WriteToChat(Globals.PathJSON);
-            ChoiceJSON.Clear();
-            string filespath = Globals.PathJSON;
-            DirectoryInfo d = new DirectoryInfo(filespath);
-            FileInfo[] files = d.GetFiles("*.json");
-
-            foreach (var file in files)
+            try
             {
-                // Util.WriteToChat(file.Name);
-                ChoiceJSON.AddItem(file.Name, file);
 
+                ChoiceJSON = (HudCombo)view["ChoiceJSON"];
+                Util.WriteToChat(Globals.PathJSON);
+                ChoiceJSON.Clear();
+                string filespath = Globals.PathJSON;
+                DirectoryInfo d = new DirectoryInfo(filespath);
+                FileInfo[] files = d.GetFiles("*.json");
+
+                foreach (var file in files)
+                {
+                    // Util.WriteToChat(file.Name);
+                    ChoiceJSON.AddItem(file.Name, file);
+
+                }
             }
+            catch (Exception ex) { Util.LogError(ex); }
         }
         private void SqlChoiceListLoadFiles()
         {
-            Util.WriteToChat(Globals.PathSQL);
-            ChoiceSQL = (HudCombo)view["ChoiceSQL"];
-            ChoiceChildList = (HudCombo)view["ChoiceChildList"];
-
-            // ICombo addfile = JSONFileList.Add(File.AppendAllText)
-            ChoiceSQL.Clear();
-            ChoiceChildList.Clear();
-
-            string filespath = Globals.PathSQL;
-            DirectoryInfo d = new DirectoryInfo(filespath);
-            FileInfo[] files = d.GetFiles("*.sql");
-
-            foreach (var file in files)
+            try
             {
-                // Util.WriteToChat(file.Name);
-                ChoiceSQL.AddItem(file.Name, file.Name);
-                ChoiceChildList.AddItem(file.Name, file.Name);
 
+                Util.WriteToChat(Globals.PathSQL);
+                ChoiceSQL = (HudCombo)view["ChoiceSQL"];
+                ChoiceChildList = (HudCombo)view["ChoiceChildList"];
+
+                // ICombo addfile = JSONFileList.Add(File.AppendAllText)
+                ChoiceSQL.Clear();
+                ChoiceChildList.Clear();
+
+                string filespath = Globals.PathSQL;
+                DirectoryInfo d = new DirectoryInfo(filespath);
+                FileInfo[] files = d.GetFiles("*.sql");
+
+                foreach (var file in files)
+                {
+                    // Util.WriteToChat(file.Name);
+                    ChoiceSQL.AddItem(file.Name, file.Name);
+                    ChoiceChildList.AddItem(file.Name, file.Name);
+
+                }
             }
-        }        
+            catch (Exception ex) { Util.LogError(ex); }
+        }
+        private void LoadPropertyTypes()
+        {
+            ChoicePropertyType.AddItem("Int", "Int");
+            ChoicePropertyType.AddItem("Int64", "Int64");
+            ChoicePropertyType.AddItem("Bool", "Bool");
+            ChoicePropertyType.AddItem("Float", "Float");
+            ChoicePropertyType.AddItem("String", "String");
+            //ChoicePropertyType.AddItem("Integer", "Integer");
+            //ChoicePropertyType.AddItem("Integer", "Integer");
+            //ChoicePropertyType.AddItem("Integer", "Integer");
+
+        }
         private void LoadPathSettings()
         {
             Dictionary<string, string> pathsettings = Util.LoadSetttings();
@@ -633,141 +693,159 @@ namespace AceCreator
         }
         private void LoadLandBlockJSONChoiceList()
         {
-
-            if (Globals.PathLandBlockJSON == "")
+            try
             {
-                Util.WriteToChat("JSON Landblock Path blank, Ignoring");
-                return;
-            }
-            ChoiceLandblockJSON = (HudCombo)view["ChoiceLandblockJSON"];
-            Util.WriteToChat(Globals.PathLandBlockJSON);
-            ChoiceLandblockJSON.Clear();
-            string filespath = Globals.PathLandBlockJSON;
-            DirectoryInfo d = new DirectoryInfo(filespath);
-            FileInfo[] files = d.GetFiles("*.json");
+                if (Globals.PathLandBlockJSON == "")
+                {
+                    Util.WriteToChat("JSON Landblock Path blank, Ignoring");
+                    return;
+                }
+                ChoiceLandblockJSON = (HudCombo)view["ChoiceLandblockJSON"];
+                Util.WriteToChat(Globals.PathLandBlockJSON);
+                ChoiceLandblockJSON.Clear();
+                string filespath = Globals.PathLandBlockJSON;
+                DirectoryInfo d = new DirectoryInfo(filespath);
+                FileInfo[] files = d.GetFiles("*.json");
 
-            foreach (var file in files)
-            {
-                // Util.WriteToChat(file.Name);
-                ChoiceLandblockJSON.AddItem(file.Name, file);
+                foreach (var file in files)
+                {
+                    // Util.WriteToChat(file.Name);
+                    ChoiceLandblockJSON.AddItem(file.Name, file);
 
+                }
             }
+            catch (Exception ex) { Util.LogError(ex); }
         }
         private void LoadLandBlockSQLChoiceList()
         {
-
-            if (Globals.PathLandBlockSQL == "")
+            try
             {
-                Util.WriteToChat("SQL Landblock Path blank, Ignoring");
-                return;
-            }
-            ChoiceLandblockSQL = (HudCombo)view["ChoiceLandblockSQL"];
-            Util.WriteToChat(Globals.PathLandBlockSQL);
-            ChoiceLandblockSQL.Clear();
-            string filespath = Globals.PathLandBlockSQL;
-            DirectoryInfo d = new DirectoryInfo(filespath);
-            FileInfo[] files = d.GetFiles("*.sql");
+                if (Globals.PathLandBlockSQL == "")
+                {
+                    Util.WriteToChat("SQL Landblock Path blank, Ignoring");
+                    return;
+                }
+                ChoiceLandblockSQL = (HudCombo)view["ChoiceLandblockSQL"];
+                Util.WriteToChat(Globals.PathLandBlockSQL);
+                ChoiceLandblockSQL.Clear();
+                string filespath = Globals.PathLandBlockSQL;
+                DirectoryInfo d = new DirectoryInfo(filespath);
+                FileInfo[] files = d.GetFiles("*.sql");
 
-            foreach (var file in files)
-            {
-                // Util.WriteToChat(file.Name);
-                ChoiceLandblockSQL.AddItem(file.Name, file);
+                foreach (var file in files)
+                {
+                    // Util.WriteToChat(file.Name);
+                    ChoiceLandblockSQL.AddItem(file.Name, file);
 
+                }
             }
+            catch (Exception ex) { Util.LogError(ex); }
         }
-
 
 
         private void LoadQuestJSONChoiceList()
         {
-
-            if (Globals.PathQuestJSON == "")
+            try
             {
-                Util.WriteToChat("JSON Quest Path blank, Ignoring");
-                return;
-            }
-            ChoiceQuestJSON = (HudCombo)view["ChoiceQuestJSON"];
-            Util.WriteToChat(Globals.PathQuestJSON);
-            ChoiceQuestJSON.Clear();
-            string filespath = Globals.PathQuestJSON;
-            DirectoryInfo d = new DirectoryInfo(filespath);
-            FileInfo[] files = d.GetFiles("*.json");
+                if (Globals.PathQuestJSON == "")
+                {
+                    Util.WriteToChat("JSON Quest Path blank, Ignoring");
+                    return;
+                }
+                ChoiceQuestJSON = (HudCombo)view["ChoiceQuestJSON"];
+                Util.WriteToChat(Globals.PathQuestJSON);
+                ChoiceQuestJSON.Clear();
+                string filespath = Globals.PathQuestJSON;
+                DirectoryInfo d = new DirectoryInfo(filespath);
+                FileInfo[] files = d.GetFiles("*.json");
 
-            foreach (var file in files)
-            {
-                // Util.WriteToChat(file.Name);
-                ChoiceQuestJSON.AddItem(file.Name, file);
+                foreach (var file in files)
+                {
+                    // Util.WriteToChat(file.Name);
+                    ChoiceQuestJSON.AddItem(file.Name, file);
 
+                }
             }
+            catch (Exception ex) { Util.LogError(ex); }
         }
         private void LoadQuestSQLChoiceList()
         {
-
-            if (Globals.PathQuestSQL == "")
+            try
             {
-                Util.WriteToChat("SQL Quest Path blank, Ignoring");
-                return;
-            }
-            ChoiceQuestSQL = (HudCombo)view["ChoiceQuestSQL"];
-            Util.WriteToChat(Globals.PathQuestSQL);
-            ChoiceQuestSQL.Clear();
-            string filespath = Globals.PathQuestSQL;
-            DirectoryInfo d = new DirectoryInfo(filespath);
-            FileInfo[] files = d.GetFiles("*.sql");
+                if (Globals.PathQuestSQL == "")
+                {
+                    Util.WriteToChat("SQL Quest Path blank, Ignoring");
+                    return;
+                }
+                ChoiceQuestSQL = (HudCombo)view["ChoiceQuestSQL"];
+                Util.WriteToChat(Globals.PathQuestSQL);
+                ChoiceQuestSQL.Clear();
+                string filespath = Globals.PathQuestSQL;
+                DirectoryInfo d = new DirectoryInfo(filespath);
+                FileInfo[] files = d.GetFiles("*.sql");
 
-            foreach (var file in files)
-            {
-                // Util.WriteToChat(file.Name);
-                ChoiceQuestSQL.AddItem(file.Name, file);
+                foreach (var file in files)
+                {
+                    // Util.WriteToChat(file.Name);
+                    ChoiceQuestSQL.AddItem(file.Name, file);
 
+                }
             }
+            catch (Exception ex) { Util.LogError(ex); }
         }
 
 
 
         private void LoadRecipeJSONChoiceList()
         {
-
-            if (Globals.PathRecipeJSON == "")
+            try
             {
-                Util.WriteToChat("JSON Recipe Path blank, Ignoring");
-                return;
-            }
-            ChoiceRecipeJSON = (HudCombo)view["ChoiceRecipeJSON"];
-            Util.WriteToChat(Globals.PathRecipeJSON);
-            ChoiceRecipeJSON.Clear();
-            string filespath = Globals.PathRecipeJSON;
-            DirectoryInfo d = new DirectoryInfo(filespath);
-            FileInfo[] files = d.GetFiles("*.json");
 
-            foreach (var file in files)
-            {
-                // Util.WriteToChat(file.Name);
-                ChoiceRecipeJSON.AddItem(file.Name, file);
+                if (Globals.PathRecipeJSON == "")
+                {
+                    Util.WriteToChat("JSON Recipe Path blank, Ignoring");
+                    return;
+                }
+                ChoiceRecipeJSON = (HudCombo)view["ChoiceRecipeJSON"];
+                Util.WriteToChat(Globals.PathRecipeJSON);
+                ChoiceRecipeJSON.Clear();
+                string filespath = Globals.PathRecipeJSON;
+                DirectoryInfo d = new DirectoryInfo(filespath);
+                FileInfo[] files = d.GetFiles("*.json");
 
+                foreach (var file in files)
+                {
+                    // Util.WriteToChat(file.Name);
+                    ChoiceRecipeJSON.AddItem(file.Name, file);
+
+                }
             }
+            catch (Exception ex) { Util.LogError(ex); }
         }
         private void LoadRecipeSQLChoiceList()
         {
-
-            if (Globals.PathRecipeSQL == "")
+            try
             {
-                Util.WriteToChat("SQL Recipe Path blank, Ignoring");
-                return;
-            }
-            ChoiceRecipeSQL = (HudCombo)view["ChoiceRecipeSQL"];
-            Util.WriteToChat(Globals.PathRecipeSQL);
-            ChoiceRecipeSQL.Clear();
-            string filespath = Globals.PathRecipeSQL;
-            DirectoryInfo d = new DirectoryInfo(filespath);
-            FileInfo[] files = d.GetFiles("*.sql");
+                if (Globals.PathRecipeSQL == "")
+                {
+                    Util.WriteToChat("SQL Recipe Path blank, Ignoring");
+                    return;
+                }
+                ChoiceRecipeSQL = (HudCombo)view["ChoiceRecipeSQL"];
+                Util.WriteToChat(Globals.PathRecipeSQL);
+                ChoiceRecipeSQL.Clear();
+                string filespath = Globals.PathRecipeSQL;
+                DirectoryInfo d = new DirectoryInfo(filespath);
+                FileInfo[] files = d.GetFiles("*.sql");
 
-            foreach (var file in files)
-            {
-                // Util.WriteToChat(file.Name);
-                ChoiceRecipeSQL.AddItem(file.Name, file);
+                foreach (var file in files)
+                {
+                    // Util.WriteToChat(file.Name);
+                    ChoiceRecipeSQL.AddItem(file.Name, file);
 
+                }
             }
+            catch (Exception ex) { Util.LogError(ex); }
         }
         private void RefreshAllLists()
         {
@@ -779,6 +857,7 @@ namespace AceCreator
             LoadQuestSQLChoiceList();
             LoadRecipeJSONChoiceList();
             LoadRecipeSQLChoiceList();
+            
         }
 
         public void LoadParentObjectsFile()
@@ -832,5 +911,87 @@ namespace AceCreator
             }
             
         }
+        public void LoadDictionaryTypes()
+        {
+            //Dictionary<int, string> BoolTypes = new Dictionary<int, string>();
+            try
+            {
+
+                string assemblyFolder = System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+                string boolTypeFile = System.IO.Path.Combine(assemblyFolder, "BoolTypes.txt");
+                string intTypeFile = System.IO.Path.Combine(assemblyFolder, "Int32Types.txt");
+                string int64TypeFile = System.IO.Path.Combine(assemblyFolder, "Int64Types.txt");
+                string floatTypeFile = System.IO.Path.Combine(assemblyFolder, "FloatTypes.txt");
+                string stringTypeFile = System.IO.Path.Combine(assemblyFolder, "StringTypes.txt");
+
+                //Bool Types
+                if (!File.Exists(boolTypeFile))
+                {
+                    Util.WriteToChat("BoolTypes.txt NOT FOUND! Please reinstall!");
+                    return;
+                }
+                foreach (string line in File.ReadAllLines(boolTypeFile))
+                {
+                    string[] templineinfo = line.Split(',');
+                    int keyValue = Convert.ToInt32(templineinfo[0]);
+                    BoolTypes.Add(keyValue, templineinfo[1]);
+                }
+
+                //Int32 Types
+                if (!File.Exists(intTypeFile))
+                {
+                    Util.WriteToChat("Int32Types.txt NOT FOUND! Please reinstall!");
+                    return;
+                }
+                foreach (string line in File.ReadAllLines(intTypeFile))
+                {
+                    string[] templineinfo = line.Split(',');
+                    int keyValue = Convert.ToInt32(templineinfo[0]);
+                    IntTypes.Add(keyValue, templineinfo[1]);
+                }
+
+                //Int64 Types
+                if (!File.Exists(int64TypeFile))
+                {
+                    Util.WriteToChat("Int64Types.txt NOT FOUND! Please reinstall!");
+                    return;
+                }
+                foreach (string line in File.ReadAllLines(int64TypeFile))
+                {
+                    string[] templineinfo = line.Split(',');
+                    int keyValue = Convert.ToInt32(templineinfo[0]);
+                    Int64Types.Add(keyValue, templineinfo[1]);
+                }
+
+                //Float Types
+                if (!File.Exists(floatTypeFile))
+                {
+                    Util.WriteToChat("FloatTypes.txt NOT FOUND! Please reinstall!");
+                    return;
+                }
+                foreach (string line in File.ReadAllLines(floatTypeFile))
+                {
+                    string[] templineinfo = line.Split(',');
+                    int keyValue = Convert.ToInt32(templineinfo[0]);
+                    FloatTypes.Add(keyValue, templineinfo[1]);
+                }
+
+                //String Types
+                if (!File.Exists(stringTypeFile))
+                {
+                    Util.WriteToChat("StringTypes.txt NOT FOUND! Please reinstall!");
+                    return;
+                }
+                foreach (string line in File.ReadAllLines(stringTypeFile))
+                {
+                    string[] templineinfo = line.Split(',');
+                    int keyValue = Convert.ToInt32(templineinfo[0]);
+                    StringTypes.Add(keyValue, templineinfo[1]);
+                }
+
+            }
+            catch (Exception ex) { Util.LogError(ex); }
+        }
+
     }
 }

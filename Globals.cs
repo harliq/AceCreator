@@ -16,7 +16,9 @@ namespace AceCreator
 			Core = core;
 		}
 
-		public static string PluginName { get; private set; }
+        
+
+        public static string PluginName { get; private set; }
 
 		public static PluginHost Host { get; private set; }
 
@@ -36,5 +38,7 @@ namespace AceCreator
 
         public static string YotesWCID;
         public static string ButtonCommand;
+
+        public static bool LogChat = false;
     }
 }
