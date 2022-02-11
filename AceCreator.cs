@@ -36,6 +36,7 @@ namespace AceCreator
         private static VirindiViewService.ViewProperties properties;
         private static VirindiViewService.ControlGroup controls;
         private static VirindiViewService.HudView view;
+        string propertyDumpText = "";
 
         /// <summary>
         /// This is called when the plugin is started up. This happens only once.
@@ -153,6 +154,11 @@ namespace AceCreator
 
             ButtonGetInfo = view != null ? (HudButton)view["ButtonGetInfo"] : new HudButton();
             ButtonGetInfo.Hit += new EventHandler(ButtonGetInfo_Click);
+
+            ButtonPropertyDump = view != null ? (HudButton)view["ButtonPropertyDump"] : new HudButton();
+            ButtonPropertyDump.Hit += new EventHandler(ButtonPropertyDump_Click);
+
+            CheckBoxSavePropertyDump = view != null ? (HudCheckBox)view["CheckBoxSavePropertyDump"] : new HudCheckBox();
 
             // ***** Nudge Tab *****
             ButtonNudgeN = view != null ? (HudButton)view["ButtonNudgeN"] : new HudButton();
@@ -471,6 +477,15 @@ namespace AceCreator
                     TextboxCurrentLandblock = (HudTextBox)view["TextboxCurrentLandblock"];
 
                     TextboxCurrentLandblock.Text = landblock;
+                }
+                if (Globals.LogChat == true)
+                {
+                    propertyDumpText = propertyDumpText + e.Text + $"\r\n";
+
+                    Globals.LogChat = false;
+                    Util.WritePropertyDump(propertyDumpText);
+
+                    propertyDumpText = "";
                 }
 
             }

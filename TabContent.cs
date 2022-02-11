@@ -44,6 +44,10 @@ namespace AceCreator
         public HudButton CommandRefreshFilesList { get; set; }
         public HudButton ButtonGetInfo { get; set; }
 
+        public HudButton ButtonPropertyDump { get; set; }
+        public HudCheckBox CheckBoxSavePropertyDump { get; set; }
+
+
         // ComboBox Change Events
         public void ChoiceJSON_Change(object sender, EventArgs e)
         {
@@ -259,6 +263,22 @@ namespace AceCreator
             }
             catch (Exception ex) { Util.LogError(ex); }
 
+        }
+        public void ButtonPropertyDump_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                //Util.WriteToChat("CheckBox Value= " + CheckBoxSavePropertyDump.Checked);
+
+                if (CheckBoxSavePropertyDump.Checked == true)
+                {
+                    Globals.LogChat = true;
+
+                }
+                Globals.ButtonCommand = "/propertydump";
+                CommandWait(sender, e);
+            }
+            catch (Exception ex) { Util.LogError(ex); }
         }
 
     }

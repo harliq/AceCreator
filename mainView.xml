@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<view icon="27271" title="ACE Content Creator" width="360" height="450">
+<view icon="27271" title="ACE Content Creator" width="360" height="485">
 		<control progid="DecalControls.Notebook" name="nbMain">
 		<page label="Content">
 			<control progid="DecalControls.FixedLayout" clipped="">
@@ -32,6 +32,13 @@
 				<control progid="DecalControls.PushButton" name="ButtonDeleteItem" left="10" top="385" width="100" height="20" text="Delete Selected"/>
 				<control progid="DecalControls.PushButton" name="CommandRefreshFilesList" left="130" top="385" width="100" height="20" text="Refresh File Lists"/>
 				<control progid="DecalControls.PushButton" name="ButtonGetInfo" left="250" top="385" width="100" height="20" text="GetInfo"/>
+        
+        <control progid="DecalControls.PushButton" name="ButtonPropertyDump" left="250" top="355" width="100" height="20" text="Property Dump"/>
+        <control progid="DecalControls.CheckBox" name="CheckBoxSavePropertyDump" left="10" top="415" width="360" height="18" text="AutoSave Property Dump - Dumps Saved in:" />
+
+        
+        <control progid="DecalControls.StaticText" name="LabelPropertyDumpTwo" left="35" top="430" width="360" height="15" text="Documents\Decal Plugins\AceContentCreator\PropertyDumps"/>
+
 			</control>
 
 		</page>

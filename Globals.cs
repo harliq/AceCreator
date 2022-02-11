@@ -36,5 +36,7 @@ namespace AceCreator
 
         public static string YotesWCID;
         public static string ButtonCommand;
+
+        public static bool LogChat = false;
     }
 }
