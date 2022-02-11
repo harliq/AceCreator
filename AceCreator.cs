@@ -98,7 +98,7 @@ namespace AceCreator
             string assemblyFolder = System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             FileVersionInfo myFileVersionInfo = FileVersionInfo.GetVersionInfo( assemblyFolder+ @"\AceCreator.dll");
             //view.Title = "ACE Content Creator - Version " + typeof(AceCreator).Assembly.GetName().Version;
-            view.Title = "ACE Content Creator - Version " + myFileVersionInfo.FileVersion;
+            view.Title = "ACE Content Creator - BEX Version " + myFileVersionInfo.FileVersion;
 
             // In order to have some sort of organization and to keep the clutter down, 
             // the varibles for each tab are declared in their corresponding TabFiles, along with the other control events.

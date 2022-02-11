@@ -9,6 +9,7 @@ using Decal.Adapter.Wrappers;
 using MyClasses.MetaViewWrappers;
 using VirindiViewService;
 using VirindiViewService.Controls;
+using AceCreator.Enums;
 
 namespace AceCreator
 {
@@ -39,40 +40,33 @@ namespace AceCreator
                 Util.WriteToChat("Property Box is empty");
                 return;
             }
+
+            int propertyValue = ConvertToInteger(TextboxProperty.Text);
+
             //Bool
             if (((HudStaticText)ChoicePropertyType[ChoicePropertyType.Current]).Text == "Bool")
             {
-                //Util.WriteToChat("Boolean");
-                if (BoolTypes.TryGetValue(Convert.ToInt32(TextboxProperty.Text), out string tempPropertyType));
-                    propertyType = tempPropertyType;
+                propertyType = Enum.GetName(typeof(BoolType), propertyValue);
             }
             //Int
             if (((HudStaticText)ChoicePropertyType[ChoicePropertyType.Current]).Text == "Int")
             {
-                //Util.WriteToChat("Int32");
-                if (IntTypes.TryGetValue(Convert.ToInt32(TextboxProperty.Text), out string tempPropertyType));
-                propertyType = tempPropertyType;
+                propertyType = Enum.GetName(typeof(Int32Type), propertyValue);
             }
             //Int64
             if (((HudStaticText)ChoicePropertyType[ChoicePropertyType.Current]).Text == "Int64")
             {
-                //Util.WriteToChat("Boolean");
-                if (Int64Types.TryGetValue(Convert.ToInt32(TextboxProperty.Text), out string tempPropertyType));
-                propertyType = tempPropertyType;
+                propertyType = Enum.GetName(typeof(Int64Type), propertyValue);
             }
             //Float
             if (((HudStaticText)ChoicePropertyType[ChoicePropertyType.Current]).Text == "Float")
             {
-                //Util.WriteToChat("Boolean");
-                if (FloatTypes.TryGetValue(Convert.ToInt32(TextboxProperty.Text), out string tempPropertyType));
-                propertyType = tempPropertyType;
+                propertyType = Enum.GetName(typeof(FloatType), propertyValue);
             }
             //String
             if (((HudStaticText)ChoicePropertyType[ChoicePropertyType.Current]).Text == "String")
             {
-                //Util.WriteToChat("Boolean");
-                if (StringTypes.TryGetValue(Convert.ToInt32(TextboxProperty.Text), out string tempPropertyType));
-                propertyType = tempPropertyType;
+                propertyType = Enum.GetName(typeof(StringType), propertyValue);
             }
             if (string.IsNullOrEmpty(TextboxPropertyValue.Text))
             {
@@ -122,6 +116,12 @@ namespace AceCreator
 
             Util.WriteToChat("Here you go you show off!");
                         
+        }
+        public static int ConvertToInteger(string text)
+        {
+            int i = 0;
+            Int32.TryParse(text, out i);
+            return i;
         }
     }
 }

@@ -137,7 +137,7 @@ namespace AceCreator.Enums
         Account15Days = 127,
         HadNoVitae = 128,
         NoOlthoiTalk = 129,
-        AutowieldLeft = 130,
+        AutowieldLeft = 130
 
     }
 

@@ -46,6 +46,10 @@
     <Compile Include="AceItem.cs" />
     <Compile Include="ChatMessages.cs" />
     <Compile Include="Enums\BoolTypes.cs" />
+    <Compile Include="Enums\FloatTypes.cs" />
+    <Compile Include="Enums\Int32Types.cs" />
+    <Compile Include="Enums\Int64Types.cs" />
+    <Compile Include="Enums\StringTypes.cs" />
     <Compile Include="Globals.cs" />
     <Compile Include="TabAdvanced.cs" />
     <Compile Include="TabContent.cs" />
