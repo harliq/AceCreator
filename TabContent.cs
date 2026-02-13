@@ -40,6 +40,7 @@ namespace AceCreator
 
         public HudButton ButtonRemoveInstace { get; set; }
         public HudButton ButtonMyLocation { get; set; }
+        public HudButton ButtonClearCacheContent { get; set; }
         public HudButton ButtonDeleteItem { get; set; }
         public HudButton CommandRefreshFilesList { get; set; }
         public HudButton ButtonGetInfo { get; set; }
@@ -225,6 +226,16 @@ namespace AceCreator
 
         }
 
+        public void ButtonClearCacheContent_Click(object sender, EventArgs e)
+        {
+
+            try
+            {
+                Util.SendChatCommand("/clearcache");
+            }
+            catch (Exception ex) { Util.LogError(ex); }
+
+        }
 
         public void ButtonDeleteItem_Click(object sender, EventArgs e)
         {

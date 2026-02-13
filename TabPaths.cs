@@ -29,9 +29,10 @@ namespace AceCreator
         public HudButton ButtonSavePaths { get; set; }
         public HudButton ButtonLoadINI { get; set; }
         public HudButton ButtonOpenINI { get; set; }
-
-
         
+        public HudButton ButtonFindPath { get; set; }
+
+
 
         // Button Events
         public void ButtonSavePaths_Click(object sender, EventArgs e)
@@ -65,9 +66,19 @@ namespace AceCreator
             catch (Exception ex) { Util.LogError(ex); }
         }
 
+        public void ButtonFindPath_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Util.WriteToChat("If you have not changed the folder, or exported an weenie this may not show correctly.  Also, this will not be the correct path if server is not on same machine as client.");
+                Util.WriteToChat("This is the base Content Folder:");
+                Util.SendChatCommand("/fetchstring content_folder");
+                Util.WriteToChat("You will need to add the subfolder to the path");
+            }
+            catch (Exception ex) { Util.LogError(ex); }
+        }
 
-
-        
+       
 
     }
 }

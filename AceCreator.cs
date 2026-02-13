@@ -145,6 +145,9 @@ namespace AceCreator
             ButtonMyLocation = view != null ? (HudButton)view["ButtonMyLocation"] : new HudButton();
             ButtonMyLocation.Hit += new EventHandler(ButtonMyLocation_Click);
 
+            ButtonClearCacheContent = view != null ? (HudButton)view["ButtonClearCacheContent"] : new HudButton();
+            ButtonClearCacheContent.Hit += new EventHandler(ButtonClearCacheContent_Click);
+
             ButtonDeleteItem = view != null ? (HudButton)view["ButtonDeleteItem"] : new HudButton();
             ButtonDeleteItem.Hit += new EventHandler(ButtonDeleteItem_Click);
 
@@ -225,10 +228,6 @@ namespace AceCreator
 
             ButtonRotateHere = view != null ? (HudButton)view["ButtonRotateHere"] : new HudButton();
             ButtonRotateHere.Hit += new EventHandler(ButtonRotateHere_Click);
-
-
-
-
 
 
         // ***** LandBlocks Tab *****
@@ -356,6 +355,9 @@ namespace AceCreator
 
             ButtonOpenINI = view != null ? (HudButton)view["ButtonOpenINI"] : new HudButton();
             ButtonOpenINI.Hit += new EventHandler(ButtonOpenINI_Click);
+
+            ButtonFindPath = view != null ? (HudButton)view["ButtonFindPath"] : new HudButton();
+            ButtonFindPath.Hit += new EventHandler(ButtonFindPath_Click);
 
 
             // ***** Help Tab *****
